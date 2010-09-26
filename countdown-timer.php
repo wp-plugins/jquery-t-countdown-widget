@@ -4,7 +4,7 @@ Plugin Name: jQuery T(-) Countdown Widget
 Plugin URI: http://www.twinpictures.de/t-countdown-widget
 Description: Display and configure a jQuery countdown timer as a sidebar widget.
 Version: 1.0
-Author: Twinpictures (baden@twinpictures.de)
+Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
 */

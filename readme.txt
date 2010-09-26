@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Twinpictures, G2, littlewebthings
 Donate link: http://www.twinpictures.de/t-minus-countdown-widget
-Tags: widget, countdown, timer, clock, ticker, event, counter, count down, t (-), t (minus), t-minus, t minus, spaceBros, littlewebtings
+Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t (-), t (minus), t-minus, t minus, spaceBros, littlewebtings
 Requires at least: 2.7
 Tested up to: 3.0.1
 Stable tag: 1.0
