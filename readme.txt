@@ -36,8 +36,9 @@ jQuery T(-)CountDown Widget is a sidebar widget that will display a sexy countdo
 The Daily Show with John Stewart
 
 == Screenshots ==
-screenshot-1.png shows the available options of the `jQuery T(-) CountDown Widget`.
-screenshot-2.png catches the `jQuery T(-) CountDown Widget` in some hot on-page action.
+
+1. Here, in screenshot-1.png onen can view the available options of the `jQuery T(-) CountDown Widget`.
+2. screenshot-2.png catches the `jQuery T(-) CountDown Widget` in some hot on-page action.
 
 == Changelog ==
 
