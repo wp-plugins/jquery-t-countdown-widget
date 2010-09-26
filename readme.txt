@@ -37,8 +37,8 @@ The Daily Show with John Stewart
 
 == Screenshots ==
 
-1. Here, in screenshot-1.png onen can view the available options of the `jQuery T(-) CountDown Widget`.
-2. screenshot-2.png catches the `jQuery T(-) CountDown Widget` in some hot on-page action.
+1. Here, in screenshot-1.png an expansive view of the available `jQuery T(-) CountDown Widget` options hs been provided for your viewing pleasure.
+2. screenshot-2.png catches the `jQuery T(-) CountDown Widget` in some hot on-page action.  Take care, number 7, your scene is next.
 
 == Changelog ==
 
