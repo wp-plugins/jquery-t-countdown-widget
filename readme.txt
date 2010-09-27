@@ -4,7 +4,7 @@ Donate link: http://www.twinpictures.de/t-minus-countdown-widget
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t (-), t (minus), t-minus, t minus, spaceBros, littlewebtings
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 1.0
+Stable tag: 1.1
 
 jQuery T(-) CountDown Widget is a sidebar widget that will display a sexy countdown timer based on littlewebtings CountDown plugin.
 
@@ -42,10 +42,16 @@ The Daily Show with John Stewart
 
 == Changelog ==
 
+= 1.1 =
+* Squashed a bug that caused PHP to throw an extract() warning on some systems.  Thanks to Mauriceo and his dog Max (http://mauriceo.com/max/) for sniffing this out.
+
 = 1.0 =
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 1.1 =
+Version 1.1 fixes the extract() warning that was being thrown on some systems.
 
 = 1.0 =
 Where once there was not, there now is.
