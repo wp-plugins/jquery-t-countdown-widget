@@ -3,13 +3,13 @@
 Plugin Name: jQuery T(-) Countdown Widget
 Plugin URI: http://www.twinpictures.de/t-countdown-widget
 Description: Display and configure a jQuery countdown timer as a sidebar widget.
-Version: 1.0
-Author: Twinpictures (baden@twinpictures.de)
+Version: 1.1
+Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
 */
 
-/*  Copyright 2010 Twinpictures (email : baden@twinpictures.de)
+/*  Copyright 2010 Twinpictures (www.twinpictures.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -68,7 +68,6 @@ function widget_countdown_timer_init() {
                 $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
                 if (!is_admin()){
                         //css
-                        extract($args);
                         $options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
                         unset($options[0]); //returned by get_option(), but we don't need it
                         if($options['style'] == 'light'){
@@ -198,7 +197,6 @@ function widget_countdown_timer_init() {
         
         //add the script to the footer
         function jquery_countdown_js($args){
-                extract($args);
 	$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
 	unset($options[0]); //returned by get_option(), but we don't need it
                 ?>                
