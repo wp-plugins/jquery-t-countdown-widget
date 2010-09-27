@@ -3,7 +3,7 @@
 Plugin Name: jQuery T(-) Countdown Widget
 Plugin URI: http://www.twinpictures.de/t-countdown-widget
 Description: Display and configure a jQuery countdown timer as a sidebar widget.
-Version: 1.1
+Version: 1.2
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -26,13 +26,15 @@ License: GPL2
 */
 
 //replace jQuery google's jQuery (faster load times, take advangage of probable caching)
+/*   disabled - seems to disable the visual Visual Editor... instead use the "Use Google Libraries" Plugin
 function my_jQuery_init_method() {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
 }    
- 
 add_action('init', 'my_jQuery_init_method');
+*/
 
+wp_enqueue_script('jquery');
 
 //widgit scripts
 function countdown_script(){
@@ -109,7 +111,6 @@ function widget_countdown_timer_init() {
         }
         
         function widget_countdown($args) {
-	extract($args);
 	$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
 	unset($options[0]); //returned by get_option(), but we don't need it
 	
