@@ -10,7 +10,7 @@ jQuery T(-) CountDown Widget is a sidebar widget that will display a sexy countd
 
 == Description ==
 
-jQuery T(-)CountDown Widget is a sidebar widget that will display a sexy countdown timer based on littlewebthings CountDown jQuery plugin (http://www.littlewebthings.com/projects/countdown/).  Perfect for informing readers of an upcomming event, such as a new post or even a space voyage. Oh yeah, there is also a css jedi mindtrick for your viewing pleasure--intergalactic planatary thanks to my cosmoBro Gagarin2.  You should really get to know your space.
+jQuery T(-) CountDown Widget will display a sexy, flash-free countdown timer based on littlewebthings CountDown jQuery plugin (http://www.littlewebthings.com/projects/countdown/).  Perfect for informing website visitors of an upcomming event, such as a new post or even a pending space voyage. As yes, there is also a css jedi mindtrick for your viewing pleasure--intergalactic planatary thanks to G2 (Gagarin2) of SpaceBros.  Own your time and space.
 
 == Installation ==
 
