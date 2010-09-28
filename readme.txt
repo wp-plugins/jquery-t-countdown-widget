@@ -6,11 +6,11 @@ Requires at least: 2.7
 Tested up to: 3.0.1
 Stable tag: 1.3
 
-jQuery T Minus CountDown Widget is a sidebar widget that will display a sexy countdown timer based on littlewebtings CountDown plugin.
+jQuery T Minus CountDown Widget is a sidebar widget that will display a sweet countdown timer clock based on littlewebtings CountDown plugin.
 
 == Description ==
 
-jQuery T Minus CountDown Widget will display a sexy, flash-free countdown timer based on littlewebthings CountDown jQuery plugin.  Perfect for informing website visitors of an upcomming event, such as a new post or even a pending space voyage. As yes, there is also a css jedi mindtrick for your viewing pleasure--intergalactic planatary thanks to G2 (Gagarin2) of SpaceBros.  Own your time and space.
+jQuery T Minus CountDown Widget will display a sexy, flash-free countdown timer clock based on littlewebthings CountDown jQuery plugin.  Perfect for informing website visitors of an upcomming event, such as a new post or even a pending space voyage. As yes, there is also a css jedi mindtrick for your viewing pleasure--intergalactic planatary thanks to G2 (Gagarin2) of SpaceBros.  Own your time and space.
 
 == Installation ==
 
