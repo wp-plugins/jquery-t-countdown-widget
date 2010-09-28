@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: jQuery T(-) Countdown Widget
+Plugin Name: jQuery T Minus Countdown Widget
 Plugin URI: http://www.twinpictures.de/t-countdown-widget
 Description: Display and configure a jQuery countdown timer as a sidebar widget.
-Version: 1.2
+Version: 1.3
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -111,6 +111,7 @@ function widget_countdown_timer_init() {
         }
         
         function widget_countdown($args) {
+                extract($args);
 	$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
 	unset($options[0]); //returned by get_option(), but we don't need it
 	
@@ -323,11 +324,11 @@ function widget_countdown_timer_init() {
         }
         // This registers our widget so it appears with the other available
         // widgets and can be dragged and dropped into any active sidebars.
-        //register_sidebar_widget('jQuery T(-) CountDown', 'widget_countdown');
-        wp_register_sidebar_widget( 'jquery-countdown', 'jQuery T(-) CountDown', 'widget_countdown');
+        //register_sidebar_widget('jQuery T Minus CountDown', 'widget_countdown');
+        wp_register_sidebar_widget( 'jquery-countdown', 'jQuery T Minus CountDown', 'widget_countdown');
 
         // This registers our optional widget control form.
-        wp_register_widget_control('jquery-countdown', 'jQuery T(-) CountDown', 'widget_countdown_control');
+        wp_register_widget_control('jquery-countdown', 'jQuery T Minus CountDown', 'widget_countdown_control');
 }
 
 // Run code later in case this loads prior to any required plugins.
