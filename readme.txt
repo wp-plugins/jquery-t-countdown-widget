@@ -4,7 +4,7 @@ Donate link: http://www.twinpictures.de/t-minus-countdown-widget
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 1.3
+Stable tag: 1.4
 
 jQuery T Minus CountDown Widget is a sidebar widget that will display a sweet countdown timer clock based on littlewebtings CountDown plugin.
 
@@ -42,6 +42,9 @@ The Daily Show with John Stewart
 
 == Changelog ==
 
+= 1.4 =
+* NOW, when making time calculations, refers to the local time as set by WordPress in Settings > General > Timezone.
+
 = 1.3 =
 * fixed issue with 1.2 not extracting the args... therefore there was not before-widget / before-title love.  Sleep is important, as it turns out.
 
@@ -55,6 +58,9 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 1.4 =
+Version 1.4 refers to your local WordPress Timezone for time caluclations.  In case the server is hosted outside of the website's local timezone.  It happens.
 
 = 1.3 =
 Version 1.3 fixes the issue no before/after widget/title issues due to lack of sleep during v. 1.2.

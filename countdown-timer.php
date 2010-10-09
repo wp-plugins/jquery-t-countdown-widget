@@ -3,7 +3,7 @@
 Plugin Name: jQuery T Minus Countdown Widget
 Plugin URI: http://www.twinpictures.de/t-countdown-widget
 Description: Display and configure a jQuery countdown timer as a sidebar widget.
-Version: 1.3
+Version: 1.4
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -41,7 +41,7 @@ function countdown_script(){
         $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
         if (!is_admin()){
                 //lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.0.js', array (), '1.0' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.1.js', array (), '1.0' );
                 wp_enqueue_script('countdown-script');
         }
 }
@@ -116,7 +116,8 @@ function widget_countdown_timer_init() {
 	unset($options[0]); //returned by get_option(), but we don't need it
 	
                 //calc the inital difference
-                $now = time();
+                //$now = time();
+	$now = time() + ( get_option( 'gmt_offset' ) * 3600);
 	$target = mktime(
 		$options['hour'], 
 		$options['min'], 
@@ -201,6 +202,9 @@ function widget_countdown_timer_init() {
         function jquery_countdown_js($args){
 	$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
 	unset($options[0]); //returned by get_option(), but we don't need it
+	//targetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
+	$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
+	//$t = time() + ( get_option( 'gmt_offset' ) * 3600);
                 ?>                
                 <script language="javascript" type="text/javascript">
 	        jQuery(document).ready(function() {
@@ -212,7 +216,8 @@ function widget_countdown_timer_init() {
 			'year': 	<?php echo $options['year']; ?>,
 			'hour': 	<?php echo $options['hour']; ?>,
 			'min': 	<?php echo $options['min']; ?>,
-			'sec': 	<?php echo $options['sec']; ?>
+			'sec': 	<?php echo $options['sec']; ?>,
+			'localtime':	'<?php echo $t; ?>'
 		        },
 		        omitWeeks: <?php echo $options['omitweeks']; ?>
 		});
