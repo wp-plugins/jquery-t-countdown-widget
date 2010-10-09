@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: jQuery T(-) Countdown Widget
+Plugin Name: jQuery T Minus Countdown Widget
 Plugin URI: http://www.twinpictures.de/t-countdown-widget
 Description: Display and configure a jQuery countdown timer as a sidebar widget.
-Version: 1.1
+Version: 1.4
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -26,20 +26,22 @@ License: GPL2
 */
 
 //replace jQuery google's jQuery (faster load times, take advangage of probable caching)
+/*   disabled - seems to disable the visual Visual Editor... instead use the "Use Google Libraries" Plugin
 function my_jQuery_init_method() {
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
 }    
- 
 add_action('init', 'my_jQuery_init_method');
+*/
 
+wp_enqueue_script('jquery');
 
 //widgit scripts
 function countdown_script(){
         $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
         if (!is_admin()){
                 //lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.0.js', array (), '1.0' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.1.js', array (), '1.0' );
                 wp_enqueue_script('countdown-script');
         }
 }
@@ -109,12 +111,13 @@ function widget_countdown_timer_init() {
         }
         
         function widget_countdown($args) {
-	extract($args);
+                extract($args);
 	$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
 	unset($options[0]); //returned by get_option(), but we don't need it
 	
                 //calc the inital difference
-                $now = time();
+                //$now = time();
+	$now = time() + ( get_option( 'gmt_offset' ) * 3600);
 	$target = mktime(
 		$options['hour'], 
 		$options['min'], 
@@ -199,6 +202,9 @@ function widget_countdown_timer_init() {
         function jquery_countdown_js($args){
 	$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
 	unset($options[0]); //returned by get_option(), but we don't need it
+	//targetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
+	$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
+	//$t = time() + ( get_option( 'gmt_offset' ) * 3600);
                 ?>                
                 <script language="javascript" type="text/javascript">
 	        jQuery(document).ready(function() {
@@ -210,7 +216,8 @@ function widget_countdown_timer_init() {
 			'year': 	<?php echo $options['year']; ?>,
 			'hour': 	<?php echo $options['hour']; ?>,
 			'min': 	<?php echo $options['min']; ?>,
-			'sec': 	<?php echo $options['sec']; ?>
+			'sec': 	<?php echo $options['sec']; ?>,
+			'localtime':	'<?php echo $t; ?>'
 		        },
 		        omitWeeks: <?php echo $options['omitweeks']; ?>
 		});
@@ -322,11 +329,11 @@ function widget_countdown_timer_init() {
         }
         // This registers our widget so it appears with the other available
         // widgets and can be dragged and dropped into any active sidebars.
-        //register_sidebar_widget('jQuery T(-) CountDown', 'widget_countdown');
-        wp_register_sidebar_widget( 'jquery-countdown', 'jQuery T(-) CountDown', 'widget_countdown');
+        //register_sidebar_widget('jQuery T Minus CountDown', 'widget_countdown');
+        wp_register_sidebar_widget( 'jquery-countdown', 'jQuery T Minus CountDown', 'widget_countdown');
 
         // This registers our optional widget control form.
-        wp_register_widget_control('jquery-countdown', 'jQuery T(-) CountDown', 'widget_countdown_control');
+        wp_register_widget_control('jquery-countdown', 'jQuery T Minus CountDown', 'widget_countdown_control');
 }
 
 // Run code later in case this loads prior to any required plugins.
