@@ -41,7 +41,7 @@ function countdown_script(){
         $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
         if (!is_admin()){
                 //lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.1.js', array (), '1.0' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.0.js', array (), '1.1' );
                 wp_enqueue_script('countdown-script');
         }
 }
