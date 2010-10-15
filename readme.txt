@@ -1,16 +1,16 @@
 === Plugin Name ===
 Contributors: Twinpictures, G2, littlewebthings
 Donate link: http://www.twinpictures.de/t-minus-countdown-widget
-Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings
+Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 1.4
+Stable tag: 1.5
 
-jQuery T Minus CountDown Widget is a sidebar widget that will display a sweet countdown timer clock based on littlewebtings CountDown plugin.
+jQuery T Minus CountDown Widget is a sidebar widget that will display a sweet-n-sexy pure javascript countdown timer clock based on littlewebtings CountDown plugin.
 
 == Description ==
 
-jQuery T Minus CountDown Widget will display a sexy, flash-free countdown timer clock based on littlewebthings CountDown jQuery plugin.  Perfect for informing website visitors of an upcomming event, such as a new post or even a pending space voyage. As yes, there is also a css jedi mindtrick for your viewing pleasure--intergalactic planatary thanks to G2 (Gagarin2) of SpaceBros.  Own your time and space.
+jQuery T Minus CountDown Widget will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings CountDown jQuery plugin.  Perfect for informing website visitors of an upcomming event, such as a new post or even a pending space voyage. As yes, there is also a css jedi mindtrick for your viewing pleasure--intergalactic planatary thanks to G2 (Gagarin2) of SpaceBros.  Own your time and space.
 
 == Installation ==
 
@@ -42,6 +42,9 @@ The Daily Show with John Stewart
 
 == Changelog ==
 
+= 1.5 =
+* Cleaned up code that was throwing array_merge warning errors on some systems.
+
 = 1.4 =
 * NOW, when making time calculations, refers to the local time as set by WordPress in Settings > General > Timezone.
 
@@ -58,6 +61,9 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 1.5 =
+Version 1.5 cleans up code that was causing array_merge errors on some systems.  NOTE: if a custom CSS is being used, be sure to back up your css and image files before updating.  Updating will overwrite custom css styles.
 
 = 1.4 =
 Version 1.4 refers to your local WordPress Timezone for time caluclations.  In case the server is hosted outside of the website's local timezone.  It happens.
