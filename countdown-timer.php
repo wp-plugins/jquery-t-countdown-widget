@@ -3,7 +3,7 @@
 Plugin Name: jQuery T Minus Countdown Widget
 Plugin URI: http://www.twinpictures.de/t-countdown-widget
 Description: Display and configure a jQuery countdown timer as a sidebar widget.
-Version: 1.4
+Version: 1.5
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -70,8 +70,7 @@ function widget_countdown_timer_init() {
                 $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
                 if (!is_admin()){
                         //css
-                        $options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
-                        unset($options[0]); //returned by get_option(), but we don't need it
+                        $options = get_option('widget_countdown');
                         if($options['style'] == 'light'){
                             wp_register_style( 'countdown-css', $plugin_url.'/css/light-style.css', array (), '1.0' );    
                         }
@@ -94,11 +93,11 @@ function widget_countdown_timer_init() {
                         'urltarget' => '_blank',
                         'urltext' => '',
                         'urlpos' => 'bottom',
-	        'day' => 15,
-	        'month' => 10,
+	        'day' => 8,
+	        'month' => 11,
 	        'year' => 2010,
-	        'hour' => 20,
-	        'min'  => 0,
+	        'hour' => 13,
+	        'min'  => 30,
 	        'sec' => 0,
                         'weektitle' => 'weeks',
                         'daytitle' => 'days',
@@ -200,11 +199,8 @@ function widget_countdown_timer_init() {
         
         //add the script to the footer
         function jquery_countdown_js($args){
-	$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
-	unset($options[0]); //returned by get_option(), but we don't need it
-	//targetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
+	$options = get_option('widget_countdown');
 	$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
-	//$t = time() + ( get_option( 'gmt_offset' ) * 3600);
                 ?>                
                 <script language="javascript" type="text/javascript">
 	        jQuery(document).ready(function() {
