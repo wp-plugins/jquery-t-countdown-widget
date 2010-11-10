@@ -1,17 +1,17 @@
-﻿=== Plugin Name ===
+=== Plugin Name ===
 
 Contributors: Twinpictures, G2, littlewebthings
 Donate link: http://www.twinpictures.de/t-minus-countdown-widget/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 1.6
+Stable tag: 1.7
 
 jQuery T Minus CountDown Widget displays a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar.
 
 == Description ==
 
-jQuery T Minus CountDown Widget will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mindtricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to G2 (www.g2.de) and Lauren (www.???) for the included css flavors.
+jQuery T Minus CountDown Widget will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mindtricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to G2 (www.g2.de) and Lauren (www.siliconstudio.com) for the included css flavors.
 
 == Installation ==
 
@@ -49,6 +49,9 @@ The Daily Show with John Stewart
 
 == Changelog ==
 
+= 1.7 =
+* 1.6 had completely different file structure that hosed the svn repository.
+
 = 1.6 =
 * Added automatic 3-digit weeks and days.
 * Pimped out the Jedi css switcher to better handle user generated styles.
@@ -73,6 +76,9 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 1.7 =
+1.6 failed to upload correctly to svn... very messed up situation
 
 = 1.6 =
 Version 1.6 brings much love to the countdown user.  First, automatic triple digit weeks and days have been added.  Next, the Jedi style switcher has been revamped to better handle user generated css.  Finally, a third default style has been added called Carbonite designed by Laruen at siliconstudio.com.
