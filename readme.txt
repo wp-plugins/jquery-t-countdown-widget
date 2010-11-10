@@ -1,16 +1,17 @@
-=== Plugin Name ===
+﻿=== Plugin Name ===
+
 Contributors: Twinpictures, G2, littlewebthings
-Donate link: http://www.twinpictures.de/t-minus-countdown-widget
+Donate link: http://www.twinpictures.de/t-minus-countdown-widget/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.7
 Tested up to: 3.0.1
-Stable tag: 1.5
+Stable tag: 1.6
 
-jQuery T Minus CountDown Widget is a sidebar widget that will display a sweet-n-sexy pure javascript countdown timer clock based on littlewebtings CountDown plugin.
+jQuery T Minus CountDown Widget displays a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar.
 
 == Description ==
 
-jQuery T Minus CountDown Widget will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings CountDown jQuery plugin.  Perfect for informing website visitors of an upcomming event, such as a new post or even a pending space voyage. As yes, there is also a css jedi mindtrick for your viewing pleasure--intergalactic planatary thanks to G2 (Gagarin2) of SpaceBros.  Own your time and space.
+jQuery T Minus CountDown Widget will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mindtricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to G2 (www.g2.de) and Lauren (www.???) for the included css flavors.
 
 == Installation ==
 
@@ -24,6 +25,12 @@ jQuery T Minus CountDown Widget will display a sweet, sexy and totally flash-fre
 1. Leave a comment regarding bugs, feature request, cocktail recipes at http://www.twinpictures.de/t-minus-countdown-widget/
 
 == Frequently Asked Questions ==
+
+= How do I create custom styles? =
+
+1. create a new sub-folder in the plugin's css folder
+1. name the css file style.css
+1. select the new style in the widget settings, save and that's it.
 
 = How does one pronounce T Minus? =
 
@@ -41,6 +48,11 @@ The Daily Show with John Stewart
 2. screenshot-2.png catches the `jQuery T Minus CountDown Widget` in some hot on-page action.  Take care, number 7, your scene is next.
 
 == Changelog ==
+
+= 1.6 =
+* Added automatic 3-digit weeks and days.
+* Pimped out the Jedi css switcher to better handle user generated styles.
+* Added new carbonite style by Lauren at siliconstudio.com
 
 = 1.5 =
 * Cleaned up code that was throwing array_merge warning errors on some systems.
@@ -62,11 +74,14 @@ The Daily Show with John Stewart
 
 == Upgrade Notice ==
 
+= 1.6 =
+Version 1.6 brings much love to the countdown user.  First, automatic triple digit weeks and days have been added.  Next, the Jedi style switcher has been revamped to better handle user generated css.  Finally, a third default style has been added called Carbonite designed by Laruen at siliconstudio.com.
+
 = 1.5 =
 Version 1.5 cleans up code that was causing array_merge errors on some systems.  NOTE: if a custom CSS is being used, be sure to back up your css and image files before updating.  Updating will overwrite custom css styles.
 
 = 1.4 =
-Version 1.4 refers to your local WordPress Timezone for time caluclations.  In case the server is hosted outside of the website's local timezone.  It happens.
+Version 1.4 refers to your local WordPress Timezone for time calculations.  In case the server is hosted outside of the website's local timezone.  It happens.
 
 = 1.3 =
 Version 1.3 fixes the issue no before/after widget/title issues due to lack of sleep during v. 1.2.
