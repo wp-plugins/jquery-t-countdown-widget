@@ -33,19 +33,21 @@
 		$.extend(config, options);
 
 		diffSecs = this.setCountDown(config);
-	
+		
+	    style = config.style;
+		$.data($(this)[0], 'style', config.style);
+		
 		if (config.onComplete){
 			$.data($(this)[0], 'callback', config.onComplete);
 		}
 		if (config.omitWeeks){
 			$.data($(this)[0], 'omitWeeks', config.omitWeeks);
 		}
-
-		$('#' + $(this).attr('id') + ' .digit').html('<div class="top"></div><div class="bottom"></div>');
+		
+		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="top"></div><div class="bottom"></div>');
 		$(this).doCountDown($(this).attr('id'), diffSecs, 500);
-
+		
 		return this;
-
 	};
 
 	$.fn.stopCountDown = function () {
@@ -102,14 +104,15 @@
 			days = Math.floor(diffSecs/60/60/24)%7;
 			weeks = Math.floor(diffSecs/60/60/24/7);
 		}
-
-		$this.dashChangeTo(id, 'seconds_dash', secs, duration ? duration : 500);
-		$this.dashChangeTo(id, 'minutes_dash', mins, duration ? duration : 1000);
-		$this.dashChangeTo(id, 'hours_dash', hours, duration ? duration : 1000);
-		$this.dashChangeTo(id, 'days_dash', days, duration ? duration : 1000);
-		$this.dashChangeTo(id, 'days_trip_dash', days, duration ? duration : 1000);
-		$this.dashChangeTo(id, 'weeks_dash', weeks, duration ? duration : 1000);
-		$this.dashChangeTo(id, 'weeks_trip_dash', weeks, duration ? duration : 1000);
+		
+		style = $.data($this[0], 'style');
+		$this.dashChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
+		$this.dashChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
+		$this.dashChangeTo(id, style + '-hours_dash', hours, duration ? duration : 1000);
+		$this.dashChangeTo(id, style + '-days_dash', days, duration ? duration : 1000);
+		$this.dashChangeTo(id, style + '-days_trip_dash', days, duration ? duration : 1000);
+		$this.dashChangeTo(id, style + '-weeks_dash', weeks, duration ? duration : 1000);
+		$this.dashChangeTo(id, style + '-weeks_trip_dash', weeks, duration ? duration : 1000);
 
 		$.data($this[0], 'diffSecs', diffSecs);
 		if (diffSecs > 0){
@@ -126,11 +129,13 @@
         
 	$.fn.dashChangeTo = function(id, dash, n, duration) {
 		$this = $('#' + id);
+		style = $.data($this[0], 'style');
+		
 		//loop through each digit and chage that dude
-		for (var i=($this.find('.' + dash + ' .digit').length-1); i>=0; i--){
+		for (var i=($this.find('.' + dash + ' .' + style + '-digit').length-1); i>=0; i--){
 			var d = n%10;
 			n = (n - d) / 10;
-			$this.digitChangeTo('#' + $this.attr('id') + ' .' + dash + ' .digit:eq('+i+')', d, duration);
+			$this.digitChangeTo('#' + $this.attr('id') + ' .' + dash + ' .' + style + '-digit:eq('+i+')', d, duration);
 		}
 	};
 	

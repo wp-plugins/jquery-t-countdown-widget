@@ -1,4 +1,11 @@
-#countdown_dashboard {
+/*above the dashboard*/
+.carbonite-tophtml {
+	margin: 0;
+	padding: 0;
+}
+
+/*above the dashboard*/
+.carbonite-dashboard {
 	height: 127px;
 	width: 250px;
 	margin: 0 auto;
@@ -7,54 +14,54 @@
 	background: transparent url('images/bg_countdown.png') 0 0 no-repeat;
 }
 
-.dash {
+.carbonite-dash {
 	width: 42px;
 	height: 44px;
 	float: left;
 	margin-left: 2px;
 	padding-left: 6px;
-	padding-top: 10px;
+	padding-top: 12px;
 	position: relative;
 	color: #FFF;
 }
 
-.tripdash {
+.carbonite-tripdash {
 	width: 62px;
 	height: 44px;
 	float: left;
 	margin-left: 2px;
 	padding-left: 6px;
-	padding-top: 10px;
+	padding-top: 12px;
 	position: relative;
 	color: #FFF;
 }
 
-.hours_dash, .minutes_dash, .seconds_dash  {
+.carbonite-hours_dash, .carbonite-minutes_dash, .carbonite-seconds_dash  {
 	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
 }
 
-.days_dash  {
+.carbonite-days_dash  {
 	clear: left;
 	margin-left: 10px;
 	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
 }
 
-.days_trip_dash  {
+.carbonite-days_trip_dash  {
 	clear: left;
 	background: transparent url('images/bg_trip_dash.png') 0 0 no-repeat;
 }
 
-.weeks_dash  {
+.carbonite-weeks_dash  {
 	margin-left: 10px;
 	background: transparent url('images/bg_dash.png') 0 0 no-repeat;
 }
 
-.weeks_trip_dash  {
+.carbonite-weeks_trip_dash  {
 	margin-left: 10px;
 	background: transparent url('images/bg_trip_dash.png') 0 0 no-repeat;
 }
 
-.digit {
+.carbonite-digit {
 	font: normal normal normal 16pt/normal arial;
 	float: left;
 	width: 20px;
@@ -62,7 +69,7 @@
 	position: relative;
 }
 
-.dash .dash_title {
+.carbonite-dash .carbonite-dash_title {
 	display: block;
 	position: absolute;
 	text-transform:uppercase;
@@ -73,7 +80,7 @@
 	font-size: 9px;
 }
 
-.tripdash .dash_title {
+.carbonite-tripdash .carbonite-dash_title {
 	display: block;
 	position: absolute;
 	text-transform:uppercase;
@@ -82,4 +89,10 @@
 	color: #AAA;
 	text-align: center;
 	font-size: 9px;
+}
+
+/*below the dashboard*/
+.carbonite-bothtml {
+	margin: 0;
+	padding: 0;
 }

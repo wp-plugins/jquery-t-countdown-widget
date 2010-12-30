@@ -1,4 +1,11 @@
-#countdown_dashboard {
+/*above the dashboard*/
+.jedi-tophtml {
+	margin: 0;
+	padding: 0;
+}
+
+/*above the dashboard*/
+.jedi-dashboard {
 	height: 100px;
 	width: 250px;
 	margin: 0 auto;
@@ -6,7 +13,7 @@
 	padding-left: 0px;
 }
 
-.dash {
+.jedi-dash {
 	width: 62px;
 	height: 44px;
 	float: left;
@@ -17,7 +24,7 @@
 	color: #333;
 }
 
-.tripdash {
+.jedi-tripdash {
 	width: 93px;
 	height: 44px;
 	float: left;
@@ -28,20 +35,20 @@
 	color: #333;
 }
 
-.weeks_dash, .days_dash, .minutes_dash, .seconds_dash  {
+.jedi-weeks_dash, .jedi-days_dash, .jedi-minutes_dash, .jedi-seconds_dash  {
 	background: transparent url('images/light_bg_dash.png') 0 0 no-repeat;
 }
 
-.weeks_trip_dash, .days_trip_dash {
+.jedi-weeks_trip_dash, .jedi-days_trip_dash {
 	background: transparent url('images/light_bg_trip_dash.png') 0 0 no-repeat;
 }
 
-.hours_dash {
+.jedi-hours_dash {
 	clear: left;
 	background: transparent url('images/light_bg_dash.png') 0 0 no-repeat;
 }
 
-.digit {
+.jedi-digit {
 	font: bold 20pt Verdana;
 	font-weight: bold;
 	float: left;
@@ -50,7 +57,7 @@
 	position: relative;
 }
 
-.dash_title {
+.jedi-dash_title {
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
@@ -62,4 +69,10 @@
 	color: #000;
 	text-align: left;
 	font-size: 9px;
+}
+
+/*below the dashboard*/
+.jedi-bothtml {
+	margin: 0;
+	padding: 0;
 }

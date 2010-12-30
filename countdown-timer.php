@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: jQuery T Minus Countdown Widget
-Plugin URI: http://www.twinpictures.de/t-minus-countdown-widget/
-Description: Display and configure a jQuery countdown timer as a sidebar widget.
-Version: 1.7
+Plugin Name: jQuery T(-) Countdown - v2.0
+Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
+Description: Display and configure multiple jQuery countdown timers using a shortcode or as a sidebar widget.
+Version: 2.0
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -24,127 +24,122 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-//replace jQuery google's jQuery (faster load times, take advangage of probable caching)
-/*   disabled - the google jQuery library seems to disable the visual Visual Editor...instead use the "Use Google Libraries" Plugin
-function my_jQuery_init_method() {
-    wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
-}    
-add_action('init', 'my_jQuery_init_method');
-*/
-
+add_option('t-minus_styles', '');
 wp_enqueue_script('jquery');
 
 //widgit scripts
-function countdown_script(){
+function countdown_scripts(){
         $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
-        if (!is_admin()){
-                //lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.0.js', array ('jquery'), '1.1' );
-                wp_enqueue_script('countdown-script');
+        if (is_admin()){
+                //jquery admin stuff
+                wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.0' );
+                wp_enqueue_script('tminus-admin-script');
+				
+				wp_register_script('livequery-script', $plugin_url.'/js/jquery.livequery.min.js', array ('jquery'), '1.0' );
+                wp_enqueue_script('livequery-script');
+				
+				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
+                wp_enqueue_style('colapse-admin-css');
         }
+		else{
+				//lwtCountdown script
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.1.js', array ('jquery'), '1.1' );
+                wp_enqueue_script('countdown-script');
+		}
 }
+add_action( 'init', 'countdown_scripts' );
 
 //folder array
 function folder_array($path, $exclude = ".|..") {
-    if(is_dir($path)){
-        $dh = opendir($path);
-        $exclude_array = explode("|", $exclude);
-        $result = array();
-        while(false !==($file = readdir($dh))) { 
-            if( !in_array(strtolower($file), $exclude_array)){
-	$result[] = $file;
-            }
-        }
-        closedir($dh);
-        return $result;
-    }
+	if(is_dir($path)){
+		$dh = opendir($path);
+		$exclude_array = explode("|", $exclude);
+		$result = array();
+		while(false !==($file = readdir($dh))) { 
+			if( !in_array(strtolower($file), $exclude_array)){
+				$result[] = $file;
+			}
+		}
+		closedir($dh);
+		return $result;
+	}
 }
 
+//styles
+function countdown_style(){
+	//$styleizer = array('carbonite','darth','jedi');
+	$styleizer = get_option('t-minus_styles');
+	$plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
+	foreach($styleizer as $style){
+		wp_register_style( 'countdown-'.$style.'-css', $plugin_url.'/css/'.$style.'/style.css', array (), '1.1' );    
+		wp_enqueue_style( 'countdown-'.$style.'-css' );
+	}
+}
 
-// Inserts scripts into header
-add_action( 'wp_print_scripts', 'countdown_script' );
+add_action( 'wp_print_styles', 'countdown_style');
+add_option('rockstar', '');
 
-//the widget
-function widget_countdown_timer_init() {
-        
-        if ( !function_exists('register_sidebar_widget') )
-                return;
-                        
-        function sanitizer($name) {
-		$name = strtolower($name); // all lowercase
-		$name = preg_replace('/[^a-z0-9 ]/','', $name); // nothing but a-z 0-9 and spaces
-		$name = preg_replace('/\s+/','-', $name); // spaces become hyphens
-		return $name;
-        }
-        
-        //widget css
-        function countdown_style($args){
-                $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
-                if (!is_admin()){
-                        //css
-                        $options = get_option('widget_countdown');
-	        //migrate from the old style system
-	        if($options['style'] == 'light'){ $options['style'] = 'jedi'; }
-	        if($options['style'] == 'dark'){ $options['style'] = 'darth'; }
-	        //new style system
-                        wp_register_style( 'countdown-css', $plugin_url.'/css/'.$options['style'].'/style.css', array (), '1.0' );    
-                        wp_enqueue_style( 'countdown-css' );
-                }
-        }
-        
-        //insert some style into your life
-        add_action( 'wp_print_styles', 'countdown_style' );
-                
-        // Options and default values for this widget
-        function widget_countdown_options() {
-                 return array(
-			'title' => 'Countdown',
-			'description' => '',
-			'url' => '',
-			'urltarget' => '_blank',
-			'urltext' => '',
-			'urlpos' => 'bottom',
-			'day' => 11,
-			'month' => 11,
-			'year' => 2011,
-			'hour' => 11,
-			'min'  => 11,
-			'sec' => 11,
-			'weektitle' => 'weeks',
-			'daytitle' => 'days',
-			'hourtitle' => 'hours',
-			'mintitle' => 'minutes',
-			'sectitle' => 'seconds',
-			'omitweeks' => 'false',
-			'style' => 'jedi'
-		);
-        }
-        
-        function widget_countdown($args) {
-                extract($args);
-		$options = array_merge(widget_countdown_options(), get_option('widget_countdown'));
-		unset($options[0]); //returned by get_option(), but we don't need it
+/**
+ * CountDownTimer Class
+ */
+class CountDownTimer extends WP_Widget {
+    /** constructor */
+    function CountDownTimer() {
+        //parent::WP_Widget(false, $name = 'CountDownTimer');
+		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A smart and sexy jQuery countdown timer by Twinpictures') );
+		$this->WP_Widget('CountDownTimer', 'jQuery T(-) CountDown', $widget_ops);
+    }
 	
-		//calc the inital difference
+    /** Widget */
+    function widget($args, $instance) {
+        extract( $args );
+		
+		//insert some style into your life
+		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
+		//$styleizer[$style] = $style;
+		
+		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
+		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', $instance['tophtml']);
+        $bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', $instance['bothtml']);
+        $launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', $instance['launchhtml']);
+        $launchtarget = empty($instance['launchtarget']) ? 'After Countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
+		
+		$day = empty($instance['day']) ? 11 : apply_filters('widget_day', $instance['day']);
+		$month = empty($instance['month']) ? 11 : apply_filters('widget_month', $instance['month']);
+		$year = empty($instance['year']) ? 2011 : apply_filters('widget_year', $instance['year']);
+		$hour = empty($instance['hour']) ? 11 : apply_filters('widget_hour', $instance['hour']);
+		$min = empty($instance['min']) ? 11 : apply_filters('widget_min', $instance['min']);
+		$sec = empty($instance['sec']) ? 11 : apply_filters('widget_sec', $instance['sec']);
+		
+		$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', $instance['weektitle']);
+		$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', $instance['daytitle']);
+		$hourtitle = empty($instance['hourtitle']) ? 'hours' : apply_filters('widget_hourtitle', $instance['hourtitle']);
+		$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', $instance['mintitle']);
+		$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', $instance['sectitle']);
+		$omitweeks = empty($instance['omitweeks']) ? 'false' : apply_filters('widget_omitweeks', $instance['omitweeks']);
+		
+		//now
 		$now = time() + ( get_option( 'gmt_offset' ) * 3600);
+		
+		//target
 		$target = mktime(
-			$options['hour'], 
-			$options['min'], 
-			$options['sec'], 
-			$options['month'], 
-			$options['day'], 
-			$options['year']
+			$hour, 
+			$min, 
+			$sec, 
+			$month, 
+			$day, 
+			$year
 		);
-	
+		
+		//difference in seconds
 		$diffSecs = $target - $now;
-	
+		
+		//countdown digits
 		$date = array();
 		$date['secs'] = $diffSecs % 60;
 		$date['mins'] = floor($diffSecs/60)%60;
 		$date['hours'] = floor($diffSecs/60/60)%24;
-		if($options['omitweeks'] == 'false'){
+		if($omitweeks == 'false'){
 		    $date['days'] = floor($diffSecs/60/60/24)%7;
 		}
 		else{
@@ -153,7 +148,6 @@ function widget_countdown_timer_init() {
 		$date['weeks']	= floor($diffSecs/60/60/24/7);
 	
 		foreach ($date as $i => $d) {
-			//echo $d.'<br/>';
 			$d1 = $d%10;
 			//53 = 3
 			//153 = 3
@@ -175,7 +169,8 @@ function widget_countdown_timer_init() {
 				//345 = 40 / 10 = 4
 				$d3 = $dm / 100;
 			}
-			//here is where the 1000's come to play.
+			/* here is where the 1000's support will go... someday. */
+			
 			//now assign all the digits to the array
 			$date[$i] = array(
 				(int)$d3,
@@ -184,233 +179,479 @@ function widget_countdown_timer_init() {
 				(int)$d
 			);
 		}
-                
-		echo $before_widget;
-                if($options['title']){
-                        echo $before_title . $options['title'] . $after_title;
-                }
-		if($options['description']){
-                        echo '<p>'. $options['description'] .'</p>';    
-                }
-                if($options['url'] && $options['urlpos'] == 'top'){
-                        echo '<a href="'. $options['url'] .'" target="'. $options['urltarget'] .'">'. $options['urltext'] .'</a>';
-                }
-                
-	//open the dashboard
-                echo '<div id="countdown_dashboard">';
 		
-	if($options['omitweeks'] == 'false'){
-	    //set up correct style class for double or triple digit love
-	    $wclass = "dash weeks_dash";
-	    if($date['weeks'][0] > 0){
-	        $wclass = "tripdash weeks_trip_dash";
-	    }
-	    
-                        echo '<div class="'.$wclass.'">
-		<span class="dash_title">'.$options['weektitle'].'</span>';
-		//show third week digit if the number of weeks is greater than 99
-		if($date['weeks'][0] > 0){
-		    echo '<div class="digit">'.$date['weeks'][0].'</div>';
-		}
-		echo '<div class="digit">'.$date['weeks'][1].'</div>
-		<div class="digit">'.$date['weeks'][2].'</div>
-	            </div>'; 
-                }
-                
-	//set up correct style class for double or triple digit love
-	$dclass = "dash days_dash";
-	if($options['omitweeks'] == 'true' && $date['days'][3] > 99){
-	    $dclass = "tripdash days_trip_dash";
-	}
-	    
-	echo '<div class="'.$dclass.'">
-		<span class="dash_title">'.$options['daytitle'].'</span>';
-		//show thrid day digit if there are NO weeks and the number of days is greater that 99
-		if($options['omitweeks'] == 'true' && $date['days'][3] > 99){
-		    echo '<div class="digit">'.$date['days'][0].'</div>';
-		}
-		echo '<div class="digit">'.$date['days'][1].'</div>
-		<div class="digit">'.$date['days'][2].'</div>
-	        </div>
-
-                        <div class="dash hours_dash">
-                                <span class="dash_title">'.$options['hourtitle'].'</span>
-                                <div class="digit">'.$date['hours'][1].'</div>
-                                <div class="digit">'.$date['hours'][2].'</div>
-                        </div>
-
-                        <div class="dash minutes_dash">
-                                <span class="dash_title">'.$options['mintitle'].'</span>
-                                <div class="digit">'.$date['mins'][1].'</div>
-                                <div class="digit">'.$date['mins'][2].'</div>
-                        </div>
-
-                        <div class="dash seconds_dash">
-                                <span class="dash_title">'.$options['sectitle'].'</span>
-                                <div class="digit">'.$date['secs'][1].'</div>
-                                <div class="digit">'.$date['secs'][2].'</div>
-                        </div>        
-                </div>'; //close the dashboard
 		
-                if($options['url'] && $options['urlpos'] == 'bottom'){
-                        echo '<a href="'. $options['url'] .'" target="'. $options['urltarget'] .'">'. $options['urltext'] .'</a>';
-                }
-                //echo '<p>Phones riggin dude!</p>';
-                echo $after_widget;
+        echo $before_widget;
+        if ( $title ){
+            echo $before_title . $title . $after_title;
         }
-        
-        //add the script to the footer
-        function jquery_countdown_js($args){
-		$options = get_option('widget_countdown');
-		$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
-                ?>                
-                <script language="javascript" type="text/javascript">
-	        jQuery(document).ready(function() {
-                        //alert('Phones Ringin, Dude.');
-			//only trigger the countdown if one actually exists.
-			if(jQuery('#countdown_dashboard').length){
-					//alert('Clocks Tickin, Dude.');
-				
-                                jQuery('#countdown_dashboard').countDown({	
-					targetDate: {
-						'day': 	<?php echo $options['day']; ?>,
-						'month': 	<?php echo $options['month']; ?>,
-						'year': 	<?php echo $options['year']; ?>,
-						'hour': 	<?php echo $options['hour']; ?>,
-						'min': 	<?php echo $options['min']; ?>,
-						'sec': 	<?php echo $options['sec']; ?>,
-						'localtime':	'<?php echo $t; ?>'
-					},
-					omitWeeks: <?php echo $options['omitweeks']; ?>
-				});
+		echo '<div id="'.$args['widget_id'].'-widget">';
+		echo '<div id="'.$args['widget_id'].'-tophtml" class="'.$style.'-tophtml">';
+        if($tophtml){
+            echo $tophtml; 
+        }
+		echo '</div>';
+		
+		//drop in the dashboard
+		echo '<div id="'.$args['widget_id'].'-dashboard" class="'.$style.'-dashboard">';
+		
+			if($omitweeks == 'false'){
+				//set up correct style class for double or triple digit love
+				$wclass = $style.'-dash '.$style.'-weeks_dash';
+				if($date['weeks'][0] > 0){
+					$wclass = $style.'-tripdash '.$style.'-weeks_trip_dash';
+				}
+			
+				echo '<div class="'.$wclass.'">
+						<span class="'.$style.'-dash_title">'.$weektitle.'</span>';
+						//show third week digit if the number of weeks is greater than 99
+				if($date['weeks'][0] > 0){
+					echo '<div class="'.$style.'-digit">'.$date['weeks'][0].'</div>';
+				}
+				echo '<div class="'.$style.'-digit">'.$date['weeks'][1].'</div>
+						<div class="'.$style.'-digit">'.$date['weeks'][2].'</div>
+					</div>'; 
 			}
+					
+			//set up correct style class for double or triple digit love
+			$dclass = $style.'-dash '.$style.'-days_dash';
+			if($omitweeks == 'true' && $date['days'][3] > 99){
+				$dclass = $style.'-tripdash '.$style.'-days_trip_dash';
+			}
+			
+			echo '<div class="'.$dclass.'">
+					<span class="'.$style.'-dash_title">'.$daytitle.'</span>';
+			//show thrid day digit if there are NO weeks and the number of days is greater that 99
+			if($omitweeks == 'true' && $date['days'][3] > 99){
+				echo '<div class="'.$style.'-digit">'.$date['days'][0].'</div>';
+			}
+			echo '<div class="'.$style.'-digit">'.$date['days'][1].'</div>
+				<div class="'.$style.'-digit">'.$date['days'][2].'</div>
+			</div>
+	
+			<div class="'.$style.'-dash '.$style.'-hours_dash">
+				<span class="'.$style.'-dash_title">'.$hourtitle.'</span>
+				<div class="'.$style.'-digit">'.$date['hours'][1].'</div>
+				<div class="'.$style.'-digit">'.$date['hours'][2].'</div>
+			</div>
+	
+			<div class="'.$style.'-dash '.$style.'-minutes_dash">
+				<span class="'.$style.'-dash_title">'.$mintitle.'</span>
+				<div class="'.$style.'-digit">'.$date['mins'][1].'</div>
+				<div class="'.$style.'-digit">'.$date['mins'][2].'</div>
+			</div>
+	
+			<div class="'.$style.'-dash '.$style.'-seconds_dash">
+				<span class="'.$style.'-dash_title">'.$sectitle.'</span>
+				<div class="'.$style.'-digit">'.$date['secs'][1].'</div>
+				<div class="'.$style.'-digit">'.$date['secs'][2].'</div>
+			</div>        
+        </div>'; //close the dashboard
+		
+        echo '<div id="'.$args['widget_id'].'-bothtml" class="'.$style.'-bothtml">';
+        if($bothtml){
+            echo $bothtml;    
+        }
+		echo '</div>';
+		echo '</div>';
+		echo $after_widget;
+		$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
+		
+		//launch div
+		$launchdiv = "";
+		if($launchtarget == "Above Countdown"){
+			$launchdiv = "tophtml";
+		}
+		else if($launchtarget == "Below Countdown"){
+			$launchdiv = "bothtml";
+		}
+		else if($launchtarget == "Entire Widget"){
+			$launchdiv = "widget";
+		}
+		?>            
+        <script language="javascript" type="text/javascript">
+	        jQuery(document).ready(function() {
+				//only trigger the countdown if one actually exists.
+				if(jQuery('#<?php echo $args['widget_id']; ?>-dashboard').length){
+					//alert('Clock <?php echo $args['widget_id']; ?>-dashboard is Tickin, Dude.');
+					jQuery('#<?php echo $args['widget_id']; ?>-dashboard').countDown({	
+						targetDate: {
+							'day': 	<?php echo $day; ?>,
+							'month': 	<?php echo $month; ?>,
+							'year': 	<?php echo $year; ?>,
+							'hour': 	<?php echo $hour; ?>,
+							'min': 	<?php echo $min; ?>,
+							'sec': 	<?php echo $sec; ?>,
+							'localtime':	'<?php echo $t; ?>',
+						},
+						style: '<?php echo $style; ?>',
+						omitWeeks: <?php echo $omitweeks;
+										if($launchhtml){
+											echo ", onComplete: function() { jQuery('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
+										}
+									?>
+					});
+				}
 	        });
 		</script>
-                <?php
-        }
-        
-        add_action('wp_head','jquery_countdown_js');
-        
-        
-        //add the widget control form
-        function widget_countdown_control() {
-                if(($options = get_option('widget_countdown')) === FALSE) $options = array();
-                $options = array_merge(widget_countdown_options(), $options);
-		unset($options[0]); //returned by get_option(), but we don't need it
+        <?php
+    }
 
-		// If user is submitting custom option values for this widget
-		if ( $_POST['countdown-submit'] ) {
-                        // Remember to sanitize and format use input appropriately.
-                        foreach($options as $key => $value){
-				$options[$key] = strip_tags(stripslashes($_POST['countdown-'.sanitizer($key)]));
-			}
-                        
-                        // Save changes
-			update_option('widget_countdown', $options);
+    /** Update */
+    function update($new_instance, $old_instance) {
+		$instance = array_merge($old_instance, $new_instance);
+		//return array_map('strip_tags', $instance);
+		if(isset($instance['isrockstar']) && $instance['isrockstar']){
+			update_option('rockstar', $instance['isrockstar']);
 		}
-        
-                // title option
-                echo '<p style="text-align:left"><label for="countdown-title">Title: <input style="width: 200px;" id="countdown-title" name="countdown-title" type="text" value="'.$options['title'].'" /></label></p>';
-                        
-                //description
-                echo '<p style="text-align:left"><label for="countdown-description">Description: <input style="width: 200px;" id="countdown-description" name="countdown-description" type="text" value="'.$options['description'].'" /></label></p>';
-                
-                //url
-                echo '<p style="text-align:left"><label for="countdown-url">URL: <input style="width: 200px;" id="countdown-url" name="countdown-url" type="text" value="'.$options['url'].'" /></label></p>';
-                
-                //url target
-                echo '<p style="text-align:left"><label for="countdown-urltarget">Link Target: <input style="width: 200px;" id="countdown-urltarget" name="countdown-urltarget" type="text" value="'.$options['urltarget'].'" /></label></p>';
-                
-                //url text
-                echo '<p style="text-align:left"><label for="countdown-urltext">Link Text: <input style="width: 200px;" id="countdown-urltext" name="countdown-urltext" type="text" value="'.$options['urltext'].'" /></label></p>';
-                
-                //url position Slector
-                $dom = '';
-                $sub = '';
-                if($options['urlpos'] == 'top'){
-                        $dom = 'CHECKED';
-                }
-                else{
-                        $sub = 'CHECKED'; 
-                }
-                
-                //Is the link a top or a bottom?
-                echo '<p style="text-align:left"><label for="countdown-urlpos">Link Position: <br/><input id="countdown-urlpos" name="countdown-urlpos" type="radio" '.$dom.' value="top" /> Above Counter </label><input id="countdown-urlpos" name="countdown-urlpos" type="radio" '.$sub.' value="bottom" /> Below Counter </label> </p>';
-                
-                //Target Date
-                echo '<p style="text-align:left"><label for="countdown-day">Target Date (DD-MM-YYYY):<br/><input style="width: 30px;" id="countdown-day" name="countdown-day" type="text" value="'.$options['day'].'" /></label>-<input style="width: 30px;" id="countdown-month" name="countdown-month" type="text" value="'.$options['month'].'" />-<input style="width: 40px;" id="countdown-year" name="countdown-year" type="text" value="'.$options['year'].'" /></p>';
-                
-                //Target Time
-                echo '<p style="text-align:left"><label for="countdown-hour">Target Time (HH:MM:SS):<br/><input style="width: 30px;" id="countdown-hour" name="countdown-hour" type="text" value="'.$options['hour'].'" /></label>:<input style="width: 30px;" id="countdown-min" name="countdown-min" type="text" value="'.$options['min'].'" />:<input style="width: 30px;" id="countdown-sec" name="countdown-sec" type="text" value="'.$options['sec'].'" /></p>';
-                
-                 //weeks text
-                echo '<p style="text-align:left"><label for="countdown-weektitle">How do you spell "weeks"?: <input style="width: 200px;" id="countdown-weektitle" name="countdown-weektitle" type="text" value="'.$options['weektitle'].'" /></label></p>';
-                
-                 //days text
-                echo '<p style="text-align:left"><label for="countdown-urltext">How do you spell "days"?: <input style="width: 200px;" id="countdown-daytitle" name="countdown-daytitle" type="text" value="'.$options['daytitle'].'" /></label></p>';
-                
-                 //hours text
-                echo '<p style="text-align:left"><label for="countdown-hourtitle">How do you spell "hours"?: <input style="width: 200px;" id="countdown-hourtitle" name="countdown-hourtitle" type="text" value="'.$options['hourtitle'].'" /></label></p>';
-                
-                 //minutes text
-                echo '<p style="text-align:left"><label for="countdown-mintitle">How do you spell "minutes"?: <input style="width: 200px;" id="countdown-mintitle" name="countdown-mintitle" type="text" value="'.$options['mintitle'].'" /></label></p>';
-        
-                 //seconds text
-                echo '<p style="text-align:left"><label for="countdown-sectitle">And "seconds" are spelled how?: <input style="width: 200px;" id="countdown-sectitle" name="countdown-sectitle" type="text" value="'.$options['sectitle'].'" /></label></p>';
-                
-                
-                //Omit Week Slector
-                $negative = '';
-                $positive = '';
-                if($options['omitweeks'] == 'false'){
-                        $negative = 'CHECKED';
-                }
-                else{
-                        $positive = 'CHECKED'; 
-                }
-                
-                //Omit Weeks
-                echo '<p style="text-align:left"><label for="countdown-omitweeks">Omit Weeks:<input id="countdown-omitweeks" name="countdown-omitweeks" type="radio" '.$negative.' value="false" /> No </label><input id="countdown-omitweeks" name="countdown-omitweeks" type="radio" '.$positive.' value="true" /> Yes </label> </p>';
-                
-                //style Slector
-	//grab all folder names from the css directory
-                /*$light = '';
-                $dark = '';
-                if($options['style'] == 'jedi'){
-                        $light = 'CHECKED';
-                }
-                else{
-                        $dark = 'CHECKED'; 
-                }*/
-                
-                //Light or Dark Style?  You choose!
-                //echo '<p style="text-align:left"><label for="countdown-style">What side of the Force are you on?: <br/><input id="countdown-style" name="countdown-style" type="radio" '.$light.' value="jedi" /> Jedi </label><input id="countdown-style" name="countdown-style" type="radio" '.$dark.' value="darth" /> Darth </label> </p>';
-        
-	echo '<p style="text-align:left"><label for="countdown-style">Select your style: <br/>';
-	echo '<select name="countdown-style" id="countdown-style">';
-	$styles_arr = folder_array('../'.PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
-	foreach($styles_arr as $style){
-	    $selected = "";
-	    if($options['style'] == $style){
-	            $selected = 'SELECTED';
-	    }
-	    echo '<option value="'.$style.'" '.$selected.'>'.$style.'</option>';
+		
+		//update the styles
+		$style_arr = get_option('t-minus_styles');
+		$style_arr[$instance['style']] = $instance['style'];
+		update_option('t-minus_styles', $style_arr);
+		
+		return array_map('mysql_real_escape_string', $instance);
+    }
+
+    /** Form */
+    function form($instance) {
+        $title = stripslashes($instance['title']);
+		$day = esc_attr($instance['day']);
+		if(!$day){
+			$day = 11;
+		}
+		else if($day > 31){
+			$day = 31;
+		}
+		//apply_filters('widget_day', $day);
+		
+		$month = esc_attr($instance['month']);
+		if(!$month){
+			$month = 11;
+		}
+		else if($month > 12){
+			$month = 12;
+		}
+		
+		$year = esc_attr($instance['year']);
+		if(!$year){
+			$year = 2011;
+		}
+		
+		$hour = esc_attr($instance['hour']);
+		if(!$hour){
+			$hour = 11;
+		}
+		else if($hour > 23){
+			$hour = 23;
+		}
+		
+		$min = esc_attr($instance['min']);
+		if(!$min){
+			$min = 11;
+		}
+		else if($min > 59){
+			$min = 59;
+		}
+		
+		$sec = esc_attr($instance['sec']);
+		if(!$sec){
+			$sec = 11;
+		}
+		else if($sec > 59){
+			$sec = 59;
+		}
+		$omitweeks = esc_attr($instance['omitweeks']);
+		if(!$omitweeks){
+			$omitweeks = 'false';
+		}
+		$style = esc_attr($instance['style']);
+		if(!$style){
+			$style = 'jedi';
+		}
+
+		$isrockstar = get_option('rockstar');
+		
+		if($isrockstar){
+			//rockstar features
+			$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', stripslashes($instance['tophtml']));
+			$bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
+			$launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', stripslashes($instance['launchhtml']));
+			$launchtarget = empty($instance['launchtarget']) ? 'After Counter' : apply_filters('widget_launchtarget', $instance['launchtarget']);
+			$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
+			$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
+			$hourtitle = empty($instance['hourtitle']) ? 'hours' : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
+			$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
+			$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
+		}
+        ?>
+        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('day'); ?>"><?php _e('Target Date (DD-MM-YYYY):'); ?></label><br/><input style="width: 30px;" id="<?php echo $this->get_field_id('day'); ?>" name="<?php echo $this->get_field_name('day'); ?>" type="text" value="<?php echo $day; ?>" />-<input style="width: 30px;" id="<?php echo $this->get_field_id('month'); ?>" name="<?php echo $this->get_field_name('month'); ?>" type="text" value="<?php echo $month; ?>" />-<input style="width: 40px;" id="<?php echo $this->get_field_id('year'); ?>" name="<?php echo $this->get_field_name('year'); ?>" type="text" value="<?php echo $year; ?>" /></p>
+		<p><label for="<?php echo $this->get_field_id('hour'); ?>"><?php _e('Target Time (HH:MM:SS):'); ?></label><br/><input style="width: 30px;" id="<?php echo $this->get_field_id('hour'); ?>" name="<?php echo $this->get_field_name('hour'); ?>" type="text" value="<?php echo $hour; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('min'); ?>" name="<?php echo $this->get_field_name('min'); ?>" type="text" value="<?php echo $min; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('sec'); ?>" name="<?php echo $this->get_field_name('sec'); ?>" type="text" value="<?php echo $sec; ?>" /></p>
+		<?php
+			//Omit Week Slector
+            $negative = '';
+            $positive = '';
+            if($omitweeks == 'false'){
+                $negative = 'CHECKED';
+            }else{
+                $positive = 'CHECKED'; 
+            }
+		?>
+		<p><?php _e('Omit Weeks:'); ?> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-no" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $negative; ?> value="false" /><label for="<?php echo $this->get_field_id('omitweeks'); ?>-no"> <?php _e('No'); ?> </label> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-yes" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $positive; ?> value="true" /> <label for="<?php echo $this->get_field_id('omitweeks'); ?>-yes"> <?php _e('Yes'); ?></label></p>
+		<p><?php _e('Style:'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
+		<?php	
+			$styles_arr = folder_array('../'.PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
+			foreach($styles_arr as $style_name){
+				$selected = "";
+				if($style == $style_name){
+					$selected = 'SELECTED';
+				}
+				echo '<option value="'.$style_name.'" '.$selected.'>'.$style_name.'</option>';
+			}
+		?>
+	    </select></p>
+		<input class="isrockstar" id="<?php echo $this->get_field_id('isrockstar'); ?>" name="<?php echo $this->get_field_name('isrockstar'); ?>" type="hidden" value="<?php echo $isrockstar; ?>" />
+		<?php
+		if($isrockstar){
+			echo __($isrockstar).'<br/>';
+		}
+		else{
+			?>
+			<p id="header-<?php echo $this->get_field_id('unlock'); ?>"><input class="rockstar" id="<?php echo $this->get_field_id('unlock'); ?>" name="<?php echo $this->get_field_name('unlock'); ?>" type="checkbox" value="" /> <label for="<?php echo $this->get_field_id('unlock'); ?>"><?php _e('This is totally worth 3 bucks.'); ?></label></p>
+			<div id="target-<?php echo $this->get_field_id('unlock'); ?>" class="collapseomatic_content">
+			<?php
+		}
+		?>
+		<a class="collapseomatic" id="tophtml<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Above Countdown'); ?></a>
+		<div id="target-tophtml<?php echo $this->get_field_id('tophtml'); ?>" class="collapseomatic_content">
+				<p><label for="<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Top HTML:'); ?></label> <textarea id="<?php echo $this->get_field_id('tophtml'); ?>" name="<?php echo $this->get_field_name('tophtml'); ?>"><?php echo $tophtml; ?></textarea></p>
+		</div>
+		<br/>
+		<a class="collapseomatic" id="bothtml<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Below Countdown'); ?></a>
+		<div id="target-bothtml<?php echo $this->get_field_id('bothtml'); ?>" class="collapseomatic_content">
+				<p><label for="<?php echo $this->get_field_id('bothtml'); ?>"><?php _e('Bottom HTML:'); ?></label> <textarea id="<?php echo $this->get_field_id('bothtml'); ?>" name="<?php echo $this->get_field_name('bothtml'); ?>"><?php echo $bothtml; ?></textarea></p>
+		</div>
+		<br/>
+		<a class="collapseomatic" id="launchhtml<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('When Countdown Reaches Zero'); ?></a>
+		<div id="target-launchhtml<?php echo $this->get_field_id('launchhtml'); ?>" class="collapseomatic_content">
+				<p><label for="<?php echo $this->get_field_id('launchhtml'); ?>"><?php _e('Launch Event HTML:'); ?></label> <textarea id="<?php echo $this->get_field_id('launchhtml'); ?>" name="<?php echo $this->get_field_name('launchhtml'); ?>"><?php echo $launchhtml; ?></textarea></p>
+				<p><?php _e('Launch Target:'); ?> <select name="<?php echo $this->get_field_name('launchtarget'); ?>" id="<?php echo $this->get_field_name('launchtarget'); ?>">
+				<?php
+					$target_arr = array('Above Countdown', 'Below Countdown', 'Entire Widget');
+					foreach($target_arr as $target_name){
+						$selected = "";
+						if($launchtarget == $target_name){
+							$selected = 'SELECTED';
+						}
+						echo '<option value="'.$target_name.'" '.$selected.'>'.__($target_name).'</option>';
+					}
+				?>
+				</select></p>
+		</div>
+		<br/>
+		<a class="collapseomatic" id="titles<?php echo $this->get_field_id('weektitle'); ?>"><?php _e('Digit Titles'); ?></a>
+		<div id="target-titles<?php echo $this->get_field_id('weektitle'); ?>" class="collapseomatic_content">
+				<p><label for="<?php echo $this->get_field_id('weektitle'); ?>"><?php _e('How do you spell "weeks"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('weektitle'); ?>" name="<?php echo $this->get_field_name('weektitle'); ?>" type="text" value="<?php echo $weektitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('daytitle'); ?>"><?php _e('How do you spell "days"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('daytitle'); ?>" name="<?php echo $this->get_field_name('daytitle'); ?>" type="text" value="<?php echo $daytitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('hourtitle'); ?>"><?php _e('How do you spell "hours"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('hourtitle'); ?>" name="<?php echo $this->get_field_name('hourtitle'); ?>" type="text" value="<?php echo $hourtitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('mintitle'); ?>"><?php _e('How do you spell "minutes"?:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('mintitle'); ?>" name="<?php echo $this->get_field_name('mintitle'); ?>" type="text" value="<?php echo $mintitle; ?>" /></label></p>
+				<p><label for="<?php echo $this->get_field_id('sectitle'); ?>"><?php _e('And "seconds" are spelled:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('sectitle'); ?>" name="<?php echo $this->get_field_name('sectitle'); ?>" type="text" value="<?php echo $sectitle; ?>" /></label></p>
+		</div>
+	
+		<?php
+		if(!$isrockstar){
+			echo '</div>';
+		}	
+    }
+} // class CountDownTimer
+
+// register CountDownTimer widget
+add_action('widgets_init', create_function('', 'return register_widget("CountDownTimer");'));
+
+//the short code
+function tminuscountdown($atts, $content=null) {
+	//find a random number, incase there is no id assigned
+	$ran = rand(1, 10000);
+	
+    extract(shortcode_atts(array(
+		'id' => $ran,
+		't' => '11-11-2011 11:11:11',
+        'weeks' => 'weeks',
+		'days' => 'days',
+		'hours' => 'hours',
+		'minutes' => 'minutes',
+		'seconds' => 'seconds',
+		'omitweeks' => 'false',
+		'style' => 'jedi',
+		'before' => '',
+		'after' => '',
+		'width' => 'auto',
+		'height' => 'auto',
+		'launchwidth' => 'auto',
+		'launchheight' => 'auto',
+		'launchtarget' => 'countdown',
+	), $atts));
+ 
+	//update the styles
+	$style_arr = get_option('t-minus_styles');
+	$style_arr[$style] = $style;
+	update_option('t-minus_styles', $style_arr);
+		
+	$now = time() + ( get_option( 'gmt_offset' ) * 3600);
+	$target = strtotime($t, $now);
+	
+	//difference in seconds
+	$diffSecs = $target - $now;
+
+	$day = date ( 'd', $target );
+	$month = date ( 'm', $target );
+	$year = date ( 'Y', $target );
+	$hour = date ( 'H', $target );
+	$min = date ( 'i', $target );
+	$sec = date ( 's', $target );
+	
+	//countdown digits
+	$date_arr = array();
+	$date_arr['secs'] = $diffSecs % 60;
+	$date_arr['mins'] = floor($diffSecs/60)%60;
+	$date_arr['hours'] = floor($diffSecs/60/60)%24;
+	
+	if($omitweeks == 'false'){
+		$date_arr['days'] = floor($diffSecs/60/60/24)%7;
 	}
-	echo '</select>';
-        
-                // Submit
-                echo '<input type="hidden" id="countdown-submit" name="countdown-submit" value="1" />';
-        }
-        // This registers our widget so it appears with the other available
-        // widgets and can be dragged and dropped into any active sidebars.
-        //register_sidebar_widget('jQuery T Minus CountDown', 'widget_countdown');
-        wp_register_sidebar_widget( 'jquery-countdown', 'jQuery T Minus CountDown', 'widget_countdown');
+	else{
+		$date_arr['days'] = floor($diffSecs/60/60/24); 
+	}
+	$date_arr['weeks']	= floor($diffSecs/60/60/24/7);
+	
+	foreach ($date_arr as $i => $d) {
+		$d1 = $d%10;
+		if($d < 100){
+			$d2 = ($d-$d1) / 10;
+			$d3 = 0;
+		}
+		else{
+			$dr = $d%100;
+			$dm = $d-$dr;
+			$d2 = ($d-$dm-$d1) / 10;
+			$d3 = $dm / 100;
+		}
+		/* here is where the 1000's support will go... someday. */
+		
+		//now assign all the digits to the array
+		$date_arr[$i] = array(
+			(int)$d3,
+			(int)$d2,
+			(int)$d1,
+			(int)$d
+		);
+	}
+	
+	if(is_numeric($width)){
+		$width .= 'px';
+	}
+	if(is_numeric($height)){
+		$height .= 'px';
+	}
+	$tminus = '<div id="'.$id.'-countdown" style="width:'.$width.'; height:'.$height.';">';
+	$tminus .= '<div id="'.$id.'-above" class="'.$style.'-tophtml">';
+    if($before){
+        $tminus .=  $before; 
+    }
+	$tminus .=  '</div>';
+		
+	//drop in the dashboard
+	$tminus .=  '<div id="'.$id.'-dashboard" class="'.$style.'-dashboard">';
+	if($omitweeks == 'false'){
+		//set up correct style class for double or triple digit love
+		$wclass = $style.'-dash '.$style.'-weeks_dash';
+		if($date_arr['weeks'][0] > 0){
+			$wclass = $style.'-tripdash '.$style.'-weeks_trip_dash';
+		}
+			
+		$tminus .=  '<div class="'.$wclass.'"><span class="'.$style.'-dash_title">'.$weeks.'</span>';
+		if($date_arr['weeks'][0] > 0){
+			$tminus .=  '<div class="'.$style.'-digit">'.$date_arr['weeks'][0].'</div>';
+		}
+		$tminus .=  '<div class="'.$style.'-digit">'.$date_arr['weeks'][1].'</div><div class="'.$style.'-digit">'.$date_arr['weeks'][2].'</div></div>'; 
+	}
+					
+	//set up correct style class for double or triple digit love
+	$dclass = $style.'-dash '.$style.'-days_dash';
+	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
+		$dclass = $style.'-tripdash '.$style.'-days_trip_dash';
+	}
+			
+	$tminus .= '<div class="'.$dclass.'"><span class="'.$style.'-dash_title">'.$days.'</span>';
+	//show thrid day digit if there are NO weeks and the number of days is greater that 99
+	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][0].'</div>';
+	}
+	$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][1].'</div><div class="'.$style.'-digit">'.$date_arr['days'][2].'</div>
+				</div>
+				<div class="'.$style.'-dash '.$style.'-hours_dash">
+					<span class="'.$style.'-dash_title">'.$hours.'</span>
+					<div class="'.$style.'-digit">'.$date_arr['hours'][1].'</div>
+					<div class="'.$style.'-digit">'.$date_arr['hours'][2].'</div>
+				</div>
+			
+				<div class="'.$style.'-dash '.$style.'-minutes_dash">
+					<span class="'.$style.'-dash_title">'.$minutes.'</span>
+					<div class="'.$style.'-digit">'.$date_arr['mins'][1].'</div>
+					<div class="'.$style.'-digit">'.$date_arr['mins'][2].'</div>
+				</div>
+			
+				<div class="'.$style.'-dash '.$style.'-seconds_dash">
+					<span class="'.$style.'-dash_title">'.$seconds.'</span>
+					<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>
+					<div class="'.$style.'-digit">'.$date_arr['secs'][2].'</div>
+				</div>        
+			</div>'; //close the dashboard
 
-        // This registers our optional widget control form.
-        wp_register_widget_control('jquery-countdown', 'jQuery T Minus CountDown', 'widget_countdown_control');
+	$tminus .= '<div id="'.$id.'-below" class="'.$style.'-bothtml">';
+	if($after){
+		$tminus .= $after;    
+	}
+	$tminus .= '</div></div>';
+
+	$t = date( 'n/j/Y H:i:s', gmmktime() + ( get_option( 'gmt_offset' ) * 3600));
+	if(is_numeric($launchwidth)){
+		$launchwidth .= 'px';
+	}
+	if(is_numeric($launchheight)){
+		$launchheight .= 'px';
+	}
+	?>
+	<script language="javascript" type="text/javascript">
+		jQuery(document).ready(function() {
+			//only trigger the countdown if one actually exists.
+			if(jQuery('#<?php echo $id; ?>-dashboard').length){
+				jQuery('#<?php echo $id; ?>-dashboard').countDown({	
+					targetDate: {
+						'day': 	<?php echo $day; ?>,
+						'month': <?php echo $month; ?>,
+						'year': <?php echo $year; ?>,
+						'hour': <?php echo $hour; ?>,
+						'min': 	<?php echo $min; ?>,
+						'sec': 	<?php echo $sec; ?>,
+						'localtime': '<?php echo $t; ?>',
+					},
+					style: '<?php echo $style; ?>',
+					omitWeeks: <?php echo $omitweeks;
+						if($content){
+							echo ", onComplete: function() {
+							    jQuery('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
+								jQuery('#".$id."-".$launchtarget."').html('".do_shortcode($content)."');	
+							}";
+						}?>
+				});
+			}
+		});
+	</script>
+	<?php
+	return $tminus;
 }
-
-// Run code later in case this loads prior to any required plugins.
-add_action('plugins_loaded', 'widget_countdown_timer_init');
+add_shortcode('tminus', 'tminuscountdown');
 
 ?>
