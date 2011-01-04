@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: jQuery T(-) Countdown - v2.0
+Plugin Name: jQuery T(-) Countdown
 Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
 Description: Display and configure multiple jQuery countdown timers using a shortcode or as a sidebar widget.
-Version: 2.0.1
+Version: 2.0.2
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -119,6 +119,7 @@ class CountDownTimer extends WP_Widget {
 		$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', $instance['mintitle']);
 		$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', $instance['sectitle']);
 		$omitweeks = empty($instance['omitweeks']) ? 'false' : apply_filters('widget_omitweeks', $instance['omitweeks']);
+		$jsplacement = empty($instance['jsplacement']) ? 'footer' : apply_filters('widget_jsplacement', $instance['jsplacement']);
 		
 		//now
 		$now = time() + ( get_option( 'gmt_offset' ) * 3600);
@@ -271,22 +272,49 @@ class CountDownTimer extends WP_Widget {
 			$launchdiv = "widget";
 		}
 
-		$add_my_script[$id] = array(
-			'id' => $args['widget_id'],
-			'day' => $day,
-			'month' => $month,
-			'year' => $year,
-			'hour' => $hour,
-			'min' => $min,
-			'sec' => $sec,
-			'localtime' => $t,
-			'style' => $style,
-			'omitweeks' => $omitweeks,
-			'content' => trim($launchhtml),
-			'launchtarget' => $launchdiv,
-			'launchwidth' => 'auto',
-			'launchheight' => 'auto'
-		);
+		if($jsplacement == "footer"){
+			$add_my_script[$id] = array(
+				'id' => $args['widget_id'],
+				'day' => $day,
+				'month' => $month,
+				'year' => $year,
+				'hour' => $hour,
+				'min' => $min,
+				'sec' => $sec,
+				'localtime' => $t,
+				'style' => $style,
+				'omitweeks' => $omitweeks,
+				'content' => trim($launchhtml),
+				'launchtarget' => $launchdiv,
+				'launchwidth' => 'auto',
+				'launchheight' => 'auto'
+			);
+		}
+		else{
+			?>            
+			<script language="javascript" type="text/javascript">
+				jQuery(document).ready(function() {
+					jQuery('#<?php echo $args['widget_id']; ?>-dashboard').countDown({	
+						targetDate: {
+							'day': 	<?php echo $day; ?>,
+							'month': 	<?php echo $month; ?>,
+							'year': 	<?php echo $year; ?>,
+							'hour': 	<?php echo $hour; ?>,
+							'min': 	<?php echo $min; ?>,
+							'sec': 	<?php echo $sec; ?>,
+							'localtime':	'<?php echo $t; ?>',
+						},
+						style: '<?php echo $style; ?>',
+						omitWeeks: <?php echo $omitweeks;
+										if($launchhtml){
+											echo ", onComplete: function() { jQuery('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
+										}
+									?>
+					});
+				});
+			</script>
+			<?php
+		}
     }
 
     /** Update */
@@ -361,6 +389,10 @@ class CountDownTimer extends WP_Widget {
 		if(!$style){
 			$style = 'jedi';
 		}
+		$jsplacement = esc_attr($instance['jsplacement']);
+		if(!$jsplacement){
+			$jsplacement = 'footer';
+		}
 
 		$isrockstar = get_option('rockstar');
 		
@@ -389,6 +421,15 @@ class CountDownTimer extends WP_Widget {
             }else{
                 $positive = 'CHECKED'; 
             }
+			
+			//JS Placement Slector
+            $foot = '';
+            $inline = '';
+            if($jsplacement == 'footer'){
+                $foot = 'CHECKED';
+            }else{
+                $inline = 'CHECKED'; 
+            }
 		?>
 		<p><?php _e('Omit Weeks:'); ?> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-no" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $negative; ?> value="false" /><label for="<?php echo $this->get_field_id('omitweeks'); ?>-no"> <?php _e('No'); ?> </label> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-yes" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $positive; ?> value="true" /> <label for="<?php echo $this->get_field_id('omitweeks'); ?>-yes"> <?php _e('Yes'); ?></label></p>
 		<p><?php _e('Style:'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
@@ -403,6 +444,8 @@ class CountDownTimer extends WP_Widget {
 			}
 		?>
 	    </select></p>
+		<p><?php _e('Inject Script:'); ?> <input id="<?php echo $this->get_field_id('jsplacement'); ?>-foot" name="<?php echo $this->get_field_name('jsplacement'); ?>" type="radio" <?php echo $foot; ?> value="footer" /><label for="<?php echo $this->get_field_id('jsplacement'); ?>-foot"> <?php _e('Footer'); ?> </label> <input id="<?php echo $this->get_field_id('jsplacement'); ?>-inline" name="<?php echo $this->get_field_name('jsplacement'); ?>" type="radio" <?php echo $inline; ?> value="inline" /> <label for="<?php echo $this->get_field_id('jsplacement'); ?>-inline"> <?php _e('Inline'); ?></label></p>
+		
 		<input class="isrockstar" id="<?php echo $this->get_field_id('isrockstar'); ?>" name="<?php echo $this->get_field_name('isrockstar'); ?>" type="hidden" value="<?php echo $isrockstar; ?>" />
 		<?php
 		if($isrockstar){
@@ -461,7 +504,7 @@ class CountDownTimer extends WP_Widget {
 // register CountDownTimer widget
 add_action('widgets_init', create_function('', 'return register_widget("CountDownTimer");'));
 
-//the short code
+
 //code fore the footer
 add_action('wp_footer', 'print_my_script');
  
@@ -505,6 +548,7 @@ function print_my_script() {
 	<?php
 }
 
+//the short code
 function tminuscountdown($atts, $content=null) {
 	global $add_my_script;
 	//find a random number, incase there is no id assigned
@@ -527,6 +571,7 @@ function tminuscountdown($atts, $content=null) {
 		'launchwidth' => 'auto',
 		'launchheight' => 'auto',
 		'launchtarget' => 'countdown',
+		'jsplacement' => 'footer',
 	), $atts));
  
 	
@@ -661,24 +706,52 @@ function tminuscountdown($atts, $content=null) {
 		$launchheight .= 'px';
 	}
 	$content = mysql_real_escape_string( $content);
-	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n'), '', $content); 
-    $add_my_script[$id] = array(
-		'id' => $id,
-		'day' => $day,
-		'month' => $month,
-		'year' => $year,
-		'hour' => $hour,
-		'min' => $min,
-		'sec' => $sec,
-		'localtime' => $t,
-		'style' => $style,
-		'omitweeks' => $omitweeks,
-		'content' => $content,
-		'launchtarget' => $launchtarget,
-		'launchwidth' => $launchwidth,
-		'launchheight' => $launchheight
-	);
-				
+	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n'), '', $content);
+	if($jsplacement == "footer"){
+		$add_my_script[$id] = array(
+			'id' => $id,
+			'day' => $day,
+			'month' => $month,
+			'year' => $year,
+			'hour' => $hour,
+			'min' => $min,
+			'sec' => $sec,
+			'localtime' => $t,
+			'style' => $style,
+			'omitweeks' => $omitweeks,
+			'content' => $content,
+			'launchtarget' => $launchtarget,
+			'launchwidth' => $launchwidth,
+			'launchheight' => $launchheight
+		);
+	}
+	else{
+		?>
+		<script language="javascript" type="text/javascript">
+			jQuery(document).ready(function() {
+				jQuery('#<?php echo $id; ?>-dashboard').countDown({	
+					targetDate: {
+						'day': 	<?php echo $day; ?>,
+						'month': <?php echo $month; ?>,
+						'year': <?php echo $year; ?>,
+						'hour': <?php echo $hour; ?>,
+						'min': 	<?php echo $min; ?>,
+						'sec': 	<?php echo $sec; ?>,
+						'localtime': '<?php echo $t; ?>',
+					},
+					style: '<?php echo $style; ?>',
+					omitWeeks: <?php echo $omitweeks;
+						if($content){
+							echo ", onComplete: function() {
+								jQuery('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
+								jQuery('#".$id."-".$launchtarget."').html('".do_shortcode($content)."');	
+							}";
+						}?>
+				});
+			});
+		</script>
+		<?php		
+	}
 	return $tminus;
 }
 add_shortcode('tminus', 'tminuscountdown');
