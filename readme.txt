@@ -5,13 +5,13 @@ Donate link: http://www.twinpictures.de/jquery-t-minus-2-0/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0
+Stable tag: 2.0.3
 
-jQuery T(-) CountDown v2.0 will dispaly a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
+jQuery T(-) CountDown will dispaly a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
 
 == Description ==
 
-jQuery T(-) CountDown v2.0 will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mindtricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to G2 (www.g2.de) and Lauren (www.siliconstudio.com) for the included css flavors.
+jQuery T(-) CountDown will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mindtricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to CosmoBro at g2.de and Lauren at siliconstudio.com for the included css flavors.
 
 == Installation ==
 
@@ -22,7 +22,7 @@ jQuery T(-) CountDown v2.0 will display a sweet, sexy and totally flash-free cou
 1. Test that the this plugin meets your demanding needs.
 1. Tweak the css files for premium enjoyment.
 1. Rate the plugin and verify that it works at wordpress.org.
-1. Leave a comment regarding bugs, feature request, cocktail recipes at http://www.twinpictures.de/t-minus-countdown-widget/
+1. Leave a comment regarding bugs, feature request or cocktail recipes at http://www.twinpictures.de/jquery-t-minus-2-0/
 
 == Frequently Asked Questions ==
 
@@ -44,6 +44,17 @@ The Daily Show with John Stewart
 3. screenshot-3.png shows an expansive view of the available `jQuery T(-) CountDown` options that have been provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.0.3 =
+* Fixed bug with onlaunch HTML when using shortcode.
+
+= 2.0.2 =
+* Added option of inserting the javascript in the footer or inline, after the countdown has been inserted.
+
+= 2.0.1 =
+* Verify that a style has been set before looping - was throwing an error.
+* Inproved loadtimes by printing all javascript in the footer
+* Workaround for strange behavor with html content sent using shortcode
 
 = 2.0 =
 * Multiple instance sidebar widgets.
@@ -78,6 +89,15 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.0.3 =
+Onlaunch HTML shortcode bug fix.
+
+= 2.0.2 =
+New option of placing the javascript in the footer or inline.
+
+= 2.0.1 =
+Minor bug fixes and improved load times.
 
 = 2.0 =
 Requires WordPress version 2.8 or higher.  Backup custom CSS folders.
