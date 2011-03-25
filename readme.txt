@@ -5,7 +5,7 @@ Donate link: http://www.twinpictures.de/jquery-t-minus-2-0/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 
 jQuery T(-) CountDown will dispaly a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
 
@@ -44,6 +44,9 @@ The Daily Show with John Stewart
 3. screenshot-3.png shows an expansive view of the available `jQuery T(-) CountDown` options that have been provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.0.4 =
+* Now works with retched Internet Explorer browser-like crap.  Included new 'carbonlite' theme for single line countdown love.
 
 = 2.0.3 =
 * Fixed bug with onlaunch HTML when using shortcode.
@@ -89,6 +92,9 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.0.4 =
+* Works with retched Internet Explorer browser-like crap.  Includes new single-line 'carbonlite' theme.
 
 = 2.0.3 =
 Onlaunch HTML shortcode bug fix.
