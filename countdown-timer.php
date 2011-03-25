@@ -3,7 +3,7 @@
 Plugin Name: jQuery T(-) Countdown
 Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
 Description: Display and configure multiple jQuery countdown timers using a shortcode or as a sidebar widget.
-Version: 2.0.3
+Version: 2.0.4
 Author: Twinpictures
 Author URI: http://www.twinpictures.de
 License: GPL2
@@ -191,7 +191,7 @@ class CountDownTimer extends WP_Widget {
 		echo '<div id="'.$args['widget_id'].'-widget">';
 		echo '<div id="'.$args['widget_id'].'-tophtml" class="'.$style.'-tophtml" >';
         if($tophtml){
-            echo $tophtml; 
+            echo stripslashes($tophtml); 
         }
 		echo '</div>';
 		
@@ -253,7 +253,7 @@ class CountDownTimer extends WP_Widget {
 		
         echo '<div id="'.$args['widget_id'].'-bothtml" class="'.$style.'-bothtml">';
         if($bothtml){
-            echo $bothtml;    
+            echo  stripslashes($bothtml);    
         }
 		echo '</div>';
 		echo '</div>';
@@ -302,7 +302,7 @@ class CountDownTimer extends WP_Widget {
 							'hour': 	<?php echo $hour; ?>,
 							'min': 	<?php echo $min; ?>,
 							'sec': 	<?php echo $sec; ?>,
-							'localtime':	'<?php echo $t; ?>',
+							'localtime':	'<?php echo $t; ?>'
 						},
 						style: '<?php echo $style; ?>',
 						omitWeeks: <?php echo $omitweeks;
@@ -529,7 +529,7 @@ function print_my_script() {
 				'hour': <?php echo $script['hour']; ?>,
 				'min': 	<?php echo $script['min']; ?>,
 				'sec': 	<?php echo $script['sec']; ?>,
-				'localtime': '<?php echo $script['localtime']; ?>',
+				'localtime': '<?php echo $script['localtime']; ?>'
 			},
 			style: '<?php echo $script['style']; ?>',
 			omitWeeks: <?php echo $script['omitweeks'];
@@ -738,7 +738,7 @@ function tminuscountdown($atts, $content=null) {
 						'hour': <?php echo $hour; ?>,
 						'min': 	<?php echo $min; ?>,
 						'sec': 	<?php echo $sec; ?>,
-						'localtime': '<?php echo $t; ?>',
+						'localtime': '<?php echo $t; ?>'
 					},
 					style: '<?php echo $style; ?>',
 					omitWeeks: <?php echo $omitweeks;
