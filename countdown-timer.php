@@ -3,7 +3,7 @@
 Plugin Name: jQuery T(-) Countdown
 Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
 Description: Display and configure multiple jQuery countdown timers using a shortcode or sidebar widget.
-Version: 2.0.5
+Version: 2.0.6
 Author: Twinpictures
 Author URI: http://www.twinpictures.de/
 License: GPL2

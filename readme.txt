@@ -5,7 +5,7 @@ Donate link: http://www.twinpictures.de/jquery-t-minus-2-0/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.8
 Tested up to: 3.3
-Stable tag: 2.0.5
+Stable tag: 2.0.6
 
 jQuery T(-) CountDown will display a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
 
@@ -50,6 +50,9 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> does the 
 3. screenshot-3.png shows an expansive view of the available `jQuery T(-) CountDown` options that have been provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.0.6 =
+* further countdown optimizations.
 
 = 2.0.5 =
 * Reworked the countdown timer function to deal with the requestAnimationFrame issue on an inactive tab in Chrome.  By not blindly stacking timers on a tab the user cannot see them, the browser will have a reduced CPU footprint, leading to improved battery life in mobile devices.
@@ -101,6 +104,8 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> does the 
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+* Additional countdown timer optimizations.
 
 = 2.0.5 =
 * Improved countdown timer that reduces the browser's CPU footprint and improves battery life for mobile devices.
