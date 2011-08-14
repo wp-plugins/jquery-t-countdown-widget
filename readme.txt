@@ -1,17 +1,17 @@
 === jQuery T Minus CountDown Widget ===
 
-Contributors: Twinpictures, G2, littlewebthings
+Contributors: Twinpictures
 Donate link: http://www.twinpictures.de/jquery-t-minus-2-0/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.8
-Tested up to: 3.1
-Stable tag: 2.0.4
+Tested up to: 3.3
+Stable tag: 2.0.5
 
-jQuery T(-) CountDown will dispaly a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
+jQuery T(-) CountDown will display a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
 
 == Description ==
 
-jQuery T(-) CountDown will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mindtricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to CosmoBro at g2.de and Lauren at siliconstudio.com for the included css flavors.
+jQuery T(-) CountDown will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to CosmoBro at g2.de and Lauren at siliconstudio.com for the included css flavors.
 
 == Installation ==
 
@@ -37,6 +37,12 @@ A <a href='http://www.twinpictures.de/jquery-t-minus-2-0/'>complete listing of s
 = Where can I get reliable news that makes me giggle? =
 The Daily Show with John Stewart
 
+= I am a Social Netwookiee, do you have a Facebook page? =
+Yes, yes... <a href='http://www.facebook.com/twinpictures'>Twinpictures is on Facebook</a>.
+
+= Does Twinpictures do the Twitter? =
+Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> does the twitter tweeting around here.
+
 == Screenshots ==
 
 1. screenshot-1.png shows the jQuery T(-) CountDown in action with the three included styles: Darth, Jedi and Carbonite.
@@ -44,6 +50,9 @@ The Daily Show with John Stewart
 3. screenshot-3.png shows an expansive view of the available `jQuery T(-) CountDown` options that have been provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.0.5 =
+* Reworked the countdown timer function to deal with the requestAnimationFrame issue on an inactive tab in Chrome.  By not blindly stacking timers on a tab the user cannot see them, the browser will have a reduced CPU footprint, leading to improved battery life in mobile devices.
 
 = 2.0.4 =
 * Now works with retched Internet Explorer browser-like crap.  Included new 'carbonlite' theme for single line countdown love.
@@ -56,14 +65,14 @@ The Daily Show with John Stewart
 
 = 2.0.1 =
 * Verify that a style has been set before looping - was throwing an error.
-* Inproved loadtimes by printing all javascript in the footer
-* Workaround for strange behavor with html content sent using shortcode
+* Improved load times by printing all javascript in the footer
+* Workaround for strange behavior with html content sent using shortcode
 
 = 2.0 =
 * Multiple instance sidebar widgets.
 * Advanced above and below HTML areas.
 * Advanced 'on-launch' event that will display custom HTML in a target area when the countdown reaches 00:00:00.
-* Added shortcode to include mulitple countdowns in post and pages.
+* Added shortcode to include multiple countdowns in post and pages.
 
 = 1.7 =
 * 1.6 had completely different file structure that hosed the svn repository.
@@ -92,6 +101,9 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.0.5 =
+* Improved countdown timer that reduces the browser's CPU footprint and improves battery life for mobile devices.
 
 = 2.0.4 =
 * Works with retched Internet Explorer browser-like crap.  Includes new single-line 'carbonlite' theme.

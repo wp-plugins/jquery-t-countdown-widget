@@ -2,10 +2,10 @@
 /*
 Plugin Name: jQuery T(-) Countdown
 Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
-Description: Display and configure multiple jQuery countdown timers using a shortcode or as a sidebar widget.
-Version: 2.0.4
+Description: Display and configure multiple jQuery countdown timers using a shortcode or sidebar widget.
+Version: 2.0.5
 Author: Twinpictures
-Author URI: http://www.twinpictures.de
+Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
@@ -43,7 +43,7 @@ function countdown_scripts(){
         }
 		else{
 				//lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.1.js', array ('jquery'), '1.1' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.2.js', array ('jquery'), '1.2' );
                 wp_enqueue_script('countdown-script');
 		}
 }
@@ -224,7 +224,7 @@ class CountDownTimer extends WP_Widget {
 			
 			echo '<div class="'.$dclass.'">
 					<span class="'.$style.'-dash_title">'.$daytitle.'</span>';
-			//show thrid day digit if there are NO weeks and the number of days is greater that 99
+			//show third day digit if there are NO weeks and the number of days is greater that 99
 			if($omitweeks == 'true' && $date['days'][3] > 99){
 				echo '<div class="'.$style.'-digit">'.$date['days'][0].'</div>';
 			}
@@ -248,7 +248,8 @@ class CountDownTimer extends WP_Widget {
 				<span class="'.$style.'-dash_title">'.$sectitle.'</span>
 				<div class="'.$style.'-digit">'.$date['secs'][1].'</div>
 				<div class="'.$style.'-digit">'.$date['secs'][2].'</div>
-			</div>        
+			</div>
+			<div class="t-throbTimer"></div>
         </div>'; //close the dashboard
 		
         echo '<div id="'.$args['widget_id'].'-bothtml" class="'.$style.'-bothtml">';
@@ -497,7 +498,15 @@ class CountDownTimer extends WP_Widget {
 		<?php
 		if(!$isrockstar){
 			echo '</div>';
-		}	
+		}
+		
+		?>
+		<br/>
+		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown'); ?></a>
+		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
+				<p><a href="http://www.twinpictures.de/t-countdown-control/" target="_blank" title="T(-) Countdown Control">T(-) Countdown Control</a> is a premium countdown plugin that includes the ability to schedule and manage mulitple recurring T(-) Countdowns... the Jedi way.</p>
+		</div>
+		<?php
     }
 } // class CountDownTimer
 
@@ -688,7 +697,8 @@ function tminuscountdown($atts, $content=null) {
 					<span class="'.$style.'-dash_title">'.$seconds.'</span>
 					<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>
 					<div class="'.$style.'-digit">'.$date_arr['secs'][2].'</div>
-				</div>        
+				</div>
+				<div class="t-throbTimer"></div>
 			</div>'; //close the dashboard
 
 	$tminus .= '<div id="'.$id.'-below" class="'.$style.'-bothtml">';
