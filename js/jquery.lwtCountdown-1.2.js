@@ -26,44 +26,40 @@
  */
 
 (function($){
-	
 	$.fn.countDown = function (options) {
 		config = {};
-
 		$.extend(config, options);
-
 		diffSecs = this.setCountDown(config);
-		
 		before = new Date();
 		$.data($(this)[0], 'before', before);
-	    
+		$.data($(this)[0], 'status', 'play');
 		style = config.style;
 		$.data($(this)[0], 'style', config.style);
-		
 		if (config.onComplete){
 			$.data($(this)[0], 'callback', config.onComplete);
+		}
+		if (config.hangtime){
+			$.data($(this)[0], 'hangtime', config.hangtime);
 		}
 		if (config.omitWeeks){
 			$.data($(this)[0], 'omitWeeks', config.omitWeeks);
 		}
-		
 		$('#' + $(this).attr('id') + ' .' + style + '-digit').html('<div class="top"></div><div class="bottom"></div>');
 		$(this).doCountDown($(this).attr('id'), diffSecs, 500);
-		
 		return this;
 	};
 
 	$.fn.stopCountDown = function () {
-		clearTimeout($.data(this[0], 'timer'));
+		$.data(this[0], 'status', 'stop');
 	};
 
 	$.fn.startCountDown = function () {
+		$.data(this[0], 'status', 'play');
 		this.doCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
 	$.fn.setCountDown = function (options) {
 		var targetTime = new Date();
-
 		if (options.targetDate){
 			targetTime = new Date(options.targetDate.month + '/' + options.targetDate.day + '/' + options.targetDate.year + ' ' + options.targetDate.hour + ':' + options.targetDate.min + ':' + options.targetDate.sec + (options.targetDate.utc ? ' UTC' : ''));
 		}
@@ -75,14 +71,9 @@
 			targetTime.setMinutes(options.targetOffset.min + targetTime.getMinutes());
 			targetTime.setSeconds(options.targetOffset.sec + targetTime.getSeconds());
 		}
-		
-		//alert(options.targetDate.localtime);
 		var nowTime = new Date(options.targetDate.localtime);
-		
 		diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
-
 		$.data(this[0], 'diffSecs', diffSecs);
-
 		return diffSecs;
 	};
 
@@ -90,15 +81,11 @@
 		$this = $('#' + id);
 		if (diffSecs <= 0){
 			diffSecs = 0;
-			if ($.data($this[0], 'timer')){
-				clearTimeout($.data($this[0], 'timer'));
-			}
+			$.data($this[0], 'status', 'stop');
 		}
-
 		secs = diffSecs % 60;
 		mins = Math.floor(diffSecs/60)%60;
 		hours = Math.floor(diffSecs/60/60)%24;
-		
 		if ($.data($this[0], 'omitWeeks') == true){
 			days = Math.floor(diffSecs/60/60/24);
 			weeks = Math.floor(diffSecs/60/60/24/7);
@@ -107,7 +94,6 @@
 			days = Math.floor(diffSecs/60/60/24)%7;
 			weeks = Math.floor(diffSecs/60/60/24/7);
 		}
-		
 		style = $.data($this[0], 'style');
 		$this.dashChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
 		$this.dashChangeTo(id, style + '-minutes_dash', mins, duration ? duration : 1000);
@@ -116,49 +102,40 @@
 		$this.dashChangeTo(id, style + '-days_trip_dash', days, duration ? duration : 1000);
 		$this.dashChangeTo(id, style + '-weeks_dash', weeks, duration ? duration : 1000);
 		$this.dashChangeTo(id, style + '-weeks_trip_dash', weeks, duration ? duration : 1000);
-
 		$.data($this[0], 'diffSecs', diffSecs);
 		if (diffSecs > 0){
-			
-			a = 0;
-			delay = 1000;
-			now = new Date();
-			befor = $.data($this[0], 'before');
-			
-			elapsedTime = (now.getTime() - before.getTime());
-			if(elapsedTime >= delay + 1000){
-				console.log('diffSecs: '+ diffSecs + ' and elapsedTime was '+ elapsedTime + ' greater than 1000');
-				//Recover the time lost while inactive.
-				a += Math.floor(1*(elapsedTime/delay));
+			if($.data($this[0], 'status') == 'play'){
+				a = 0;
+				delay = 1000;
+				now = new Date();
+				befor = $.data($this[0], 'before');
+				elapsedTime = (now.getTime() - before.getTime());
+				if(elapsedTime >= delay + 1000){
+					a += Math.floor(1*(elapsedTime/delay));
+				}
+				else{
+					a = 1;
+				}
+				before = new Date();
+				$.data($this[0], 'before', before);
+				e = $this;
+				e.children('.t-throbTimer').toggle(1000, function() {
+					e.doCountDown(id, diffSecs-a);
+				});
 			}
-			else{
-				a = 1;
-			}
-			
-			before = new Date();
-			$.data($this[0], 'before', before);
-		
-			e = $this;
-			//t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
-			//console.log(e.attr('id'));
-			e.children('.t-throbTimer').toggle(1000, function() {
-				// Animation complete.
-				e.doCountDown(id, diffSecs-a);
-			});
-			//$.data(e[0], 'timer', t);
 		} 
 		else if (cb = $.data($this[0], 'callback')){
+			if($.data($this[0], 'hangtime')){
+				//phone's ringing dude.
+			}
 			$.data($this[0], 'callback')();
 		}
 
 	};
-
         
 	$.fn.dashChangeTo = function(id, dash, n, duration) {
 		$this = $('#' + id);
 		style = $.data($this[0], 'style');
-		
-		//loop through each digit and chage that dude
 		for (var i=($this.find('.' + dash + ' .' + style + '-digit').length-1); i>=0; i--){
 			var d = n%10;
 			n = (n - d) / 10;
@@ -172,16 +149,13 @@
 		}
 		if ($(digit + ' div.top').html() != n + ''){
 			$(digit + ' div.top').css({'display': 'none'});
-			// $(digit + ' div.bottom').css({'border-top': '1px solid #666'});
 			$(digit + ' div.top').html((n ? n : '0')).slideDown(duration);
 
 			$(digit + ' div.bottom').animate({'height': ''}, duration, function() {
 				$(digit + ' div.bottom').html($(digit + ' div.top').html());
 				$(digit + ' div.bottom').css({'display': 'block', 'height': ''});
-				// $(digit + ' div.bottom').css({'border-top': 'none'});
 				$(digit + ' div.top').hide().slideUp(10);
 			});
 		}
 	};
-
 })(jQuery);
