@@ -1,9 +1,9 @@
 /*!
- * jQuery Countdown plugin v1.1
+ * jQuery Countdown plugin v1.2
  * http://www.twinpictures.de/t-countdown-widget
  * http://www.littlewebthings.com/projects/countdown/
  *
- * Copyright 2010, Twinpictures, Vassilis Dourdounis
+ * Copyright 2011, Twinpictures, Vassilis Dourdounis
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
  */
 
 (function($){
-
+	
 	$.fn.countDown = function (options) {
 		config = {};
 
@@ -34,7 +34,10 @@
 
 		diffSecs = this.setCountDown(config);
 		
-	    style = config.style;
+		before = new Date();
+		$.data($(this)[0], 'before', before);
+	    
+		style = config.style;
 		$.data($(this)[0], 'style', config.style);
 		
 		if (config.onComplete){
@@ -116,9 +119,33 @@
 
 		$.data($this[0], 'diffSecs', diffSecs);
 		if (diffSecs > 0){
+			
+			a = 0;
+			delay = 1000;
+			now = new Date();
+			befor = $.data($this[0], 'before');
+			
+			elapsedTime = (now.getTime() - before.getTime());
+			if(elapsedTime >= delay + 1000){
+				console.log('diffSecs: '+ diffSecs + ' and elapsedTime was '+ elapsedTime + ' greater than 1000');
+				//Recover the time lost while inactive.
+				a += Math.floor(1*(elapsedTime/delay));
+			}
+			else{
+				a = 1;
+			}
+			
+			before = new Date();
+			$.data($this[0], 'before', before);
+		
 			e = $this;
-			t = setTimeout(function() { e.doCountDown(id, diffSecs-1) } , 1000);
-			$.data(e[0], 'timer', t);
+			//t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
+			//console.log(e.attr('id'));
+			e.children('.t-throbTimer').toggle(1000, function() {
+				// Animation complete.
+				e.doCountDown(id, diffSecs-a);
+			});
+			//$.data(e[0], 'timer', t);
 		} 
 		else if (cb = $.data($this[0], 'callback')){
 			$.data($this[0], 'callback')();
@@ -158,5 +185,3 @@
 	};
 
 })(jQuery);
-
-
