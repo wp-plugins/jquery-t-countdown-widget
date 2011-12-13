@@ -3,7 +3,7 @@
 Plugin Name: jQuery T(-) Countdown
 Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
 Description: Display and configure multiple jQuery countdown timers using a shortcode or sidebar widget.
-Version: 2.0.7
+Version: 2.0.8
 Author: Twinpictures
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -686,13 +686,11 @@ function tminuscountdown($atts, $content=null) {
 					<div class="'.$style.'-digit">'.$date_arr['hours'][1].'</div>
 					<div class="'.$style.'-digit">'.$date_arr['hours'][2].'</div>
 				</div>
-			
 				<div class="'.$style.'-dash '.$style.'-minutes_dash">
 					<span class="'.$style.'-dash_title">'.$minutes.'</span>
 					<div class="'.$style.'-digit">'.$date_arr['mins'][1].'</div>
 					<div class="'.$style.'-digit">'.$date_arr['mins'][2].'</div>
 				</div>
-			
 				<div class="'.$style.'-dash '.$style.'-seconds_dash">
 					<span class="'.$style.'-dash_title">'.$seconds.'</span>
 					<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>
@@ -763,6 +761,8 @@ function tminuscountdown($atts, $content=null) {
 		</script>
 		<?php		
 	}
+	//remove any crazy p tags
+	//$tminus = str_replace('<p></p>', '', $tminus);
 	return $tminus;
 }
 add_shortcode('tminus', 'tminuscountdown');
