@@ -3,13 +3,13 @@
 Plugin Name: jQuery T(-) Countdown
 Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
 Description: Display and configure multiple jQuery countdown timers using a shortcode or sidebar widget.
-Version: 2.0.6
+Version: 2.0.9
 Author: Twinpictures
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
-/*  Copyright 2011 Twinpictures (www.twinpictures.de)
+/*  Copyright 2012 Twinpictures (www.twinpictures.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -24,12 +24,12 @@ License: GPL2
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-add_option('t-minus_styles', '');
-wp_enqueue_script('jquery');
 
 //widgit scripts
 function countdown_scripts(){
+		add_option('t-minus_styles', '');
         $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
+		wp_enqueue_script('jquery');
         if (is_admin()){
                 //jquery admin stuff
                 wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.0' );
@@ -395,6 +395,12 @@ class CountDownTimer extends WP_Widget {
 			$jsplacement = 'footer';
 		}
 
+		$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
+		$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
+		$hourtitle = empty($instance['hourtitle']) ? 'hours' : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
+		$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
+		$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
+			
 		$isrockstar = get_option('rockstar');
 		
 		if($isrockstar){
@@ -403,11 +409,6 @@ class CountDownTimer extends WP_Widget {
 			$bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
 			$launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', stripslashes($instance['launchhtml']));
 			$launchtarget = empty($instance['launchtarget']) ? 'After Counter' : apply_filters('widget_launchtarget', $instance['launchtarget']);
-			$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
-			$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
-			$hourtitle = empty($instance['hourtitle']) ? 'hours' : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
-			$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
-			$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
 		}
         ?>
         <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
@@ -686,13 +687,11 @@ function tminuscountdown($atts, $content=null) {
 					<div class="'.$style.'-digit">'.$date_arr['hours'][1].'</div>
 					<div class="'.$style.'-digit">'.$date_arr['hours'][2].'</div>
 				</div>
-			
 				<div class="'.$style.'-dash '.$style.'-minutes_dash">
 					<span class="'.$style.'-dash_title">'.$minutes.'</span>
 					<div class="'.$style.'-digit">'.$date_arr['mins'][1].'</div>
 					<div class="'.$style.'-digit">'.$date_arr['mins'][2].'</div>
 				</div>
-			
 				<div class="'.$style.'-dash '.$style.'-seconds_dash">
 					<span class="'.$style.'-dash_title">'.$seconds.'</span>
 					<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>
@@ -763,6 +762,8 @@ function tminuscountdown($atts, $content=null) {
 		</script>
 		<?php		
 	}
+	//remove any crazy p tags
+	//$tminus = str_replace('<p></p>', '', $tminus);
 	return $tminus;
 }
 add_shortcode('tminus', 'tminuscountdown');
