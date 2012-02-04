@@ -4,8 +4,8 @@ Contributors: Twinpictures
 Donate link: http://www.twinpictures.de/jquery-t-minus-2-0/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.8
-Tested up to: 3.3
-Stable tag: 2.0.8
+Tested up to: 3.3.1
+Stable tag: 2.0.9
 
 jQuery T(-) CountDown will display a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
 
@@ -50,6 +50,9 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> does the 
 3. screenshot-3.png shows an expansive view of the available `jQuery T(-) CountDown` options that have been provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.0.9 =
+* Fixed issue with Digit Titles not being saved unless in rockstar mode
 
 = 2.0.8 =
 * adjusted CSS to be compatible with WordPress 3.3
@@ -111,7 +114,10 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> does the 
 
 == Upgrade Notice ==
 
-= 2.0.7 =
+= 2.0.9 =
+* fixed issue with Display Titles not saving
+
+= 2.0.8 =
 * fixed css issue for WordPress 3.3
 
 = 2.0.7 =
