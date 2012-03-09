@@ -1,24 +1,26 @@
-=== jQuery T Minus CountDown Widget ===
+=== T(-) Countdown ===
 
 Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, plguin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.8
 Tested up to: 3.3.1
-Stable tag: 2.1
+Stable tag: 2.2
 
-jQuery T(-) CountDown will display a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
+T(-) Countdown will display a highly customizable, sweet-n-sexy flash-free countdown timer in a sidebar, page or post.
 
 == Description ==
 
-jQuery T(-) CountDown will display a sweet, sexy and totally flash-free countdown timer. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='http://wordpress.org/tags/jquery-t-countdown-widget'>free community</a> and <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/support/'>premium support</a>. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and Arturo Ramirez Siles for some of the included css styles.
+T(-) Countdown will display a sweet, sexy and totally flash-free countdown timer. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='http://wordpress.org/tags/jquery-t-countdown-widget'>free community</a> and <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/support/'>premium support</a>. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and be.net/arturex for the included css styles.
 
 == Installation ==
 
-1. Old-school: upload the `jquery-countdown-timer` folder to the `/wp-content/plugins/` directory via FTP.  Hipster: Ironically add the jQuery T(minus) CountDown Widget via the WordPress Plugins menu.
+1. Old-school: upload the `countdown-timer` folder to the `/wp-content/plugins/` directory via FTP.
+1. Hipster: Ironically add T(minus) Countown via the WordPress Plugins menu.
 1. Activate the Plugin
 1. Add the Widget to the desired sidebar in the WordPress Widgets menu.
-1. Configure the `jQuery T Minus CountDown Widget' options.
+1. Configure the `T(-) Countdown' widget options.
+1. Add the shortcode to a post or page.
 1. Test that the this plugin meets your demanding needs.
 1. Tweak the css files for premium enjoyment.
 1. Rate the plugin and verify that it works at wordpress.org.
@@ -27,14 +29,14 @@ jQuery T(-) CountDown will display a sweet, sexy and totally flash-free countdow
 == Frequently Asked Questions ==
 
 = How does one use the shortcode, exactly? =
-A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> has been provided to answer this exact question.
+A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete list of shortcode options</a> has been provided to answer this exact question.
 
 = How does one pronounce T Minus? =
-1. Tee - As in Tea for Two, or Tee off time
-1. Minus - As in the opposite of plus (+)
-1. T Minus- As in "This is Apollo Saturn Launch Control. We've passed the 11-minute mark. Now T minus 10 minutes 54 seconds on our countdown for Apollo 11."
+* Tee&mdash;As in Tea for Two, or Tee off time
+* Minus&mdash;As in the opposite of plus (+)
+* T Minus&mdash;As in "This is Apollo Saturn Launch Control. We've passed the 11-minute mark. Now T minus 10 minutes 54 seconds on our countdown for Apollo 11."
 
-= Where can I get political news that makes me giggle? =
+= Where may one view political news that gives giggle? =
 The Daily Show with John Stewart
 
 = I am a Social Netwookiee, do you have a Facebook page? =
@@ -45,12 +47,15 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 
 == Screenshots ==
 
-1. T(-) CountDown in action with styles: Darth, Jedi and Carbonite.
+1. T(-) Countdown in action with styles: Darth, Jedi and Carbonite.
 1. Styles: C-3PO, TIE-Fighter and Carbonlite.
-1. The basic T(-) CountDown widget options.
-1. An expansive view of the available CountDown widget options, provided for your viewing pleasure.
+1. The basic T(-) Countdown widget options.
+1. An expansive view of the available Countdown widget options, provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.2 =
+* Greatly improved countdown script efficiency
 
 = 2.1 =
 * Added two new image-free css styles: TIE-Fighter and C-3PO
@@ -121,6 +126,9 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2 =
+* Countdown scrip has been streamlined to improved efficiency.
 
 = 2.0.9 =
 * Two new image-free css styles have been added: TIE-Fighter and C-3PO

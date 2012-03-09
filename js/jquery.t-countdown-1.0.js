@@ -1,9 +1,8 @@
 /*!
- * jQuery Countdown plugin v1.2
- * http://www.twinpictures.de/t-countdown-widget
- * http://www.littlewebthings.com/projects/countdown/
+ * T- Countdown v1.0
+ * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2011, Twinpictures, Vassilis Dourdounis
+ * Copyright 2012, Twinpictures
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -119,9 +118,7 @@
 				before = new Date();
 				$.data($this[0], 'before', before);
 				e = $this;
-				e.children('.t-throbTimer').toggle(1000, function() {
-					e.doCountDown(id, diffSecs-a);
-				});
+				t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
 			}
 		} 
 		else if (cb = $.data($this[0], 'callback')){

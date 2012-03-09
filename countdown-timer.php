@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: jQuery T(-) Countdown
+Plugin Name: T(-) Countdown
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
-Description: Display and configure multiple jQuery countdown timers using a shortcode or sidebar widget.
-Version: 2.1
+Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
+Version: 2.2
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -43,7 +43,7 @@ function countdown_scripts(){
         }
 		else{
 				//lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.2.js', array ('jquery'), '1.2' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown-1.0.js', array ('jquery'), '1.0' );
                 wp_enqueue_script('countdown-script');
 		}
 }
@@ -89,7 +89,7 @@ class CountDownTimer extends WP_Widget {
     function CountDownTimer() {
         //parent::WP_Widget(false, $name = 'CountDownTimer');
 		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures') );
-		$this->WP_Widget('CountDownTimer', 'jQuery T(-) CountDown', $widget_ops);
+		$this->WP_Widget('CountDownTimer', 'T(-) Countdown', $widget_ops);
     }
 	
     /** Widget */
@@ -249,7 +249,6 @@ class CountDownTimer extends WP_Widget {
 				<div class="'.$style.'-digit">'.$date['secs'][1].'</div>
 				<div class="'.$style.'-digit">'.$date['secs'][2].'</div>
 			</div>
-			<div class="t-throbTimer"></div>
         </div>'; //close the dashboard
 		
         echo '<div id="'.$args['widget_id'].'-bothtml" class="'.$style.'-bothtml">';
@@ -700,7 +699,6 @@ function tminuscountdown($atts, $content=null) {
 		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>';
 		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['secs'][2].'</div>';
 	$tminus .= '</div>';
-	$tminus .= '<div class="t-throbTimer"></div>';
 	$tminus .= '</div>'; //close the dashboard
 
 	$tminus .= '<div id="'.$id.'-below" class="'.$style.'-bothtml">';
