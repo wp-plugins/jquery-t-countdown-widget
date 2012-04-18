@@ -5,7 +5,7 @@ Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, plguin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 2.8
 Tested up to: 3.3.1
-Stable tag: 2.2
+Stable tag: 2.2.1
 
 T(-) Countdown will display a highly customizable, sweet-n-sexy flash-free countdown timer in a sidebar, page or post.
 
@@ -53,6 +53,9 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 1. An expansive view of the available Countdown widget options, provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.2.1 =
+* Fixed CSS bugs, added new style: c-p30 mini
 
 = 2.2 =
 * Greatly improved countdown script efficiency
@@ -126,6 +129,9 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.1 =
+* Fixed CSS bugs, added new style: c-p30 mini
 
 = 2.2 =
 * Countdown scrip has been streamlined to improved efficiency.

@@ -1,9 +1,8 @@
 /*above the dashboard*/
-.TIE-fighter-tophtml,.c3po-bothtml {
+.TIE-fighter-tophtml, .TIE-fighter-bothtml {
 	margin: 0 auto;
 	padding: 0;
 	text-align: center;
-	text-shadow: 3px 3px 4px #000;
 	font-size: 12px;
 }
 

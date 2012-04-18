@@ -3,7 +3,7 @@
 Plugin Name: T(-) Countdown
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2
+Version: 2.2.1
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
