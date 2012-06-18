@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: jQuery T(-) Countdown
-Plugin URI: http://www.twinpictures.de/jquery-t-minus-2-0/
-Description: Display and configure multiple jQuery countdown timers using a shortcode or sidebar widget.
-Version: 2.0.9
-Author: Twinpictures
+Plugin Name: T(-) Countdown
+Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
+Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
+Version: 2.2.2
+Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
@@ -25,9 +25,19 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-//widgit scripts
+//widget scripts
 function countdown_scripts(){
-		add_option('t-minus_styles', '');
+		$current_version  = get_option('t-minus_version');
+		if(!$current_version){
+			//delete the old style system
+			delete_option( 't-minus_styles' );
+			//add version check
+			add_option('t-minus_version', '2.2.2');
+		}
+		
+		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
+		add_option('t-minus_styles', $styles_arr);
+		
         $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
 		wp_enqueue_script('jquery');
         if (is_admin()){
@@ -43,20 +53,26 @@ function countdown_scripts(){
         }
 		else{
 				//lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.lwtCountdown-1.2.js', array ('jquery'), '1.2' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown-1.0.js', array ('jquery'), '1.0' );
                 wp_enqueue_script('countdown-script');
+				
+				//register all countdown styles for enqueue-as-needed
+				$styles_arr = get_option('t-minus_styles');
+				foreach($styles_arr as $style_name){
+					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.2' );
+				}
 		}
 }
 add_action( 'init', 'countdown_scripts' );
 
-//folder array
+//style folders array
 function folder_array($path, $exclude = ".|..") {
 	if(is_dir($path)){
 		$dh = opendir($path);
 		$exclude_array = explode("|", $exclude);
 		$result = array();
-		while(false !==($file = readdir($dh))) { 
-			if( !in_array(strtolower($file), $exclude_array)){
+		while(false !== ( $file = readdir($dh) ) ) { 
+			if( !in_array( strtolower( $file ), $exclude_array) ){
 				$result[] = $file;
 			}
 		}
@@ -65,20 +81,6 @@ function folder_array($path, $exclude = ".|..") {
 	}
 }
 
-//styles
-function countdown_style(){
-	//$styleizer = array('carbonite','darth','jedi');
-	$styleizer = get_option('t-minus_styles');
-	$plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
-	if($styleizer){
-		foreach((array) $styleizer as $style){
-			wp_register_style( 'countdown-'.$style.'-css', $plugin_url.'/css/'.$style.'/style.css', array (), '1.1' );    
-			wp_enqueue_style( 'countdown-'.$style.'-css' );
-		}
-	}
-}
-
-add_action( 'wp_print_styles', 'countdown_style');
 add_option('rockstar', '');
 
 /**
@@ -88,8 +90,8 @@ class CountDownTimer extends WP_Widget {
     /** constructor */
     function CountDownTimer() {
         //parent::WP_Widget(false, $name = 'CountDownTimer');
-		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A smart and sexy jQuery countdown timer by Twinpictures') );
-		$this->WP_Widget('CountDownTimer', 'jQuery T(-) CountDown', $widget_ops);
+		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures') );
+		$this->WP_Widget('CountDownTimer', 'T(-) Countdown', $widget_ops);
     }
 	
     /** Widget */
@@ -98,7 +100,7 @@ class CountDownTimer extends WP_Widget {
         extract( $args );
 		//insert some style into your life
 		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
-		//$styleizer[$style] = $style;
+		wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
 		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
 		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', $instance['tophtml']);
@@ -106,12 +108,12 @@ class CountDownTimer extends WP_Widget {
         $launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', $instance['launchhtml']);
         $launchtarget = empty($instance['launchtarget']) ? 'After Countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
 		
-		$day = empty($instance['day']) ? 11 : apply_filters('widget_day', $instance['day']);
-		$month = empty($instance['month']) ? 11 : apply_filters('widget_month', $instance['month']);
-		$year = empty($instance['year']) ? 2011 : apply_filters('widget_year', $instance['year']);
-		$hour = empty($instance['hour']) ? 11 : apply_filters('widget_hour', $instance['hour']);
-		$min = empty($instance['min']) ? 11 : apply_filters('widget_min', $instance['min']);
-		$sec = empty($instance['sec']) ? 11 : apply_filters('widget_sec', $instance['sec']);
+		$day = empty($instance['day']) ? 20 : apply_filters('widget_day', $instance['day']);
+		$month = empty($instance['month']) ? 12 : apply_filters('widget_month', $instance['month']);
+		$year = empty($instance['year']) ? 2012 : apply_filters('widget_year', $instance['year']);
+		$hour = empty($instance['hour']) ? 20 : apply_filters('widget_hour', $instance['hour']);
+		$min = empty($instance['min']) ? 12 : apply_filters('widget_min', $instance['min']);
+		$sec = empty($instance['sec']) ? 20 : apply_filters('widget_sec', $instance['sec']);
 		
 		$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', $instance['weektitle']);
 		$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', $instance['daytitle']);
@@ -249,7 +251,6 @@ class CountDownTimer extends WP_Widget {
 				<div class="'.$style.'-digit">'.$date['secs'][1].'</div>
 				<div class="'.$style.'-digit">'.$date['secs'][2].'</div>
 			</div>
-			<div class="t-throbTimer"></div>
         </div>'; //close the dashboard
 		
         echo '<div id="'.$args['widget_id'].'-bothtml" class="'.$style.'-bothtml">';
@@ -274,7 +275,7 @@ class CountDownTimer extends WP_Widget {
 		}
 
 		if($jsplacement == "footer"){
-			$add_my_script[$id] = array(
+			$add_my_script[$args['widget_id']] = array(
 				'id' => $args['widget_id'],
 				'day' => $day,
 				'month' => $month,
@@ -327,9 +328,9 @@ class CountDownTimer extends WP_Widget {
 		}
 		
 		//update the styles
-		$style_arr = get_option('t-minus_styles');
-		$style_arr[$instance['style']] = $instance['style'];
-		update_option('t-minus_styles', $style_arr);
+		//$style_arr = get_option('t-minus_styles');
+		//$style_arr[$instance['style']] = $instance['style'];
+		//update_option('t-minus_styles', $style_arr);
 		
 		return array_map('mysql_real_escape_string', $instance);
     }
@@ -339,7 +340,7 @@ class CountDownTimer extends WP_Widget {
         $title = stripslashes($instance['title']);
 		$day = esc_attr($instance['day']);
 		if(!$day){
-			$day = 11;
+			$day = 20;
 		}
 		else if($day > 31){
 			$day = 31;
@@ -348,7 +349,7 @@ class CountDownTimer extends WP_Widget {
 		
 		$month = esc_attr($instance['month']);
 		if(!$month){
-			$month = 11;
+			$month = 12;
 		}
 		else if($month > 12){
 			$month = 12;
@@ -356,12 +357,12 @@ class CountDownTimer extends WP_Widget {
 		
 		$year = esc_attr($instance['year']);
 		if(!$year){
-			$year = 2011;
+			$year = 2012;
 		}
 		
 		$hour = esc_attr($instance['hour']);
 		if(!$hour){
-			$hour = 11;
+			$hour = 20;
 		}
 		else if($hour > 23){
 			$hour = 23;
@@ -369,7 +370,7 @@ class CountDownTimer extends WP_Widget {
 		
 		$min = esc_attr($instance['min']);
 		if(!$min){
-			$min = 11;
+			$min = 12;
 		}
 		else if($min > 59){
 			$min = 59;
@@ -377,7 +378,7 @@ class CountDownTimer extends WP_Widget {
 		
 		$sec = esc_attr($instance['sec']);
 		if(!$sec){
-			$sec = 11;
+			$sec = 20;
 		}
 		else if($sec > 59){
 			$sec = 59;
@@ -437,6 +438,7 @@ class CountDownTimer extends WP_Widget {
 		<p><?php _e('Style:'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
 		<?php	
 			$styles_arr = folder_array('../'.PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
+			update_option('t-minus_styles', $styles_arr);
 			foreach($styles_arr as $style_name){
 				$selected = "";
 				if($style == $style_name){
@@ -459,6 +461,8 @@ class CountDownTimer extends WP_Widget {
 			<div id="target-<?php echo $this->get_field_id('unlock'); ?>" class="collapseomatic_content">
 			<?php
 		}
+		
+		if($isrockstar){
 		?>
 		<a class="collapseomatic" id="tophtml<?php echo $this->get_field_id('tophtml'); ?>"><?php _e('Above Countdown'); ?></a>
 		<div id="target-tophtml<?php echo $this->get_field_id('tophtml'); ?>" class="collapseomatic_content">
@@ -497,7 +501,8 @@ class CountDownTimer extends WP_Widget {
 		</div>
 	
 		<?php
-		if(!$isrockstar){
+		}
+		else{
 			echo '</div>';
 		}
 		
@@ -505,7 +510,7 @@ class CountDownTimer extends WP_Widget {
 		<br/>
 		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown'); ?></a>
 		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
-				<p><a href="http://www.twinpictures.de/t-countdown-control/" target="_blank" title="T(-) Countdown Control">T(-) Countdown Control</a> is a premium countdown plugin that includes the ability to schedule and manage mulitple recurring T(-) Countdowns... the Jedi way.</p>
+				<p><a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/" target="_blank" title="T(-) Countdown Control">T(-) Countdown Control</a> is a premium countdown plugin that includes the ability to schedule and manage mulitple recurring T(-) Countdowns... the Jedi way.</p>
 		</div>
 		<?php
     }
@@ -515,7 +520,7 @@ class CountDownTimer extends WP_Widget {
 add_action('widgets_init', create_function('', 'return register_widget("CountDownTimer");'));
 
 
-//code fore the footer
+//code for the footer
 add_action('wp_footer', 'print_my_script');
  
 function print_my_script() {
@@ -561,12 +566,12 @@ function print_my_script() {
 //the short code
 function tminuscountdown($atts, $content=null) {
 	global $add_my_script;
-	//find a random number, incase there is no id assigned
+	//find a random number, if no id was assigned
 	$ran = rand(1, 10000);
 	
     extract(shortcode_atts(array(
 		'id' => $ran,
-		't' => '11-11-2011 11:11:11',
+		't' => '20-12-2012 20:12:20',
         'weeks' => 'weeks',
 		'days' => 'days',
 		'hours' => 'hours',
@@ -586,9 +591,12 @@ function tminuscountdown($atts, $content=null) {
  
 	
 	//update the styles
-	$style_arr = get_option('t-minus_styles');
-	$style_arr[$style] = $style;
-	update_option('t-minus_styles', $style_arr);
+	//$style_arr = get_option('t-minus_styles');
+	//$style_arr[$style] = $style;
+	//update_option('t-minus_styles', $style_arr);
+	
+	//enqueue style that was already registerd
+	wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
 	$now = time() + ( get_option( 'gmt_offset' ) * 3600);
 	$target = strtotime($t, $now);
@@ -680,25 +688,24 @@ function tminuscountdown($atts, $content=null) {
 	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
 		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][0].'</div>';
 	}
-	$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][1].'</div><div class="'.$style.'-digit">'.$date_arr['days'][2].'</div>
-				</div>
-				<div class="'.$style.'-dash '.$style.'-hours_dash">
-					<span class="'.$style.'-dash_title">'.$hours.'</span>
-					<div class="'.$style.'-digit">'.$date_arr['hours'][1].'</div>
-					<div class="'.$style.'-digit">'.$date_arr['hours'][2].'</div>
-				</div>
-				<div class="'.$style.'-dash '.$style.'-minutes_dash">
-					<span class="'.$style.'-dash_title">'.$minutes.'</span>
-					<div class="'.$style.'-digit">'.$date_arr['mins'][1].'</div>
-					<div class="'.$style.'-digit">'.$date_arr['mins'][2].'</div>
-				</div>
-				<div class="'.$style.'-dash '.$style.'-seconds_dash">
-					<span class="'.$style.'-dash_title">'.$seconds.'</span>
-					<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>
-					<div class="'.$style.'-digit">'.$date_arr['secs'][2].'</div>
-				</div>
-				<div class="t-throbTimer"></div>
-			</div>'; //close the dashboard
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][1].'</div><div class="'.$style.'-digit">'.$date_arr['days'][2].'</div>';
+	$tminus .= '</div>';
+	$tminus .= '<div class="'.$style.'-dash '.$style.'-hours_dash">';
+		$tminus .= '<span class="'.$style.'-dash_title">'.$hours.'</span>';
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['hours'][1].'</div>';
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['hours'][2].'</div>';
+	$tminus .= '</div>';
+		$tminus .= '<div class="'.$style.'-dash '.$style.'-minutes_dash">';
+		$tminus .= '<span class="'.$style.'-dash_title">'.$minutes.'</span>';
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['mins'][1].'</div>';
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['mins'][2].'</div>';
+	$tminus .= '</div>';
+		$tminus .= '<div class="'.$style.'-dash '.$style.'-seconds_dash">';
+		$tminus .= '<span class="'.$style.'-dash_title">'.$seconds.'</span>';
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['secs'][1].'</div>';
+		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['secs'][2].'</div>';
+	$tminus .= '</div>';
+	$tminus .= '</div>'; //close the dashboard
 
 	$tminus .= '<div id="'.$id.'-below" class="'.$style.'-bothtml">';
 	if($after){
@@ -762,8 +769,6 @@ function tminuscountdown($atts, $content=null) {
 		</script>
 		<?php		
 	}
-	//remove any crazy p tags
-	//$tminus = str_replace('<p></p>', '', $tminus);
 	return $tminus;
 }
 add_shortcode('tminus', 'tminuscountdown');
