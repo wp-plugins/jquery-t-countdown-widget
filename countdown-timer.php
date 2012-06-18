@@ -3,7 +3,7 @@
 Plugin Name: T(-) Countdown
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.1
+Version: 2.2.2
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -27,7 +27,17 @@ License: GPL2
 
 //widget scripts
 function countdown_scripts(){
-		add_option('t-minus_styles', '');
+		$current_version  = get_option('t-minus_version');
+		if(!$current_version){
+			//delete the old style system
+			delete_option( 't-minus_styles' );
+			//add version check
+			add_option('t-minus_version', '2.2.2');
+		}
+		
+		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
+		add_option('t-minus_styles', $styles_arr);
+		
         $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
 		wp_enqueue_script('jquery');
         if (is_admin()){
@@ -45,18 +55,24 @@ function countdown_scripts(){
 				//lwtCountdown script
                 wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown-1.0.js', array ('jquery'), '1.0' );
                 wp_enqueue_script('countdown-script');
+				
+				//register all countdown styles for enqueue-as-needed
+				$styles_arr = get_option('t-minus_styles');
+				foreach($styles_arr as $style_name){
+					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.2' );
+				}
 		}
 }
 add_action( 'init', 'countdown_scripts' );
 
-//folder array
+//style folders array
 function folder_array($path, $exclude = ".|..") {
 	if(is_dir($path)){
 		$dh = opendir($path);
 		$exclude_array = explode("|", $exclude);
 		$result = array();
-		while(false !==($file = readdir($dh))) { 
-			if( !in_array(strtolower($file), $exclude_array)){
+		while(false !== ( $file = readdir($dh) ) ) { 
+			if( !in_array( strtolower( $file ), $exclude_array) ){
 				$result[] = $file;
 			}
 		}
@@ -65,20 +81,6 @@ function folder_array($path, $exclude = ".|..") {
 	}
 }
 
-//styles
-function countdown_style(){
-	//$styleizer = array('carbonite','darth','jedi');
-	$styleizer = get_option('t-minus_styles');
-	$plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
-	if($styleizer){
-		foreach((array) $styleizer as $style){
-			wp_register_style( 'countdown-'.$style.'-css', $plugin_url.'/css/'.$style.'/style.css', array (), '1.1' );    
-			wp_enqueue_style( 'countdown-'.$style.'-css' );
-		}
-	}
-}
-
-add_action( 'wp_print_styles', 'countdown_style');
 add_option('rockstar', '');
 
 /**
@@ -98,7 +100,7 @@ class CountDownTimer extends WP_Widget {
         extract( $args );
 		//insert some style into your life
 		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
-		//$styleizer[$style] = $style;
+		wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
 		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
 		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', $instance['tophtml']);
@@ -326,9 +328,9 @@ class CountDownTimer extends WP_Widget {
 		}
 		
 		//update the styles
-		$style_arr = get_option('t-minus_styles');
-		$style_arr[$instance['style']] = $instance['style'];
-		update_option('t-minus_styles', $style_arr);
+		//$style_arr = get_option('t-minus_styles');
+		//$style_arr[$instance['style']] = $instance['style'];
+		//update_option('t-minus_styles', $style_arr);
 		
 		return array_map('mysql_real_escape_string', $instance);
     }
@@ -436,6 +438,7 @@ class CountDownTimer extends WP_Widget {
 		<p><?php _e('Style:'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
 		<?php	
 			$styles_arr = folder_array('../'.PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
+			update_option('t-minus_styles', $styles_arr);
 			foreach($styles_arr as $style_name){
 				$selected = "";
 				if($style == $style_name){
@@ -517,7 +520,7 @@ class CountDownTimer extends WP_Widget {
 add_action('widgets_init', create_function('', 'return register_widget("CountDownTimer");'));
 
 
-//code fore the footer
+//code for the footer
 add_action('wp_footer', 'print_my_script');
  
 function print_my_script() {
@@ -563,7 +566,7 @@ function print_my_script() {
 //the short code
 function tminuscountdown($atts, $content=null) {
 	global $add_my_script;
-	//find a random number, incase there is no id assigned
+	//find a random number, if no id was assigned
 	$ran = rand(1, 10000);
 	
     extract(shortcode_atts(array(
@@ -588,9 +591,12 @@ function tminuscountdown($atts, $content=null) {
  
 	
 	//update the styles
-	$style_arr = get_option('t-minus_styles');
-	$style_arr[$style] = $style;
-	update_option('t-minus_styles', $style_arr);
+	//$style_arr = get_option('t-minus_styles');
+	//$style_arr[$style] = $style;
+	//update_option('t-minus_styles', $style_arr);
+	
+	//enqueue style that was already registerd
+	wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
 	$now = time() + ( get_option( 'gmt_offset' ) * 3600);
 	$target = strtotime($t, $now);
