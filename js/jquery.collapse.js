@@ -25,6 +25,11 @@
  */
 
 jQuery(document).ready(function() {
+	jQuery('.collapseomatic:not(.colomat-close)').each(function(index) {
+	    var thisid = jQuery(this).attr('id');
+	    jQuery('#target-'+thisid).css('display', 'none');
+    });
+	
     jQuery('.collapseomatic').livequery('click', function(event) {
 		//alert('phones ringin dude');
 		jQuery(this).toggleClass('colomat-close');

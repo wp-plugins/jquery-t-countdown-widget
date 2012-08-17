@@ -3,7 +3,7 @@
 Plugin Name: T(-) Countdown
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.2
+Version: 2.2.3
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -37,8 +37,7 @@ function countdown_scripts(){
 		
 		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
 		add_option('t-minus_styles', $styles_arr);
-		
-        $plugin_url = trailingslashit( get_bloginfo('wpurl') ).PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) );
+		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		wp_enqueue_script('jquery');
         if (is_admin()){
                 //jquery admin stuff
@@ -437,7 +436,8 @@ class CountDownTimer extends WP_Widget {
 		<p><?php _e('Omit Weeks:'); ?> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-no" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $negative; ?> value="false" /><label for="<?php echo $this->get_field_id('omitweeks'); ?>-no"> <?php _e('No'); ?> </label> <input id="<?php echo $this->get_field_id('omitweeks'); ?>-yes" name="<?php echo $this->get_field_name('omitweeks'); ?>" type="radio" <?php echo $positive; ?> value="true" /> <label for="<?php echo $this->get_field_id('omitweeks'); ?>-yes"> <?php _e('Yes'); ?></label></p>
 		<p><?php _e('Style:'); ?> <select name="<?php echo $this->get_field_name('style'); ?>" id="<?php echo $this->get_field_name('style'); ?>">
 		<?php	
-			$styles_arr = folder_array('../'.PLUGINDIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
+
+		    $styles_arr = folder_array(WP_PLUGIN_DIR.'/'. dirname( plugin_basename(__FILE__) ).'/css');
 			update_option('t-minus_styles', $styles_arr);
 			foreach($styles_arr as $style_name){
 				$selected = "";
