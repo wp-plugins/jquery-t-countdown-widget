@@ -1,55 +1,84 @@
-=== jQuery T Minus CountDown Widget ===
+=== T(-) Countdown ===
 
-Contributors: Twinpictures
-Donate link: http://www.twinpictures.de/jquery-t-minus-2-0/
-Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, G2, spaceBros, littlewebtings, jQuery, javascript
-Requires at least: 2.8
-Tested up to: 3.3.1
-Stable tag: 2.0.9
+Contributors: twinpictures, baden03
+Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
+Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, plguin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
+Requires at least: 3.3
+Tested up to: 3.4.2
+Stable tag: 2.2.4
 
-jQuery T(-) CountDown will display a highly customizable, sweet-n-sexy flash-free countdown timer in the sidebar or in your post using a shortcode.
+T(-) Countdown will display a highly customizable, sweet-n-sexy flash-free countdown timer in a sidebar, page or post.
 
 == Description ==
 
-jQuery T(-) CountDown will display a sweet, sexy and totally flash-free countdown timer clock based on littlewebthings' CountDown jQuery plugin.  Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure.  Intergalactic planetary thanks to CosmoBro at g2.de and Lauren at siliconstudio.com for the included css flavors.
+T(-) Countdown will display a highly customizable jQuery countdown timer as a sidebar widget or in a post or page using a shortcode. Perfect for informing one's website visitors of an upcoming event, such as a pending space voyage. Using Jedi Mind-tricks and CSS... but mostly CSS, the countdown timer is highly customizable for your viewing pleasure. A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete listing of shortcode options</a> are available, as well as <a href='http://wordpress.org/support/plugin/jquery-t-countdown-widget'>free community</a> and <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/support/'>premium support</a>. This plug-in was inspired by littlewebthings' CountDown jQuery plugin. Intergalactic planetary thanks to g2.de, siliconstudio.com and be.net/arturex for the included css styles.
 
 == Installation ==
 
-1. Old-school: upload the `jquery-countdown-timer` folder to the `/wp-content/plugins/` directory via FTP.  Hipster: Add the jQuery T(minus) CountDown Widget via the WordPress Plugins menu.
+1. Old-school: upload the `countdown-timer` folder to the `/wp-content/plugins/` directory via FTP.
+1. Hipster: Ironically add T(minus) Countdown via the WordPress Plugins menu.
 1. Activate the Plugin
 1. Add the Widget to the desired sidebar in the WordPress Widgets menu.
-1. Configure the `jQuery T Minus CountDown Widget' options.
+1. Configure the `T(-) Countdown' widget options.
+1. Add the shortcode to a post or page.
 1. Test that the this plugin meets your demanding needs.
 1. Tweak the css files for premium enjoyment.
 1. Rate the plugin and verify that it works at wordpress.org.
-1. Leave a comment regarding bugs, feature request or cocktail recipes at http://www.twinpictures.de/jquery-t-minus-2-0/
+1. Leave a comment regarding bugs, feature request or cocktail recipes at http://wordpress.org/tags/jquery-t-countdown-widget
 
 == Frequently Asked Questions ==
 
 = How does one use the shortcode, exactly? =
-A <a href='http://www.twinpictures.de/jquery-t-minus-2-0/'>complete listing of shortcode options</a> has been provided to answer this exact question.
+A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete list of shortcode options</a> has been provided to answer this exact question.
 
 = How does one pronounce T Minus? =
-1. Tee - As in Tea for Two, or Tee off time
-1. Minus - As in the opposite of plus (+)
-1. T Minus- As in "This is Apollo Saturn Launch Control. We've passed the 11-minute mark. Now T minus 10 minutes 54 seconds on our countdown for Apollo 11."
+* Tee&mdash;As in Tea for Two, or Tee off time
+* Minus&mdash;As in the opposite of plus (+)
+* T Minus&mdash;As in "This is Apollo Saturn Launch Control. We've passed the 11-minute mark. Now T minus 10 minutes 54 seconds on our countdown for Apollo 11."
 
-= Where can I get reliable news that makes me giggle? =
+= Where may one view political news that gives giggle? =
 The Daily Show with John Stewart
 
 = I am a Social Netwookiee, do you have a Facebook page? =
 Yes, yes... <a href='http://www.facebook.com/twinpictures'>Twinpictures is on Facebook</a>.
 
 = Does Twinpictures do the Twitter? =
-Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> does the twitter tweeting around here.
+Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
 
 == Screenshots ==
 
-1. screenshot-1.png shows the jQuery T(-) CountDown in action with the three included styles: Darth, Jedi and Carbonite.
-2. Here, in screenshot-2.png is are the basic `jQuery T(-) CountDown` options.
-3. screenshot-3.png shows an expansive view of the available `jQuery T(-) CountDown` options that have been provided for your viewing pleasure.
+1. T(-) Countdown in action with styles: Darth, Jedi and Carbonite.
+1. Styles: C-3PO, TIE-Fighter and Carbonlite.
+1. The basic T(-) Countdown widget options.
+1. An expansive view of the available Countdown widget options, provided for your viewing pleasure.
 
 == Changelog ==
+
+= 2.2.4 =
+* Requires WordPress 3.3 or newer
+* Added jQuery datepicker for selecting target date
+* Added new 'Count Up' feature
+
+= 2.2.3 =
+* Fixed spacing issues with some styles
+* Rockstar features will default to collapsed to save space
+* Updated method of locating plugins directory
+
+= 2.2.2 =
+* Upgraded to a more efficient method of loading only the styles that are being used
+
+= 2.2.1 =
+* Fixed CSS bugs, added new style: c-p30 mini
+
+= 2.2 =
+* Greatly improved countdown script efficiency
+
+= 2.1 =
+* Added two new image-free css styles: TIE-Fighter and C-3PO
+* Fixed an issue with strange spacing caused by WordPress' wonky wpautop function
+* Moved plugin page at Twinpictures' Plugin Oven
+* Consolidated support to WordPress Forums and added Premium Support option.
+* Fixed closed arrow issue on the widget options page.
 
 = 2.0.9 =
 * Fixed issue with Digit Titles not being saved unless in rockstar mode
@@ -113,6 +142,31 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> does the 
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.4 =
+* jQuery datepicker is now used to select date
+* Added new Count Up feature
+
+= 2.2.3 =
+* fixed spacing issues with some styles
+* rockstar features will now display collapsed by default
+* will discover plugin directory if wp-content is renamed
+
+= 2.2.2 =
+* Streamlined the method of loading css styles.  Now only the styles that are being used will be loaded.
+
+= 2.2.1 =
+* Fixed CSS bugs, added new style: c-p30 mini
+
+= 2.2 =
+* Countdown scrip has been streamlined to improved efficiency.
+
+= 2.0.9 =
+* Two new image-free css styles have been added: TIE-Fighter and C-3PO
+* Spacing issued caused by WordPress' wonky wpautop function has been fixed
+* Fixed closed arrow issue on the widget options page.
+* Moved plugin page at Twinpictures' Plugin Oven
+* Consolidated support to WordPress Forums and added Premium Support option.
 
 = 2.0.9 =
 * fixed issue with Display Titles not saving
