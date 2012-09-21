@@ -3,7 +3,7 @@
 Plugin Name: T(-) Countdown
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.4
+Version: 2.2.5
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -320,7 +320,7 @@ class CountDownTimer extends WP_Widget {
 							'localtime':	'<?php echo $t; ?>'
 						},
 						style: '<?php echo $style; ?>',
-						launchtarget: <?php echo $launchdiv; ?>',
+						launchtarget: '<?php echo $launchdiv; ?>',
 						omitWeeks: <?php echo $omitweeks;
 										if($launchhtml){
 											echo ", onComplete: function() { jQuery('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
