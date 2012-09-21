@@ -1,9 +1,8 @@
 /*!
- * jQuery Countdown plugin v1.2
- * http://www.twinpictures.de/t-countdown-widget
- * http://www.littlewebthings.com/projects/countdown/
+ * T- Countdown v1.1
+ * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
- * Copyright 2011, Twinpictures, Vassilis Dourdounis
+ * Copyright 2012, Twinpictures
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +34,9 @@
 		$.data($(this)[0], 'status', 'play');
 		style = config.style;
 		$.data($(this)[0], 'style', config.style);
+		if( config.launchtarget ) {
+			$.data($(this)[0], 'launchtarget', config.launchtarget);
+		}
 		if (config.onComplete){
 			$.data($(this)[0], 'callback', config.onComplete);
 		}
@@ -79,20 +81,23 @@
 
 	$.fn.doCountDown = function (id, diffSecs, duration) {
 		$this = $('#' + id);
+		
 		if (diffSecs <= 0){
-			diffSecs = 0;
-			$.data($this[0], 'status', 'stop');
+			if( $.data($this[0], 'launchtarget') != 'countup' ){
+				diffSecs = 0;
+				$.data($this[0], 'status', 'stop');
+			}
 		}
-		secs = diffSecs % 60;
-		mins = Math.floor(diffSecs/60)%60;
-		hours = Math.floor(diffSecs/60/60)%24;
+		secs = Math.abs(diffSecs % 60);
+		mins = Math.floor(Math.abs(diffSecs/60)%60);
+		hours = Math.floor(Math.abs(diffSecs/60/60)%24);
 		if ($.data($this[0], 'omitWeeks') == true){
-			days = Math.floor(diffSecs/60/60/24);
-			weeks = Math.floor(diffSecs/60/60/24/7);
+			days = Math.floor(Math.abs(diffSecs/60/60/24));
+			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
 		}
 		else{
-			days = Math.floor(diffSecs/60/60/24)%7;
-			weeks = Math.floor(diffSecs/60/60/24/7);
+			days = Math.floor(Math.abs(diffSecs/60/60/24)%7);
+			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
 		}
 		style = $.data($this[0], 'style');
 		$this.dashChangeTo(id, style + '-seconds_dash', secs, duration ? duration : 500);
@@ -103,12 +108,12 @@
 		$this.dashChangeTo(id, style + '-weeks_dash', weeks, duration ? duration : 1000);
 		$this.dashChangeTo(id, style + '-weeks_trip_dash', weeks, duration ? duration : 1000);
 		$.data($this[0], 'diffSecs', diffSecs);
-		if (diffSecs > 0){
+		if (diffSecs > 0 || $.data($this[0], 'launchtarget') == 'countup'){
 			if($.data($this[0], 'status') == 'play'){
 				a = 0;
 				delay = 1000;
 				now = new Date();
-				befor = $.data($this[0], 'before');
+				before = $.data($this[0], 'before');
 				elapsedTime = (now.getTime() - before.getTime());
 				if(elapsedTime >= delay + 1000){
 					a += Math.floor(1*(elapsedTime/delay));
@@ -119,9 +124,8 @@
 				before = new Date();
 				$.data($this[0], 'before', before);
 				e = $this;
-				e.children('.t-throbTimer').toggle(1000, function() {
-					e.doCountDown(id, diffSecs-a);
-				});
+				t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
+				
 			}
 		} 
 		else if (cb = $.data($this[0], 'callback')){

@@ -2,7 +2,7 @@
  * jQuery Collapse-O-Matic for T-Minus v1.1
  * http://www.twinpictures.de/
  *
- * Copyright 2011, Twinpictures
+ * Copyright 2012, Twinpictures
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,18 @@
  */
 
 jQuery(document).ready(function() {
+	jQuery('.t-datepicker').datepicker({
+	   dateFormat : 'yy-mm-dd'
+	});
+	
+	jQuery('.collapseomatic:not(.colomat-close)').each(function(index) {
+	    var thisid = jQuery(this).attr('id');
+	    jQuery('#target-'+thisid).css('display', 'none');
+    });
+	
     jQuery('.collapseomatic').livequery('click', function(event) {
 		//alert('phones ringin dude');
-		jQuery(this).toggleClass('.colomat-close');
+		jQuery(this).toggleClass('colomat-close');
 		var id = jQuery(this).attr('id');
 		jQuery('#target-'+id).slideToggle('fast', function() {
 		    // Animation complete.
