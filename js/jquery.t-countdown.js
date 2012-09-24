@@ -1,5 +1,5 @@
 /*!
- * T- Countdown v1.1
+ * T- Countdown v1.2
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2012, Twinpictures
@@ -125,14 +125,18 @@
 				$.data($this[0], 'before', before);
 				e = $this;
 				
-				if(typeof(Worker)!=="undefined"){
+				//if(typeof(Worker)!=="undefined"){
 					// Yes! Web worker support!
-					console.log('using web worker');
-				}
-				else{
+					//console.log(throbber_url);
+					//if(typeof(w)=="undefined"){
+						//w = new Worker(throbber_url);
+					//}
+					//w.onmessage = function( event ) { e.doCountDown(id, diffSecs-a) };
+				//}
+				//else{
 					// Sorry! No Web Worker support..
 					t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
-				}
+				//}
 			}
 		} 
 		else if (cb = $.data($this[0], 'callback')){
@@ -160,9 +164,9 @@
 		}
 		if ($(digit + ' div.top').html() != n + ''){
 			$(digit + ' div.top').css({'display': 'none'});
-			$(digit + ' div.top').html((n ? n : '0')).slideDown(duration);
+			$(digit + ' div.top').html((n ? n : '0')).stop(true, true).slideDown(duration);
 
-			$(digit + ' div.bottom').animate({'height': ''}, duration, function() {
+			$(digit + ' div.bottom').stop(true, true).animate({'height': ''}, duration, function() {
 				$(digit + ' div.bottom').html($(digit + ' div.top').html());
 				$(digit + ' div.bottom').css({'display': 'block', 'height': ''});
 				$(digit + ' div.top').hide().slideUp(10);
