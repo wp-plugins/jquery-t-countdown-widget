@@ -3,7 +3,7 @@
 Plugin Name: T(-) Countdown
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.5
+Version: 2.2.6
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -32,7 +32,7 @@ function countdown_scripts(){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			add_option('t-minus_version', '2.2.4');
+			add_option('t-minus_version', '2.2.6');
 		}
 		
 		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
@@ -57,7 +57,8 @@ function countdown_scripts(){
         }
 		else{
 				//lwtCountdown script
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '1.1' );
+				//wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.2' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '1.2' );
                 wp_enqueue_script('countdown-script');
 				
 				//register all countdown styles for enqueue-as-needed
@@ -68,6 +69,14 @@ function countdown_scripts(){
 		}
 }
 add_action( 'init', 'countdown_scripts' );
+
+//set the locaiton to throbber in a var
+/*
+function throbber_location() {
+    echo '<script type="text/javascript"> var throbber_url = "'.plugins_url() .'/'. dirname( plugin_basename(__FILE__) ).'/js/throbber.js"; </script>';
+}
+add_action('wp_head', 'throbber_location');
+*/
 
 //style folders array
 function folder_array($path, $exclude = ".|..") {
