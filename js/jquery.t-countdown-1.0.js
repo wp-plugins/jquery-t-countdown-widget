@@ -124,8 +124,15 @@
 				before = new Date();
 				$.data($this[0], 'before', before);
 				e = $this;
-				t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
 				
+				if(typeof(Worker)!=="undefined"){
+					// Yes! Web worker support!
+					console.log('using web worker');
+				}
+				else{
+					// Sorry! No Web Worker support..
+					t = setTimeout(function() { e.doCountDown(id, diffSecs-a) } , 1000);
+				}
 			}
 		} 
 		else if (cb = $.data($this[0], 'callback')){
