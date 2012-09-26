@@ -34,7 +34,6 @@ function countdown_scripts(){
 			//add version check
 			add_option('t-minus_version', '2.2.6');
 		}
-		
 		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
 		add_option('t-minus_styles', $styles_arr);
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
@@ -103,6 +102,7 @@ class CountDownTimer extends WP_Widget {
     /** constructor */
     function CountDownTimer() {
         //parent::WP_Widget(false, $name = 'CountDownTimer');
+		load_plugin_textdomain( 'tminus', false, dirname( plugin_basename( __FILE__ ) ) . '/language/' );
 		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures', 'tminus') );
 		$this->WP_Widget('CountDownTimer', 'T(-) Countdown', $widget_ops);
     }
@@ -371,11 +371,11 @@ class CountDownTimer extends WP_Widget {
 		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
 		$jsplacement = empty($instance['jsplacement']) ? 'footer' : apply_filters('widget_jsplacement', $instance['jsplacement']);
 
-		$weektitle = empty($instance['weektitle']) ? 'weeks' : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
-		$daytitle = empty($instance['daytitle']) ? 'days' : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
-		$hourtitle = empty($instance['hourtitle']) ? 'hours' : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
-		$mintitle = empty($instance['mintitle']) ? 'minutes' : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
-		$sectitle = empty($instance['sectitle']) ? 'seconds' : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
+		$weektitle = empty($instance['weektitle']) ? __('weeks', 'tminus') : apply_filters('widget_weektitle', stripslashes($instance['weektitle']));
+		$daytitle = empty($instance['daytitle']) ? __('days', 'tminus') : apply_filters('widget_daytitle', stripslashes($instance['daytitle']));
+		$hourtitle = empty($instance['hourtitle']) ? __('hours', 'tminus') : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
+		$mintitle = empty($instance['mintitle']) ? __('minutes', 'tminus') : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
+		$sectitle = empty($instance['sectitle']) ? __('seconds', 'tminus') : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
 			
 		$isrockstar = get_option('rockstar');
 		
@@ -387,9 +387,9 @@ class CountDownTimer extends WP_Widget {
 			$launchtarget = empty($instance['launchtarget']) ? 'After Counter' : apply_filters('widget_launchtarget', $instance['launchtarget']);
 		}
         ?>
-        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
-		<p><label for="<?php echo $this->get_field_id('date'); ?>"><?php _e('Target Date:'); ?></label><br/><input style="width: 90px;" id="<?php echo $this->get_field_id('date'); ?>" name="<?php echo $this->get_field_name('date'); ?>" type="text" value="<?php echo $date; ?>" class="t-datepicker"/></p>
-		<p><label for="<?php echo $this->get_field_id('hour'); ?>"><?php _e('Target Time (HH:MM:SS):'); ?></label><br/><input style="width: 30px;" id="<?php echo $this->get_field_id('hour'); ?>" name="<?php echo $this->get_field_name('hour'); ?>" type="text" value="<?php echo $hour; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('min'); ?>" name="<?php echo $this->get_field_name('min'); ?>" type="text" value="<?php echo $min; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('sec'); ?>" name="<?php echo $this->get_field_name('sec'); ?>" type="text" value="<?php echo $sec; ?>" /></p>
+        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'tminus'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('date'); ?>"><?php _e('Target Date:', 'tminus'); ?></label><br/><input style="width: 90px;" id="<?php echo $this->get_field_id('date'); ?>" name="<?php echo $this->get_field_name('date'); ?>" type="text" value="<?php echo $date; ?>" class="t-datepicker"/></p>
+		<p><label for="<?php echo $this->get_field_id('hour'); ?>"><?php _e('Target Time (HH:MM:SS):', 'tminus'); ?></label><br/><input style="width: 30px;" id="<?php echo $this->get_field_id('hour'); ?>" name="<?php echo $this->get_field_name('hour'); ?>" type="text" value="<?php echo $hour; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('min'); ?>" name="<?php echo $this->get_field_name('min'); ?>" type="text" value="<?php echo $min; ?>" />:<input style="width: 30px;" id="<?php echo $this->get_field_id('sec'); ?>" name="<?php echo $this->get_field_name('sec'); ?>" type="text" value="<?php echo $sec; ?>" /></p>
 		<?php
 			//Omit Week Slector
             $negative = '';
