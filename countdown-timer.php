@@ -102,7 +102,7 @@ class CountDownTimer extends WP_Widget {
     /** constructor */
     function CountDownTimer() {
         //parent::WP_Widget(false, $name = 'CountDownTimer');
-		load_plugin_textdomain( 'tminus', false, dirname( plugin_basename( __FILE__ ) ) . '/language/' );
+		load_plugin_textdomain( 'tminus', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		$widget_ops = array('classname' => 'CountDownTimer', 'description' => __('A highly customizable jQuery countdown timer by Twinpictures', 'tminus') );
 		$this->WP_Widget('CountDownTimer', 'T(-) Countdown', $widget_ops);
     }
