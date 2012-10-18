@@ -15,103 +15,103 @@ msgstr ""
 "Language: English\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: tminus.php:107
+#: countdown-timer.php:107
 msgid "A highly customizable jQuery countdown timer by Twinpictures"
 msgstr ""
 
-#: tminus.php:134 tminus.php:376 tminus.php:554
+#: countdown-timer.php:134 countdown-timer.php:376 countdown-timer.php:554
 msgid "weeks"
 msgstr ""
 
-#: tminus.php:135 tminus.php:377 tminus.php:555
+#: countdown-timer.php:135 countdown-timer.php:377 countdown-timer.php:555
 msgid "days"
 msgstr ""
 
-#: tminus.php:136 tminus.php:378 tminus.php:556
+#: countdown-timer.php:136 countdown-timer.php:378 countdown-timer.php:556
 msgid "hours"
 msgstr ""
 
-#: tminus.php:137 tminus.php:379 tminus.php:557
+#: countdown-timer.php:137 countdown-timer.php:379 countdown-timer.php:557
 msgid "minutes"
 msgstr ""
 
-#: tminus.php:138 tminus.php:380 tminus.php:558
+#: countdown-timer.php:138 countdown-timer.php:380 countdown-timer.php:558
 msgid "seconds"
 msgstr ""
 
-#: tminus.php:392
+#: countdown-timer.php:392
 msgid "Title:"
 msgstr ""
 
-#: tminus.php:393
+#: countdown-timer.php:393
 msgid "Target Date:"
 msgstr ""
 
-#: tminus.php:394
+#: countdown-timer.php:394
 msgid "Target Time (HH:MM:SS):"
 msgstr ""
 
-#: tminus.php:414
+#: countdown-timer.php:414
 msgid "Omit Weeks:"
 msgstr ""
 
-#: tminus.php:414
+#: countdown-timer.php:414
 msgid "No"
 msgstr ""
 
-#: tminus.php:414
+#: countdown-timer.php:414
 msgid "Yes"
 msgstr ""
 
-#: tminus.php:415
+#: countdown-timer.php:415
 msgid "Style:"
 msgstr ""
 
-#: tminus.php:429
+#: countdown-timer.php:429
 msgid "Inject Script:"
 msgstr ""
 
-#: tminus.php:429
+#: countdown-timer.php:429
 msgid "Footer"
 msgstr ""
 
-#: tminus.php:429
+#: countdown-timer.php:429
 msgid "Inline"
 msgstr ""
 
-#: tminus.php:434
+#: countdown-timer.php:434
 msgid "Rockstar Features"
 msgstr ""
 
-#: tminus.php:438
+#: countdown-timer.php:438
 msgid "This is totally worth 3 bucks."
 msgstr ""
 
-#: tminus.php:445
+#: countdown-timer.php:445
 msgid "Above Countdown"
 msgstr ""
 
-#: tminus.php:447
+#: countdown-timer.php:447
 msgid "Top HTML:"
 msgstr ""
 
-#: tminus.php:450
+#: countdown-timer.php:450
 msgid "Below Countdown"
 msgstr ""
 
-#: tminus.php:452
+#: countdown-timer.php:452
 msgid "Bottom HTML:"
 msgstr ""
 
-#: tminus.php:455
+#: countdown-timer.php:455
 msgid "When Countdown Reaches Zero"
 msgstr ""
 
-#: tminus.php:457
+#: countdown-timer.php:457
 msgid "Launch Event HTML:"
 msgstr ""
 
-#: tminus.php:458
+#: countdown-timer.php:458
 msgid "Launch Target:"
 msgstr ""
 
@@ -123,35 +123,35 @@ msgstr ""
 msgid "Count Up"
 msgstr ""
 
-#: tminus.php:472
+#: countdown-timer.php:472
 msgid "Digit Titles"
 msgstr ""
 
-#: tminus.php:474
+#: countdown-timer.php:474
 msgid "How do you spell \"weeks\"?:"
 msgstr ""
 
-#: tminus.php:475
+#: countdown-timer.php:475
 msgid "How do you spell \"days\"?:"
 msgstr ""
 
-#: tminus.php:476
+#: countdown-timer.php:476
 msgid "How do you spell \"hours\"?:"
 msgstr ""
 
-#: tminus.php:477
+#: countdown-timer.php:477
 msgid "How do you spell \"minutes\"?:"
 msgstr ""
 
-#: tminus.php:478
+#: countdown-timer.php:478
 msgid "And \"seconds\" are spelled:"
 msgstr ""
 
-#: tminus.php:489
+#: countdown-timer.php:489
 msgid "Schedule Recurring Countdown"
 msgstr ""
 
-#: tminus.php:491
+#: countdown-timer.php:491
 msgid ""
 "%sT(-) Countdown Control%s is a premium countdown plugin that includes the "
 "ability to schedule and manage mulitple recurring T(-) Countdowns... the "
