@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.8
+Version: 2.2.9
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -34,7 +34,7 @@ function countdown_scripts(){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			add_option('t-minus_version', '2.2.7');
+			add_option('t-minus_version', '2.2.9');
 		}
 		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
 		add_option('t-minus_styles', $styles_arr);
@@ -52,14 +52,13 @@ function countdown_scripts(){
                 wp_enqueue_style('colapse-admin-css');
 				
 				wp_enqueue_script( 'jquery-ui-datepicker' );
-				
 				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css', array (), '1.8.23' );    
                 wp_enqueue_style('jquery-ui-css');
         }
 		else{
 				//lwtCountdown script
-				//wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.2' );
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '1.2' );
+				//wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.3' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '1.3' );
                 wp_enqueue_script('countdown-script');
 				
 				//register all countdown styles for enqueue-as-needed
@@ -70,14 +69,6 @@ function countdown_scripts(){
 		}
 }
 add_action( 'init', 'countdown_scripts' );
-
-//set the location to throbber in a var
-/*
-function throbber_location() {
-    echo '<script type="text/javascript"> var throbber_url = "'.plugins_url() .'/'. dirname( plugin_basename(__FILE__) ).'/js/throbber.js"; </script>';
-}
-add_action('wp_head', 'throbber_location');
-*/
 
 //style folders array
 function folder_array($path, $exclude = ".|..") {
@@ -141,7 +132,9 @@ class CountDownTimer extends WP_Widget {
 		$jsplacement = empty($instance['jsplacement']) ? 'footer' : apply_filters('widget_jsplacement', $instance['jsplacement']);
 		
 		//now
-		$now = time() + ( get_option( 'gmt_offset' ) * 3600);
+		//$now = time() + ( get_option( 'gmt_offset' ) * 3600);
+		//$now = current_time('timestamp');
+		$now = strtotime(current_time('mysql'));
 
 		//target		
 		$target = strtotime( $date.' '.$hour.':'.$min.':'.$sec );
@@ -270,7 +263,8 @@ class CountDownTimer extends WP_Widget {
 		echo '</div>';
 		echo '</div>';
 		echo $after_widget;
-		$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
+		//$t = date( 'n/j/Y H:i:s', time() + ( get_option( 'gmt_offset' ) * 3600));
+		$t = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
 		
 		//launch div
 		$launchdiv = "";
@@ -317,7 +311,8 @@ class CountDownTimer extends WP_Widget {
 							'hour': 	<?php echo $hour; ?>,
 							'min': 	<?php echo $min; ?>,
 							'sec': 	<?php echo $sec; ?>,
-							'localtime':	'<?php echo $t; ?>'
+							'localtime':	'<?php echo $t; ?>',
+							'mysqltime':  '<?php echo current_time('mysql'); ?>'
 						},
 						style: '<?php echo $style; ?>',
 						launchtarget: '<?php echo $launchdiv; ?>',
@@ -522,7 +517,8 @@ function print_my_script() {
 				'hour': <?php echo $script['hour']; ?>,
 				'min': 	<?php echo $script['min']; ?>,
 				'sec': 	<?php echo $script['sec']; ?>,
-				'localtime': '<?php echo $script['localtime']; ?>'
+				'localtime': '<?php echo $script['localtime']; ?>',
+				'mysqltime':  '<?php echo current_time('mysql'); ?>'
 			},
 			style: '<?php echo $script['style']; ?>',
 			launchtarget: '<?php echo $script['launchtarget']; ?>',
@@ -577,7 +573,8 @@ function tminuscountdown($atts, $content=null) {
 	//enqueue style that was already registerd
 	wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
-	$now = time() + ( get_option( 'gmt_offset' ) * 3600);
+	//$now = time() + ( get_option( 'gmt_offset' ) * 3600);
+	$now = strtotime(current_time('mysql'));
 	$target = strtotime($t, $now);
 	
 	//difference in seconds
@@ -692,7 +689,8 @@ function tminuscountdown($atts, $content=null) {
 	}
 	$tminus .= '</div></div>';
 
-	$t = date( 'n/j/Y H:i:s', gmmktime() + ( get_option( 'gmt_offset' ) * 3600));
+	//$t = date( 'n/j/Y H:i:s', gmmktime() + ( get_option( 'gmt_offset' ) * 3600));
+	$t = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
 	
 	if(is_numeric($launchwidth)){
 		$launchwidth .= 'px';
@@ -733,7 +731,8 @@ function tminuscountdown($atts, $content=null) {
 						'hour': <?php echo $hour; ?>,
 						'min': 	<?php echo $min; ?>,
 						'sec': 	<?php echo $sec; ?>,
-						'localtime': '<?php echo $t; ?>'
+						'localtime': '<?php echo $t; ?>',
+						'mysqltime':  '<?php echo current_time('mysql'); ?>'
 					},
 					style: '<?php echo $style; ?>',
 					launchtarget: '<?php echo $launchtarget; ?>',
