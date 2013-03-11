@@ -1,5 +1,5 @@
 /*!
- * T- Countdown v1.3
+ * T- Countdown v1.4
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2012, Twinpictures

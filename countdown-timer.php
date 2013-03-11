@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.9
+Version: 2.2.10d
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -34,13 +34,13 @@ function countdown_scripts(){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			add_option('t-minus_version', '2.2.9');
+			add_option('t-minus_version', '2.2.10c');
 		}
-		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonlite","darth","jedi");
+		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive", "carbonlite","darth","jedi");
 		add_option('t-minus_styles', $styles_arr);
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		wp_enqueue_script('jquery');
-        if (is_admin()){
+        if (is_admin() && $_SERVER["REQUEST_URI"] == '/wp-admin/widgets.php'){
                 //jquery admin stuff
                 wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.min.js', array ('jquery'), '1.1' );
                 wp_enqueue_script('tminus-admin-script');
@@ -53,12 +53,12 @@ function countdown_scripts(){
 				
 				wp_enqueue_script( 'jquery-ui-datepicker' );
 				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css', array (), '1.8.23' );    
-                wp_enqueue_style('jquery-ui-css');
+				wp_enqueue_style('jquery-ui-css');
         }
 		else{
 				//lwtCountdown script
-				//wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.3' );
-                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '1.3' );
+				//wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.4' );
+                wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.min.js', array ('jquery'), '1.4' );
                 wp_enqueue_script('countdown-script');
 				
 				//register all countdown styles for enqueue-as-needed
@@ -159,7 +159,6 @@ class CountDownTimer extends WP_Widget {
 			$d1 = $d%10;
 			//53 = 3
 			//153 = 3
-	
 			if($d < 100){
 				$d2 = ($d-$d1) / 10;
 				//53 = 50 / 10 = 5
@@ -177,7 +176,7 @@ class CountDownTimer extends WP_Widget {
 				//345 = 40 / 10 = 4
 				$d3 = $dm / 100;
 			}
-			/* here is where the 1000's support will go... someday. */
+			/* here is where the 1000's support might go... someday. */
 			
 			//now assign all the digits to the array
 			$date[$i] = array(
@@ -206,14 +205,14 @@ class CountDownTimer extends WP_Widget {
 			if($omitweeks == 'false'){
 				//set up correct style class for double or triple digit love
 				$wclass = $style.'-dash '.$style.'-weeks_dash';
-				if($date['weeks'][0] > 0){
+				if( abs($date['weeks'][0]) > 0 ){
 					$wclass = $style.'-tripdash '.$style.'-weeks_trip_dash';
 				}
 			
 				echo '<div class="'.$wclass.'">
 						<span class="'.$style.'-dash_title">'.$weektitle.'</span>';
 						//show third week digit if the number of weeks is greater than 99
-				if($date['weeks'][0] > 0){
+				if( abs($date['weeks'][0]) > 0 ){
 					echo '<div class="'.$style.'-digit">'.$date['weeks'][0].'</div>';
 				}
 				echo '<div class="'.$style.'-digit">'.$date['weeks'][1].'</div>
@@ -223,14 +222,14 @@ class CountDownTimer extends WP_Widget {
 					
 			//set up correct style class for double or triple digit love
 			$dclass = $style.'-dash '.$style.'-days_dash';
-			if($omitweeks == 'true' && $date['days'][3] > 99){
+			if($omitweeks == 'true' && abs($date['days'][3]) > 99){
 				$dclass = $style.'-tripdash '.$style.'-days_trip_dash';
 			}
 			
 			echo '<div class="'.$dclass.'">
 					<span class="'.$style.'-dash_title">'.$daytitle.'</span>';
 			//show third day digit if there are NO weeks and the number of days is greater that 99
-			if($omitweeks == 'true' && $date['days'][3] > 99){
+			if($omitweeks == 'true' && abs($date['days'][3]) > 99){
 				echo '<div class="'.$style.'-digit">'.$date['days'][0].'</div>';
 			}
 			echo '<div class="'.$style.'-digit">'.$date['days'][1].'</div>

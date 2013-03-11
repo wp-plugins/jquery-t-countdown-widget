@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, plguin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.3
-Tested up to: 3.5
-Stable tag: 2.2.9
+Tested up to: 3.6-alpha
+Stable tag: 2.2.10d
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,11 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 1. The _magical_ jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.10 =
+* only load jQuery datepicker and related css on widgets admin page
+* countup will switch to triple digits for numbers above 100
+* added carbonite-responsive style
 
 = 2.2.9 =
 * calculate local time using WordPress current_time() function
@@ -169,6 +174,11 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.10 =
+* jQuery datepicker and related css will only load when needed
+* countup will use triple digit class for numbers above 100
+* new carbonite-responsive style
 
 = 2.2.9 =
 * current time calculation now uses WordPress current_time() function
