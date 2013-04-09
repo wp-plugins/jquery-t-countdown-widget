@@ -2,7 +2,7 @@
 
 Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
-Tags: countdown, timer, clock, ticker, widget, event, counter, count down, t minus, t-minus, twinpictures, plguin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
+Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.3
 Tested up to: 3.6-beta
 Stable tag: 2.2.10
@@ -44,7 +44,7 @@ A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentatio
 * Minus&mdash;As in the opposite of plus (+)
 * T Minus&mdash;As in "This is Apollo Saturn Launch Control. We've passed the 11-minute mark. Now T minus 10 minutes 54 seconds on our countdown for Apollo 11."
 
-= I am a Social Netwookiee, do you have a Facebook page? =
+= I am a Social Netwookiee, does Twinpictures have a Facebook page? =
 Yes, yes... <a href='http://www.facebook.com/twinpictures'>Twinpictures is on Facebook</a>.
 
 = Does Twinpictures do the Twitter? =
