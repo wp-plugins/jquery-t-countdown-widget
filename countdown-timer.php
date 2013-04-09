@@ -5,13 +5,13 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.10d
+Version: 2.2.10
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
-/*  Copyright 2012 Twinpictures (www.twinpictures.de)
+/*  Copyright 2013 Twinpictures (www.twinpictures.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -29,14 +29,20 @@ License: GPL2
 
 //widget scripts
 function countdown_scripts(){
-		$current_version  = get_option('t-minus_version');
-		if(!$current_version){
+		$current_version = '2.2.10';
+		$installed_version  = get_option('t-minus_version');
+		
+		if($current_version != $installed_version){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			add_option('t-minus_version', '2.2.10c');
+			update_option('t-minus_version', '2.2.10');
+			
+			//reset rockstar option
+			delete_option( 'rockstar' );
+			add_option('rockstar', '');
 		}
-		$styles_arr = array("TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive", "carbonlite","darth","jedi");
+		$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","darth","jedi");
 		add_option('t-minus_styles', $styles_arr);
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		wp_enqueue_script('jquery');
@@ -86,8 +92,6 @@ function folder_array($path, $exclude = ".|..") {
 	}
 }
 
-add_option('rockstar', '');
-
 /**
  * CountDownTimer Class
  */
@@ -115,7 +119,7 @@ class CountDownTimer extends WP_Widget {
 		
 		$day = empty($instance['day']) ? 20 : apply_filters('widget_day', $instance['day']);
 		$month = empty($instance['month']) ? 12 : apply_filters('widget_month', $instance['month']);
-		$year = empty($instance['year']) ? 2012 : apply_filters('widget_year', $instance['year']);
+		$year = empty($instance['year']) ? 2013 : apply_filters('widget_year', $instance['year']);
 		
 		$date = empty($instance['date']) ? $year.'-'.$month.'-'.$day : apply_filters('widget_date', $instance['date']);
 		$hour = empty($instance['hour']) ? 20 : apply_filters('widget_hour', $instance['hour']);
@@ -330,11 +334,9 @@ class CountDownTimer extends WP_Widget {
     /** Update */
     function update($new_instance, $old_instance) {
 		$instance = array_merge($old_instance, $new_instance);
-		//return array_map('strip_tags', $instance);
-		if(isset($instance['isrockstar']) && $instance['isrockstar']){
-			update_option('rockstar', $instance['isrockstar']);
+		if($instance['isrockstar'] == 'rockstar'){
+			update_option('rockstar', 'rockstar');
 		}
-		
 		return array_map('mysql_real_escape_string', $instance);
     }
 
@@ -349,7 +351,7 @@ class CountDownTimer extends WP_Widget {
 		if($month > 12){
 			$month = 12;
 		}
-		$year = empty($instance['year']) ? 2012 : apply_filters('widget_year', $instance['year']);
+		$year = empty($instance['year']) ? 2013 : apply_filters('widget_year', $instance['year']);
 		$date = empty($instance['date']) ? $year.'-'.$month.'-'.$day : apply_filters('widget_date', $instance['date']);
 		$hour = empty($instance['hour']) ? 12 : apply_filters('widget_hour', $instance['hour']);
 		if($hour > 23){
@@ -372,7 +374,7 @@ class CountDownTimer extends WP_Widget {
 		$hourtitle = empty($instance['hourtitle']) ? __('hours', 'tminus') : apply_filters('widget_hourtitle', stripslashes($instance['hourtitle']));
 		$mintitle = empty($instance['mintitle']) ? __('minutes', 'tminus') : apply_filters('widget_mintitle', stripslashes($instance['mintitle']));
 		$sectitle = empty($instance['sectitle']) ? __('seconds', 'tminus') : apply_filters('widget_sectitle', stripslashes($instance['sectitle']));
-			
+		
 		$isrockstar = get_option('rockstar');
 		
 		if($isrockstar){
@@ -428,9 +430,12 @@ class CountDownTimer extends WP_Widget {
 			echo __('Rockstar Features', 'tminus').'<br/>';
 		}
 		else{
+				$like_it_arr = array('makes me feel warm and fuzzy inside... in a good way', 'restores my faith in humanity... if only for a fleating second', 'rocked my world and is totally worth 3 bucks', 'offered me a positive vision of future living', 'inspires me to commit random acts of kindness', 'helped organize my life in one of the small ways that matter', 'saved me minutes if not tens of minutes writing your own solution', 'brightened my day... or darkened it since I wanted to sleep in anyway', 'is totally worth 3 bucks');
+				$rand_key = array_rand($like_it_arr);
+				$like_it = $like_it_arr[$rand_key];
 			?>
-			<p id="header-<?php echo $this->get_field_id('unlock'); ?>"><input class="rockstar" id="<?php echo $this->get_field_id('unlock'); ?>" name="<?php echo $this->get_field_name('unlock'); ?>" type="checkbox" value="" /> <label for="<?php echo $this->get_field_id('unlock'); ?>"><?php _e('This is totally worth 3 bucks.', 'tminus'); ?></label></p>
-			<div id="target-<?php echo $this->get_field_id('unlock'); ?>" class="collapseomatic_content">
+			<p id="header-<?php echo $this->get_field_id('isrockstar'); ?>"><input class="rockstar" id="<?php echo $this->get_field_id('isrockstar'); ?>" name="<?php echo $this->get_field_name('isrockstar'); ?>" type="checkbox" value="rockstar" /> <label for="<?php echo $this->get_field_id('isrockstar'); ?>"><span title="<?php _e('check the box and save to unlock rockstar features.', 'tminus'); ?>"><?php printf( __('T(-) Countdown %s!', 'tminus'), $like_it); ?></span></label></p>
+			<div id="target-<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
 			<?php
 		}
 		
@@ -545,7 +550,7 @@ function tminuscountdown($atts, $content=null) {
 	
     extract(shortcode_atts(array(
 		'id' => $ran,
-		't' => '20-12-2012 20:12:20',
+		't' => '20-12-2013 20:12:20',
         'weeks' => __('weeks', 'tminus'),
 		'days' => __('days', 'tminus'),
 		'hours' => __('hours', 'tminus'),
@@ -562,12 +567,6 @@ function tminuscountdown($atts, $content=null) {
 		'launchtarget' => 'countdown',
 		'jsplacement' => 'footer',
 	), $atts));
- 
-	
-	//update the styles
-	//$style_arr = get_option('t-minus_styles');
-	//$style_arr[$style] = $style;
-	//update_option('t-minus_styles', $style_arr);
 	
 	//enqueue style that was already registerd
 	wp_enqueue_style( 'countdown-'.$style.'-css' );
