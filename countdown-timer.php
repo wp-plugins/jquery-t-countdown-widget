@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.11
+Version: 2.2.12
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -29,20 +29,20 @@ License: GPL2
 
 //widget scripts
 function countdown_scripts(){
-		$current_version = '2.2.11';
+		$current_version = '2.2.12';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			update_option('t-minus_version', '2.2.11');
+			update_option('t-minus_version', '2.2.12');
 			
 			//reset rockstar option
 			delete_option( 'rockstar' );
 			add_option('rockstar', '');
 		}
-		$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","darth","jedi", "sith");
+		$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","cloud-city","darth","jedi", "sith");
 		add_option('t-minus_styles', $styles_arr);
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		//wp_enqueue_script('jquery');
@@ -66,7 +66,7 @@ function countdown_scripts(){
 				//register all countdown styles for enqueue-as-needed
 				$styles_arr = get_option('t-minus_styles');
 				foreach($styles_arr as $style_name){
-					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.2' );
+					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.3' );
 				}
 		}
 }
@@ -359,7 +359,7 @@ class CountDownTimer extends WP_Widget {
 		if($month > 12){
 			$month = 12;
 		}
-		$year = empty($instance['year']) ? 2013 : apply_filters('widget_year', $instance['year']);
+		$year = empty($instance['year']) ? 2014 : apply_filters('widget_year', $instance['year']);
 		$date = empty($instance['date']) ? $year.'-'.$month.'-'.$day : apply_filters('widget_date', $instance['date']);
 		$hour = empty($instance['hour']) ? 12 : apply_filters('widget_hour', $instance['hour']);
 		if($hour > 23){
