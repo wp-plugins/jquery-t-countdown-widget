@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 2.2.12
+Tested up to: 3.8.1
+Stable tag: 2.2.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,16 @@ The Daily Show with John Stewart
 1. The magical jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.13 =
+* updated jQuery UI datepicker style.
+* added Russian language
+* added Slovak language
+* added Persian language
+* added Czech language
+* added Lithuanian language
+* added Catalan language
+* added French language
 
 = 2.2.12 =
 * added cloud-city style which is a clone of vintage that came with vintage wedding theme: http://wordpress.org/support/topic/cannot-see-boxes
@@ -183,6 +193,16 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.13 =
+* updated jQuery UI datepicker style.
+* added Russian language
+* added Slovak language
+* added Persian language
+* added Czech language
+* added Lithuanian language
+* added Catalan language
+* added French language
 
 = 2.2.12 =
 * added cloud-city style

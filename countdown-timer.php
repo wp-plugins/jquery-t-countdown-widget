@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.12
+Version: 2.2.13
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -29,14 +29,14 @@ License: GPL2
 
 //widget scripts
 function countdown_scripts(){
-		$current_version = '2.2.12';
+		$current_version = '2.2.13';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			update_option('t-minus_version', '2.2.12');
+			update_option('t-minus_version', '2.2.13');
 			
 			//reset rockstar option
 			delete_option( 'rockstar' );
@@ -46,7 +46,7 @@ function countdown_scripts(){
 		add_option('t-minus_styles', $styles_arr);
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		//wp_enqueue_script('jquery');
-        if (is_admin() && $_SERVER["REQUEST_URI"] == '/wp-admin/widgets.php'){
+        if ( is_admin() ){
                 //jquery admin stuff
                 wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2' );
                 wp_enqueue_script('tminus-admin-script');
@@ -55,7 +55,7 @@ function countdown_scripts(){
                 wp_enqueue_style('colapse-admin-css');
 				
 				wp_enqueue_script( 'jquery-ui-datepicker' );
-				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css', array (), '1.8.23' );    
+				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array (), '1.10.4' );    
 				wp_enqueue_style('jquery-ui-css');
         }
 		else{
