@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.13
+Version: 2.2.14
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -29,14 +29,14 @@ License: GPL2
 
 //widget scripts
 function countdown_scripts(){
-		$current_version = '2.2.13';
+		$current_version = '2.2.14';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			update_option('t-minus_version', '2.2.13');
+			update_option('t-minus_version', '2.2.14');
 			
 			//reset rockstar option
 			delete_option( 'rockstar' );
@@ -109,9 +109,9 @@ class CountDownTimer extends WP_Widget {
 		
 		$title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
 		$tophtml = empty($instance['tophtml']) ? ' ' : apply_filters('widget_tophtml', stripslashes($instance['tophtml']));
-        $bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
-        $launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', $instance['launchhtml']);
-        $launchtarget = empty($instance['launchtarget']) ? 'After Countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
+		$bothtml = empty($instance['bothtml']) ? ' ' : apply_filters('widget_bothtml', stripslashes($instance['bothtml']));
+		$launchhtml = empty($instance['launchhtml']) ? ' ' : apply_filters('widget_launchhtml', $instance['launchhtml']);
+		$launchtarget = empty($instance['launchtarget']) ? 'After Countdown' : apply_filters('widget_launchtarget', $instance['launchtarget']);
 		
 		$day = empty($instance['day']) ? 20 : apply_filters('widget_day', $instance['day']);
 		$month = empty($instance['month']) ? 12 : apply_filters('widget_month', $instance['month']);
@@ -315,29 +315,18 @@ class CountDownTimer extends WP_Widget {
 						},
 						style: '<?php echo $style; ?>',
 						launchtarget: '<?php echo $launchdiv; ?>',
-						omitWeeks: <?php echo $omitweeks;
+						omitWeeks: '<?php echo $omitweeks; ?>'
+								<?php
 										if($launchhtml){
 											echo ", onComplete: function() { jQuery('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
 										}
-									?>
+								?>
 					});
 				});
 			</script>
 			<?php
 		}
     }
-
-    /** Update */
-	/*
-    function update($new_instance, $old_instance) {
-		$instance = array_merge($old_instance, $new_instance);
-		if($instance['isrockstar'] == 'rockstar'){
-			update_option('rockstar', 'rockstar');
-		}
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-		return array_map('mysql_real_escape_string', $instance);
-    }
-	*/
 	
 	function update( $new_instance, $old_instance ) {
 		$instance = array_merge($old_instance, $new_instance);
@@ -534,13 +523,15 @@ function print_my_script() {
 			},
 			style: '<?php echo $script['style']; ?>',
 			launchtarget: '<?php echo $script['launchtarget']; ?>',
-			omitWeeks: <?php echo $script['omitweeks'];
+			omitWeeks: '<?php echo $script['omitweeks']; ?>'
+				<?php
 				if($script['content']){
 					echo ", onComplete: function() {
 						jQuery('#".$script['id']."-".$script['launchtarget']."').css({'width' : '".$script['launchwidth']."', 'height' : '".$script['launchheight']."'});
 						jQuery('#".$script['id']."-".$script['launchtarget']."').html('".do_shortcode($script['content'])."');
 					}";
-				}?>
+				}
+				?>
 		});
 	<?php
 	}
@@ -741,7 +732,7 @@ function tminuscountdown($atts, $content=null) {
 					},
 					style: '".$style."',
 					launchtarget: '".$launchtarget."',
-					omitWeeks: ".$omitweeks;
+					omitWeeks: '".$omitweeks."'";
 					
 		if($content){
 			$tminus .= ", onComplete: function() {
