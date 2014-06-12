@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.14
+Version: 2.2.15
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -36,7 +36,7 @@ function countdown_scripts(){
 			//delete the old style system
 			delete_option( 't-minus_styles' );
 			//add version check
-			update_option('t-minus_version', '2.2.14');
+			update_option('t-minus_version', '2.2.15');
 			
 			//reset rockstar option
 			delete_option( 'rockstar' );
@@ -60,8 +60,8 @@ function countdown_scripts(){
         }
 		else{
 				//lwtCountdown script
-				wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5' );
-                wp_enqueue_script('countdown-script');
+				wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.1' );
+				wp_enqueue_script('countdown-script');
 				
 				//register all countdown styles for enqueue-as-needed
 				$styles_arr = get_option('t-minus_styles');
@@ -652,12 +652,15 @@ function tminuscountdown($atts, $content=null) {
 					
 	//set up correct style class for double or triple digit love
 	$dclass = $style.'-dash '.$style.'-days_dash';
+	
 	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
 		$dclass = $style.'-tripdash '.$style.'-days_trip_dash';
 	}
 			
 	$tminus .= '<div class="'.$dclass.'"><span class="'.$style.'-dash_title">'.$days.'</span>';
+	
 	//show third day digit if there are NO weeks and the number of days is greater that 99
+	//var_dump($date_arr['days']);  array(4) { [0]=> int(3) [1]=> int(3) [2]=> int(5) [3]=> int(335) }
 	if($omitweeks == 'true' && $date_arr['days'][3] > 99){
 		$tminus .= '<div class="'.$style.'-digit">'.$date_arr['days'][0].'</div>';
 	}
@@ -685,7 +688,7 @@ function tminuscountdown($atts, $content=null) {
 		$tminus .= $after;    
 	}
 	$tminus .= '</div></div>';
-
+		
 	//$t = date( 'n/j/Y H:i:s', gmmktime() + ( get_option( 'gmt_offset' ) * 3600));
 	$t = date( 'n/j/Y H:i:s', strtotime(current_time('mysql')) );
 	
@@ -695,7 +698,7 @@ function tminuscountdown($atts, $content=null) {
 	if(is_numeric($launchheight)){
 		$launchheight .= 'px';
 	}
-	$content = mysql_real_escape_string( $content);
+	//$content = mysql_real_escape_string( $content);
 	$content = str_replace(array('\r\n', '\r', '\n<p>', '\n'), '', $content);
 	$content = stripslashes($content);
 	if($jsplacement == "footer"){
