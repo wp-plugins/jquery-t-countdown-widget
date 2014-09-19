@@ -5,72 +5,66 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.15
+Version: 2.2.16
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
 */
 
-/*  Copyright 2014 Twinpictures (www.twinpictures.de)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
-    published by the Free Software Foundation.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-//widget scripts
-function countdown_scripts(){
-		$current_version = '2.2.14';
+//plugin init scripts
+add_action( 'init', 'countdown_init_scripts' );
+function countdown_init_scripts(){
+		$current_version = '2.2.16';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
-			//delete the old style system
-			delete_option( 't-minus_styles' );
-			//add version check
-			update_option('t-minus_version', '2.2.15');
+			//add or update version
+			update_option('t-minus_version', $current_version);
 			
+			//add or update styles
+			$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","cloud-city","darth","jedi", "sith");
+		        update_option('t-minus_styles', $styles_arr);
+		
 			//reset rockstar option
-			delete_option( 'rockstar' );
-			add_option('rockstar', '');
-		}
-		$styles_arr = array("hoth","TIE-fighter","c-3po","c-3po-mini","carbonite","carbonite-responsive","carbonlite","cloud-city","darth","jedi", "sith");
-		add_option('t-minus_styles', $styles_arr);
-		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-		//wp_enqueue_script('jquery');
-        if ( is_admin() ){
-                //jquery admin stuff
-                wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2' );
-                wp_enqueue_script('tminus-admin-script');
-				
-				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
-                wp_enqueue_style('colapse-admin-css');
-				
-				wp_enqueue_script( 'jquery-ui-datepicker' );
-				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css', array (), '1.10.4' );    
-				wp_enqueue_style('jquery-ui-css');
-        }
-		else{
-				//lwtCountdown script
-				wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.1' );
-				wp_enqueue_script('countdown-script');
-				
-				//register all countdown styles for enqueue-as-needed
-				$styles_arr = get_option('t-minus_styles');
-				foreach($styles_arr as $style_name){
-					wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.3' );
-				}
+			update_option('rockstar', '');
 		}
 }
-add_action( 'init', 'countdown_scripts' );
+
+//load scripts on the widget admin page
+add_action( 'admin_enqueue_scripts', 'admin_scripts');
+function admin_scripts($hook){		
+		if( $hook == 'widgets.php' ){
+				//jquery datepicker
+				wp_enqueue_script( 'jquery-ui-datepicker' );
+				wp_register_style('jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css', array (), '1.10.4' );    
+				wp_enqueue_style('jquery-ui-css');
+		
+				$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+				
+				//jquery widget scripts
+				wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2.1' );
+				wp_enqueue_script('tminus-admin-script');
+						
+				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
+				wp_enqueue_style('colapse-admin-css');
+		}
+}
+
+//load front-end countdown scripts
+add_action('wp_enqueue_scripts', 'countdown_scripts' );
+function countdown_scripts(){
+		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+		
+		//lwtCountdown script
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.1' );
+		wp_enqueue_script('countdown-script');
+		
+		//register all countdown styles for enqueue-as-needed
+		$styles_arr = get_option('t-minus_styles');
+		foreach($styles_arr as $style_name){
+				wp_register_style( 'countdown-'.$style_name.'-css', $plugin_url.'/css/'.$style_name.'/style.css', array(), '1.3' );
+		}
+}
 
 //style folders array
 function folder_array($path, $exclude = ".|..") {
@@ -102,7 +96,7 @@ class CountDownTimer extends WP_Widget {
     /** Widget */
     function widget($args, $instance) {
 		global $add_my_script;
-        extract( $args );
+		extract( $args );
 		//insert some style into your life
 		$style = empty($instance['style']) ? 'jedi' : apply_filters('widget_style', $instance['style']);
 		wp_enqueue_style( 'countdown-'.$style.'-css' );

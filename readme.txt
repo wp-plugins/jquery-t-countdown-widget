@@ -5,7 +5,7 @@ Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 2.2.15
+Stable tag: 2.2.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,12 @@ The Daily Show with John Stewart
 1. The magical jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.16 =
+* fixed TIE-Fighter style to deal with box-sizing and will now adjust width automatically
+* updated the enqueue_scripts to be called using the proper hooks
+* only load the widget admin scripts on the widget page
+* datepicker now works when widget is first dropped on a sidebar
 
 = 2.2.15 =
 * fixed but with omitweeks attribute
@@ -199,6 +205,12 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.16 =
+* fixed TIE-Fighter style to deal with box-sizing and will now adjust width automatically
+* updated the enqueue_scripts to be called using the proper hooks
+* only load the widget admin scripts on the widget page
+* datepicker now works when widget is first dropped on a sidebar
 
 = 2.2.15 =
 * fixed but with omitweeks attribute
