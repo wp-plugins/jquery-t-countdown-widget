@@ -1,5 +1,5 @@
 /*!
- * T- Countdown v1.5
+ * T- Countdown v1.5.1
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2014, Twinpictures
@@ -92,7 +92,7 @@
 		secs = Math.abs(diffSecs % 60);
 		mins = Math.floor(Math.abs(diffSecs/60)%60);
 		hours = Math.floor(Math.abs(diffSecs/60/60)%24);
-		if ($.data($this[0], 'omitWeeks') == true){
+		if ($.data($this[0], 'omitWeeks') == 'true'){
 			days = Math.floor(Math.abs(diffSecs/60/60/24));
 			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
 		}
