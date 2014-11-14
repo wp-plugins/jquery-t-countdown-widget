@@ -1,5 +1,5 @@
 /*!
- * T- Countdown v1.5.1
+ * T- Countdown v1.5.2
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2014, Twinpictures
@@ -94,7 +94,7 @@
 		hours = Math.floor(Math.abs(diffSecs/60/60)%24);
 		if ($.data($this[0], 'omitWeeks') == 'true'){
 			days = Math.floor(Math.abs(diffSecs/60/60/24));
-			weeks = Math.floor(Math.abs(diffSecs/60/60/24/7));
+			weeks = 0;
 		}
 		else{
 			days = Math.floor(Math.abs(diffSecs/60/60/24)%7);
@@ -124,9 +124,8 @@
 				}
 				before = new Date();
 				$.data($this[0], 'before', before);
-				e = $this;
-				t = setTimeout(function() {
-					e.doCountDown(id, diffSecs-delta);
+				t = setTimeout( function() {
+					$this.doCountDown(id, diffSecs-delta);
 					} , 1000);
 			}
 		}

@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.16
+Version: 2.2.17
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -14,7 +14,7 @@ License: GPL2
 //plugin init scripts
 add_action( 'init', 'countdown_init_scripts' );
 function countdown_init_scripts(){
-		$current_version = '2.2.16';
+		$current_version = '2.2.17';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
@@ -56,7 +56,7 @@ function countdown_scripts(){
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		
 		//lwtCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.1' );
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.2' );
 		wp_enqueue_script('countdown-script');
 		
 		//register all countdown styles for enqueue-as-needed
@@ -295,8 +295,8 @@ class CountDownTimer extends WP_Widget {
 		else{
 			?>            
 			<script language="javascript" type="text/javascript">
-				jQuery(document).ready(function() {
-					jQuery('#<?php echo $args['widget_id']; ?>-dashboard').countDown({	
+				jQuery(document).ready(function($) {
+					$('#<?php echo $args['widget_id']; ?>-dashboard').countDown({	
 						targetDate: {
 							'day': 	<?php echo date('d', $target); ?>,
 							'month': 	<?php echo date('m', $target); ?>,
@@ -312,7 +312,7 @@ class CountDownTimer extends WP_Widget {
 						omitWeeks: '<?php echo $omitweeks; ?>'
 								<?php
 										if($launchhtml){
-											echo ", onComplete: function() { jQuery('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
+											echo ", onComplete: function() { $('#".$args['widget_id']."-".$launchdiv."').html('".do_shortcode($launchhtml)."'); }";
 										}
 								?>
 					});
@@ -389,7 +389,7 @@ class CountDownTimer extends WP_Widget {
                 $positive = 'CHECKED'; 
             }
 			
-			//JS Placement Selector
+            //JS Placement Selector
             $foot = '';
             $inline = '';
             if($jsplacement == 'footer'){
@@ -493,18 +493,18 @@ add_action('wp_footer', 'print_my_script');
  
 function print_my_script() {
 	global $add_my_script;
- 
 	if ( ! $add_my_script ){
 		return;
 	}
 	
 	?>
 		<script language="javascript" type="text/javascript">
-			jQuery(document).ready(function() {
-	<?php			
+			jQuery(document).ready(function($) {
+	<?php
+	//var_dump('hey dude', $add_my_script);
 	foreach((array) $add_my_script as $script){
 	?>
-		jQuery('#<?php echo $script['id']; ?>-dashboard').countDown({	
+		$('#<?php echo $script['id']; ?>-dashboard').countDown({	
 			targetDate: {
 				'day': 	<?php echo $script['day']; ?>,
 				'month': <?php echo $script['month']; ?>,
@@ -521,8 +521,8 @@ function print_my_script() {
 				<?php
 				if($script['content']){
 					echo ", onComplete: function() {
-						jQuery('#".$script['id']."-".$script['launchtarget']."').css({'width' : '".$script['launchwidth']."', 'height' : '".$script['launchheight']."'});
-						jQuery('#".$script['id']."-".$script['launchtarget']."').html('".do_shortcode($script['content'])."');
+						$('#".$script['id']."-".$script['launchtarget']."').css({'width' : '".$script['launchwidth']."', 'height' : '".$script['launchheight']."'});
+						$('#".$script['id']."-".$script['launchtarget']."').html('".do_shortcode($script['content'])."');
 					}";
 				}
 				?>
@@ -543,8 +543,8 @@ function tminuscountdown($atts, $content=null) {
 	
     extract(shortcode_atts(array(
 		'id' => $ran,
-		't' => '20-12-2013 20:12:20',
-        'weeks' => __('weeks', 'tminus'),
+		't' => '',
+		'weeks' => __('weeks', 'tminus'),
 		'days' => __('days', 'tminus'),
 		'hours' => __('hours', 'tminus'),
 		'minutes' => __('minutes', 'tminus'),
@@ -561,6 +561,9 @@ function tminuscountdown($atts, $content=null) {
 		'jsplacement' => 'footer',
 	), $atts));
 	
+	if(empty($t)){
+		return;
+	}
 	//enqueue style that was already registerd
 	wp_enqueue_style( 'countdown-'.$style.'-css' );
 		
@@ -715,8 +718,8 @@ function tminuscountdown($atts, $content=null) {
 	}
 	else{
 		$tminus .= "<script language='javascript' type='text/javascript'>
-			jQuery(document).ready(function() {
-				jQuery('#".$id."-dashboard').countDown({	
+			jQuery(document).ready(function($) {
+				$('#".$id."-dashboard').countDown({	
 					targetDate: {
 						'day': 	".$day.",
 						'month': ".$month.",
@@ -733,8 +736,8 @@ function tminuscountdown($atts, $content=null) {
 					
 		if($content){
 			$tminus .= ", onComplete: function() {
-								jQuery('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
-								jQuery('#".$id."-".$launchtarget."').html('".do_shortcode($content)."');	
+								$('#".$id."-".$launchtarget."').css({'width' : '".$launchwidth."', 'height' : '".$launchheight."'});
+								$('#".$id."-".$launchtarget."').html('".do_shortcode($content)."');	
 							}";
 		}
 		$tminus .= "});
