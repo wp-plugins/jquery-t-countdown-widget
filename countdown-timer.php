@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.17
+Version: 2.2.18
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -14,7 +14,7 @@ License: GPL2
 //plugin init scripts
 add_action( 'init', 'countdown_init_scripts' );
 function countdown_init_scripts(){
-		$current_version = '2.2.17';
+		$current_version = '2.2.18';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
@@ -478,7 +478,7 @@ class CountDownTimer extends WP_Widget {
 		<br/>
 		<a class="collapseomatic" id="tccc<?php echo $this->get_field_id('isrockstar'); ?>"><?php _e('Schedule Recurring Countdown', 'tminus'); ?></a>
 		<div id="target-tccc<?php echo $this->get_field_id('isrockstar'); ?>" class="collapseomatic_content">
-				<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'tminus'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
+				<p><?php printf(__('%sT(-) Countdown Control%s is a premium countdown plugin that includes the ability to schedule and manage multiple recurring T(-) Countdowns... the Jedi way.', 'tminus'), '<a href="http://plugins.twinpictures.de/premium-plugins/t-minus-countdown-control/?utm_source=t-countdown&utm_medium=widget-settings&utm_content=t-countdown-control&utm_campaign=t-countdown-widget" target="blank" title="(-) Countdown Control">', '</a>'); ?></p>
 		</div>
 		<?php
     }
@@ -489,7 +489,7 @@ add_action('widgets_init', create_function('', 'return register_widget("CountDow
 
 
 //code for the footer
-add_action('wp_footer', 'print_my_script');
+add_action('wp_footer', 'print_my_script', 99);
  
 function print_my_script() {
 	global $add_my_script;
