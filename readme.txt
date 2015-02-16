@@ -3,9 +3,9 @@
 Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
-Requires at least: 3.5
-Tested up to: 3.8.1
-Stable tag: 2.2.13
+Requires at least: 3.9
+Tested up to: 4.2
+Stable tag: 2.2.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,8 +50,8 @@ Yes, yes... <a href='http://www.facebook.com/twinpictures'>Twinpictures is on Fa
 = Does Twinpictures do the Twitter? =
 Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
 
-= Where may one view political news that gives giggle? =
-The Daily Show with John Stewart
+= Where may one view the week in review that gives giggle? =
+Last Week Tonight With John Oliver
 
 == Screenshots ==
 
@@ -62,6 +62,28 @@ The Daily Show with John Stewart
 1. The magical jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.19 =
+* The time calculation for NOW is done via ajax, so now caching plugins may be used
+
+= 2.2.18 =
+* countdown script moved in loading priority to after jQuery, when loaded in the footer
+
+= 2.2.17 =
+* addressed jQuery undefined function error on some WordPress installs
+* javascript cleanup
+
+= 2.2.16 =
+* fixed TIE-Fighter style to deal with box-sizing and will now adjust width automatically
+* updated the enqueue_scripts to be called using the proper hooks
+* only load the widget admin scripts on the widget page
+* datepicker now works when widget is first dropped on a sidebar
+
+= 2.2.15 =
+* fixed but with omitweeks attribute
+
+= 2.2.14 =
+* fixed IE rotation issue in some styles
 
 = 2.2.13 =
 * updated jQuery UI datepicker style.
@@ -193,6 +215,22 @@ The Daily Show with John Stewart
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.2.17 =
+* addressed jQuery undefined function error on some WordPress installs
+* javascript cleanup
+
+= 2.2.16 =
+* fixed TIE-Fighter style to deal with box-sizing and will now adjust width automatically
+* updated the enqueue_scripts to be called using the proper hooks
+* only load the widget admin scripts on the widget page
+* datepicker now works when widget is first dropped on a sidebar
+
+= 2.2.15 =
+* fixed but with omitweeks attribute
+
+= 2.2.14 =
+* fixed IE rotation issue on some styles
 
 = 2.2.13 =
 * updated jQuery UI datepicker style.
