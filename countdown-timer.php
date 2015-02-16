@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.18
+Version: 2.2.19
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -14,7 +14,7 @@ License: GPL2
 //plugin init scripts
 add_action( 'init', 'countdown_init_scripts' );
 function countdown_init_scripts(){
-		$current_version = '2.2.18';
+		$current_version = '2.2.19';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
@@ -30,6 +30,15 @@ function countdown_init_scripts(){
 		}
 }
 
+//set global vars
+add_action( 'wp_head', 'tminus_js_vars' );
+function tminus_js_vars(){
+	echo "<script type='text/javascript'>\n";
+	$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+	echo "var tminusnow = '".$plugin_url."/js/now.php';\n";
+	echo "</script>";
+}
+	
 //load scripts on the widget admin page
 add_action( 'admin_enqueue_scripts', 'admin_scripts');
 function admin_scripts($hook){		
@@ -56,7 +65,7 @@ function countdown_scripts(){
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		
 		//lwtCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.2' );
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.3' );
 		wp_enqueue_script('countdown-script');
 		
 		//register all countdown styles for enqueue-as-needed
@@ -283,7 +292,7 @@ class CountDownTimer extends WP_Widget {
 				'hour' => $hour,
 				'min' => $min,
 				'sec' => $sec,
-				'localtime' => $t,
+				/*'localtime' => $t,*/
 				'style' => $style,
 				'omitweeks' => $omitweeks,
 				'content' => trim($launchhtml),
@@ -303,9 +312,11 @@ class CountDownTimer extends WP_Widget {
 							'year': 	<?php echo date('Y', $target); ?>,
 							'hour': 	<?php echo $hour; ?>,
 							'min': 	<?php echo $min; ?>,
-							'sec': 	<?php echo $sec; ?>,
+							'sec': 	<?php echo $sec; ?>
+							/*
 							'localtime':	'<?php echo $t; ?>',
 							'mysqltime':  '<?php echo current_time('mysql'); ?>'
+							*/
 						},
 						style: '<?php echo $style; ?>',
 						launchtarget: '<?php echo $launchdiv; ?>',
@@ -511,9 +522,11 @@ function print_my_script() {
 				'year': <?php echo $script['year']; ?>,
 				'hour': <?php echo $script['hour']; ?>,
 				'min': 	<?php echo $script['min']; ?>,
-				'sec': 	<?php echo $script['sec']; ?>,
+				'sec': 	<?php echo $script['sec']; ?>
+				/*
 				'localtime': '<?php echo $script['localtime']; ?>',
 				'mysqltime':  '<?php echo current_time('mysql'); ?>'
+				*/
 			},
 			style: '<?php echo $script['style']; ?>',
 			launchtarget: '<?php echo $script['launchtarget']; ?>',
@@ -707,7 +720,7 @@ function tminuscountdown($atts, $content=null) {
 			'hour' => $hour,
 			'min' => $min,
 			'sec' => $sec,
-			'localtime' => $t,
+			/*'localtime' => $t,*/
 			'style' => $style,
 			'omitweeks' => $omitweeks,
 			'content' => $content,
@@ -726,9 +739,7 @@ function tminuscountdown($atts, $content=null) {
 						'year': ".$year.",
 						'hour': ".$hour.",
 						'min': 	".$min.",
-						'sec': 	".$sec.",
-						'localtime': '".$t."',
-						'mysqltime':  '".current_time('mysql')."'
+						'sec': 	".$sec."
 					},
 					style: '".$style."',
 					launchtarget: '".$launchtarget."',

@@ -5,7 +5,7 @@ Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 2.2.18
+Stable tag: 2.2.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,8 +50,8 @@ Yes, yes... <a href='http://www.facebook.com/twinpictures'>Twinpictures is on Fa
 = Does Twinpictures do the Twitter? =
 Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the Twitter.
 
-= Where may one view political news that gives giggle? =
-The Daily Show with John Stewart
+= Where may one view the week in review that gives giggle? =
+Last Week Tonight With John Oliver
 
 == Screenshots ==
 
@@ -62,6 +62,9 @@ The Daily Show with John Stewart
 1. The magical jQuery Datepicker.
 
 == Changelog ==
+
+= 2.2.19 =
+* The time calculation for NOW is done via ajax, so now caching plugins may be used
 
 = 2.2.18 =
 * countdown script moved in loading priority to after jQuery, when loaded in the footer
