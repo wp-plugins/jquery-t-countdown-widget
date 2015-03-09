@@ -1,5 +1,5 @@
 /*
- * T- Countdown v1.5.3
+ * T- Countdown v1.5.4
  * http://plugins.twinpictures.de/plugins/t-minus-countdown/
  *
  * Copyright 2015, Twinpictures
@@ -31,7 +31,7 @@
 		targetTime = this.setTargetTime(config);
 		//set diffSecs and launch the countdown once the ajax for now loads
 		//console.log(config.targetDate.localtime); //this did not support caching plugins
-		diffSecs = this.setDiffSecs(targetTime);
+		diffSecs = this.setDiffSecs(targetTime, options.targetDate.localtime);
 		before = new Date();
 		$.data($(this)[0], 'before', before);
 		$.data($(this)[0], 'status', 'play');
@@ -62,7 +62,7 @@
 		this.doCountDown($(this).attr('id'),$.data(this[0], 'diffSecs'), 500);
 	};
 
-	$.fn.setDiffSecs = function (targetTime) {
+	$.fn.setDiffSecs = function (targetTime, backuptime) {
 		var diffSecs = null;
 		$.ajax({
 			url: tminusnow,
@@ -70,6 +70,11 @@
 			success: $.proxy(function( data ) {
 				//console.log(data);
 				nowTime = new Date(data);
+				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
+				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
+			}, this),
+			error: $.proxy(function( request, status, error ) {
+				nowTime = new Date(backuptime);
 				diffSecs = Math.floor((targetTime.valueOf()-nowTime.valueOf())/1000);
 				$(this).doCountDown($(this).attr('id'), diffSecs, 500);
 			}, this)

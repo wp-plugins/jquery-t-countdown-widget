@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.2.19
+Version: 2.2.20
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -14,7 +14,7 @@ License: GPL2
 //plugin init scripts
 add_action( 'init', 'countdown_init_scripts' );
 function countdown_init_scripts(){
-		$current_version = '2.2.19';
+		$current_version = '2.2.20';
 		$installed_version  = get_option('t-minus_version');
 		
 		if($current_version != $installed_version){
@@ -40,8 +40,8 @@ function tminus_js_vars(){
 }
 	
 //load scripts on the widget admin page
-add_action( 'admin_enqueue_scripts', 'admin_scripts');
-function admin_scripts($hook){		
+add_action( 'admin_enqueue_scripts', 'tminus_admin_scripts');
+function tminus_admin_scripts($hook){		
 		if( $hook == 'widgets.php' ){
 				//jquery datepicker
 				wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -54,8 +54,8 @@ function admin_scripts($hook){
 				wp_register_script('tminus-admin-script', $plugin_url.'/js/jquery.collapse.js', array ('jquery'), '1.2.1' );
 				wp_enqueue_script('tminus-admin-script');
 						
-				wp_register_style('colapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
-				wp_enqueue_style('colapse-admin-css');
+				wp_register_style('collapse-admin-css', $plugin_url.'/admin/collapse-style.css', array (), '1.0' );    
+				wp_enqueue_style('collapse-admin-css');
 		}
 }
 
@@ -65,7 +65,7 @@ function countdown_scripts(){
 		$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
 		
 		//lwtCountdown script
-		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.3' );
+		wp_register_script('countdown-script', $plugin_url.'/js/jquery.t-countdown.js', array ('jquery'), '1.5.4' );
 		wp_enqueue_script('countdown-script');
 		
 		//register all countdown styles for enqueue-as-needed
@@ -292,7 +292,7 @@ class CountDownTimer extends WP_Widget {
 				'hour' => $hour,
 				'min' => $min,
 				'sec' => $sec,
-				/*'localtime' => $t,*/
+				'localtime' => $t,
 				'style' => $style,
 				'omitweeks' => $omitweeks,
 				'content' => trim($launchhtml),
@@ -312,9 +312,9 @@ class CountDownTimer extends WP_Widget {
 							'year': 	<?php echo date('Y', $target); ?>,
 							'hour': 	<?php echo $hour; ?>,
 							'min': 	<?php echo $min; ?>,
-							'sec': 	<?php echo $sec; ?>
-							/*
+							'sec': 	<?php echo $sec; ?>,
 							'localtime':	'<?php echo $t; ?>',
+							/*
 							'mysqltime':  '<?php echo current_time('mysql'); ?>'
 							*/
 						},
@@ -522,9 +522,9 @@ function print_my_script() {
 				'year': <?php echo $script['year']; ?>,
 				'hour': <?php echo $script['hour']; ?>,
 				'min': 	<?php echo $script['min']; ?>,
-				'sec': 	<?php echo $script['sec']; ?>
-				/*
+				'sec': 	<?php echo $script['sec']; ?>,
 				'localtime': '<?php echo $script['localtime']; ?>',
+				/*
 				'mysqltime':  '<?php echo current_time('mysql'); ?>'
 				*/
 			},
@@ -720,7 +720,7 @@ function tminuscountdown($atts, $content=null) {
 			'hour' => $hour,
 			'min' => $min,
 			'sec' => $sec,
-			/*'localtime' => $t,*/
+			'localtime' => $t,
 			'style' => $style,
 			'omitweeks' => $omitweeks,
 			'content' => $content,
