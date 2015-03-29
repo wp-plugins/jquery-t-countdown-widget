@@ -5,7 +5,7 @@ Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 1. Plugin options page with Custom CSS section
 
 == Changelog ==
+
+= 2.3.2 =
+* added htmlencoding for html areas above and below countdown.
 
 = 2.3.1 =
 * fixed fatal bug when registering events ajax callback
@@ -233,6 +236,9 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.3.2 =
+* added htmlencoding for html areas above and below countdown.
 
 = 2.3.1 =
 * fixed fatal bug when registering events ajax callback

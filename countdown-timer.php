@@ -5,7 +5,7 @@ Text Domain: tminus
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Description: Display and configure multiple T(-) Countdown timers using a shortcode or sidebar widget.
-Version: 2.3.1
+Version: 2.3.2
 Author: twinpictures, baden03
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -15,7 +15,7 @@ License: GPL2
 
 class WP_TMinusCD {
 	var $plugin_name = 'T(-) Countdown';
-	var $version = '2.3.1';
+	var $version = '2.3.2';
 	var $domain = 'tminus';
 	var $plguin_options_page_title = 'T(-) Countdown Options';
 	var $plugin_options_menue_title = 'T(-) Countdown';
@@ -447,6 +447,9 @@ class CountDownTimer extends WP_Widget {
 			$sc_atts = '';
 			foreach($instance AS $key => $value){
 				if(!empty($value)){
+					if($key == 'before' || $key == 'after'){
+						$value = htmlspecialchars($value);
+					}
 					$sc_atts .= $key . '="'.$value.'" ';
 				}
 			}
@@ -824,7 +827,7 @@ function tminuscountdown($atts, $content=null) {
 	$tminus .= '<div class="'.$style.'-countdown '.$dash_omitweeks_class.'">';
 	$tminus .= '<div id="'.$id.'-tophtml" class="'.$style.'-tophtml">';
     if($before){
-        $tminus .=  $before;
+        $tminus .=  htmlspecialchars_decode($before);
     }
 	$tminus .=  '</div>';
 
@@ -877,7 +880,7 @@ function tminuscountdown($atts, $content=null) {
 
 	$tminus .= '<div id="'.$id.'-bothtml" class="'.$style.'-bothtml">';
 	if($after){
-		$tminus .= $after;
+		$tminus .= htmlspecialchars_decode($after);
 	}
 	$tminus .= '</div></div></div>';
 
