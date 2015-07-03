@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/t-minus-countdown/
 Tags: countdown, timer, clock, ticker, widget, event, counter, count down, twinpictures, t minus, t-minus, plugin-oven, pluginoven, G2, spaceBros, littlewebtings, jQuery, javascript
 Requires at least: 3.9
-Tested up to: 4.2
-Stable tag: 2.3.2
+Tested up to: 4.3.0
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,7 @@ T(-) Countdown will display a highly customizable HTML5 countdown timer as a sid
 = How does one use the shortcode, exactly? =
 A <a href='http://plugins.twinpictures.de/plugins/t-minus-countdown/documentation/'>complete list of shortcode options</a> has been provided to answer this exact question.
 
-= Where can I fork this plugn and contribute changes? =
+= Where can I fork this plugin and contribute changes? =
 <a href='http://github.com/baden03/t-minus-countdown'>github</a>
 
 = Where can I translate this plugin into my favorite langauge? =
@@ -64,6 +64,10 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 1. Plugin options page with Custom CSS section
 
 == Changelog ==
+
+= 2.3.3 =
+* added IE 10+ gradients to c-3p0 styles
+* added PHP5 style constructors for the Widget
 
 = 2.3.2 =
 * added htmlencoding for html areas above and below countdown.
@@ -236,6 +240,10 @@ Ah yes! <a href='http://twitter.com/#!/twinpictures'>@Twinpictures</a> is on the
 * The plugin came to be.
 
 == Upgrade Notice ==
+
+= 2.3.3 =
+* added IE 10+ gradients to c-3p0 styles
+* added PHP5 style constructors for the Widget
 
 = 2.3.2 =
 * added htmlencoding for html areas above and below countdown.
